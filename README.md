@@ -215,18 +215,6 @@ cd deskgo
 
 ---
 
-# 🌟 Futuras Melhorias
-
-```diff
-+ Dashboard administrativo
-+ Aplicativo mobile
-+ Notificações automáticas
-+ Reservas em tempo real
-+ Relatórios de ocupação
-```
-
----
-
 # 👨‍💻 Desenvolvedores
 
 <div align="center">
