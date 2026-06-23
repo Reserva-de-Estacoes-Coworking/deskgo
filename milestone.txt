@@ -1,0 +1,55 @@
+Milestone: Preparação Estrutura Projeto
+
+Enunciado: Incluir milestone no projeto do GitHub "Preparação Estrutura Projeto"
+
+=========================================
+ISSUES MAPEADAS E EXECUTADAS:
+=========================================
+
+[Issue #1] Configurar os arquivos que não serão versionados (.gitignore)
+-------------------------------------------------------------------------
+Descrição:
+Configuração e refinamento do arquivo .gitignore para garantir o isolamento
+de arquivos desnecessários ou sensíveis ao repositório git.
+
+Configurações Adicionadas:
+- Exclusão de arquivos gerados por compilação (diretório target/ e build/)
+- Exclusão de metadados de IDEs (VS Code, IntelliJ IDEA, NetBeans e Eclipse)
+- Exclusão de arquivos temporários do sistema operacional (.DS_Store, Thumbs.db)
+- Exclusão de arquivos de banco de dados locais H2 (*.mv.db, *.trace.db)
+
+
+[Issue #2] Incluir as dependências do projeto no pom.xml
+-------------------------------------------------------------------------
+Descrição:
+Mapear e assegurar a importação correta de todas as dependências requeridas 
+para a base do projeto DeskGo no arquivo pom.xml:
+- Spring Boot Starter Web / WebMVC: Para suporte ao padrão MVC e APIs REST.
+- Spring Boot Starter Data JPA: Para persistência de dados.
+- Spring Boot Starter Thymeleaf: Como mecanismo de template front-end.
+- Banco de Dados H2 (com.h2database:h2) e spring-boot-h2console: Para o banco 
+  em memória usado no desenvolvimento.
+
+
+[Issue #3] Definir Informações Gerais do Projeto e Criar Estrutura de Pacotes
+-------------------------------------------------------------------------
+Descrição:
+Definição dos metadados principais do projeto no pom.xml (Nome e Descrição)
+e criação dos pacotes Java básicos sob a raiz do projeto (br.edu.iff.ccc.DeskGo):
+- Nome do projeto: DeskGo
+- Descrição: DeskGo - Sistema de Gerenciamento de Espaços e Mesas de Trabalho
+- Pacote br.edu.iff.ccc.DeskGo.controller.view: Reservado para controladores 
+  responsáveis pela renderização de páginas HTML (views do Thymeleaf).
+- Pacote br.edu.iff.ccc.DeskGo.controller.apirest: Reservado para controladores
+  de API REST (JSON).
+
+
+[Issue #4] Implementar Rotas de Verificação Mínimas
+-------------------------------------------------------------------------
+Descrição:
+Implementar endpoints básicos para atestar o pleno funcionamento do ambiente
+de desenvolvimento local:
+- Rota de View (/home e /): Exibição de uma página com design responsivo,
+  limpo e esteticamente agradável com mensagem de "Em Construção".
+- Rota de API REST (/api/v1): Resposta JSON informando o status ativo do 
+  serviço, mensagem e versão atual do snapshot.
