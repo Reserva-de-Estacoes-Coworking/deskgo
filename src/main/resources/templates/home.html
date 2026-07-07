@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>DeskGo - Em Construção</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{app.title}">DeskGo</title>
 </head>
 <body>
-    <h1>Página Em Construção</h1>
-    <p>A estrutura básica do projeto DeskGo está sendo preparada.</p>
-    <a href="/api/v1">Acessar API v1</a>
+    <h1 th:text="#{app.title}">Web Project</h1>
+    <p th:text="#{app.welcome}">Seja bem-vindo ao DeskGo!</p>
+    <p th:text="#{app.description}">Este é um projeto DeskGo para a disciplina de Programação Web.</p>
+    <p th:text="${mensagem}">Mensagem padrão</p>
+    <p th:if="${id != null}" th:text="'ID recebido: ' + ${id}"></p>
+    <p th:if="${var1 != null}" th:text="'Parâmetro recebido: ' + ${var1}"></p>
+    <p th:text="#{app.contact}">Contato: exemplo@exemplo.com</p>
 </body>
 </html>
