@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>DeskGo - Reservar Mesa</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#8aa4cf",
+                        "on-tertiary-fixed-variant": "#1b5120",
+                        "tertiary-fixed": "#b6f2af",
+                        "on-tertiary-container": "#78b174",
+                        "primary-container": "#1e3a5f",
+                        "tertiary-fixed-dim": "#9ad595",
+                        "inverse-on-surface": "#f1f0f4",
+                        "primary": "#022448",
+                        "secondary-container": "#ffc69c",
+                        "on-secondary-container": "#7a502f",
+                        "error": "#ba1a1a",
+                        "tertiary": "#002b07",
+                        "inverse-primary": "#adc8f5",
+                        "on-secondary-fixed-variant": "#643e1f",
+                        "primary-fixed": "#d5e3ff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e3e2e6",
+                        "outline": "#74777f",
+                        "surface-dim": "#dad9dd",
+                        "surface-container": "#eeedf1",
+                        "outline-variant": "#c4c6cf",
+                        "on-tertiary": "#ffffff",
+                        "background": "#faf9fc",
+                        "tertiary-container": "#0a4313",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#2f1400",
+                        "on-background": "#1a1c1e",
+                        "on-primary-fixed": "#001c3b",
+                        "on-surface-variant": "#43474e",
+                        "secondary": "#7f5534",
+                        "inverse-surface": "#2f3033",
+                        "on-tertiary-fixed": "#002204",
+                        "surface": "#faf9fc",
+                        "surface-tint": "#455f87",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-surface": "#1a1c1e",
+                        "secondary-fixed-dim": "#f3bb92",
+                        "surface-container-low": "#f4f3f7",
+                        "surface-container-high": "#e9e7eb",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "surface-variant": "#e3e2e6",
+                        "secondary-fixed": "#ffdcc4",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#faf9fc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "1.25rem",
+                        "container-padding-desktop": "2.5rem",
+                        "gutter": "1.5rem",
+                        "section-gap": "4rem",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "body-md": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "display-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "headline-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "headline-lg-mobile": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "body-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "label-sm": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "label-md": [
+                            "Plus Jakarta Sans"
+                        ]
+                    },
+                    "fontSize": {
+                        "headline-md": [
+                            "24px",
+                            {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "body-md": [
+                            "16px",
+                            {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "display-lg": [
+                            "48px",
+                            {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                            }
+                        ],
+                        "headline-lg": [
+                            "32px",
+                            {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "headline-lg-mobile": [
+                            "28px",
+                            {
+                                "lineHeight": "36px",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "body-lg": [
+                            "18px",
+                            {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "label-sm": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "label-md": [
+                            "14px",
+                            {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "600"
+                            }
+                        ]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        /* Custom Scrollbar for list */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #e3e2e6;
+            border-radius: 20px;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background antialiased flex flex-col md:flex-row h-screen overflow-hidden">
+    <!-- TopAppBar (Mobile) -->
+    <header
+        class="md:hidden fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding-mobile h-20 bg-surface shadow-sm">
+        <div class="flex items-center gap-2">
+            <img alt="DeskGo" class="h-8 w-auto object-contain"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+        </div>
+        <button class="text-on-surface hover:text-[#1E3A5F] transition-colors duration-200">
+            <span class="material-symbols-outlined text-[24px]">notifications</span>
+        </button>
+    </header>
+    <!-- SideNavBar (Desktop) -->
+    <nav
+        class="hidden md:flex flex-col h-screen p-container-padding-desktop gap-4 bg-surface-container-low border-r border-outline-variant w-72 shrink-0">
+        <div class="mb-8">
+            <img alt="DeskGo" class="h-10 w-auto object-contain mb-2"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+        </div>
+        <button
+            class="w-full bg-[#1E3A5F] text-white py-3 rounded-2xl font-label-md text-label-md hover:opacity-90 transition-opacity mb-6 flex items-center justify-center gap-2 shadow-sm">
+            <span class="material-symbols-outlined text-[20px]">add</span>
+            Nova Reserva
+        </button>
+        <div class="flex flex-col gap-2">
+            <a class="flex items-center gap-3 p-3 bg-secondary-container text-on-secondary-container rounded-2xl font-label-md text-label-md font-bold scale-[0.98] transition-all"
+                href="#">
+                <span class="material-symbols-outlined text-[20px] filled">desk</span>
+                Reservar Mesa
+            </a>
+            <a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-2xl font-label-md text-label-md transition-colors duration-200"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">event_available</span>
+                Minhas Reservas
+            </a>
+            <a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-2xl font-label-md text-label-md transition-colors duration-200"
+                href="#">
+                <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                Painel do Gestor
+            </a>
+        </div>
+    </nav>
+    <!-- Main Content Canvas -->
+    <main class="flex-1 flex flex-col pt-20 md:pt-0 h-full overflow-hidden">
+        <!-- Desktop Header Area (Optional, for padding balance if TopAppBar is hidden on md) -->
+        <div
+            class="hidden md:flex items-center justify-between px-container-padding-desktop py-6 bg-surface border-b border-surface-variant">
+            <h1 class="font-headline-lg text-headline-lg text-on-surface flex items-center gap-2">Reservar Mesa <span
+                    class="material-symbols-outlined text-tertiary-fixed-dim text-[28px]">local_cafe</span></h1>
+            <div class="flex items-center gap-4">
+                <button class="text-on-surface-variant hover:text-[#1E3A5F] transition-colors">
+                    <span class="material-symbols-outlined text-[24px]">notifications</span>
+                </button>
+                <div
+                    class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface flex items-center justify-center overflow-hidden">
+                    <span class="material-symbols-outlined text-on-surface-variant">person</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+            <!-- Left Column: Date Picker & Filters -->
+            <div
+                class="w-full lg:w-1/3 p-container-padding-mobile md:p-container-padding-desktop bg-surface-bright border-b lg:border-b-0 lg:border-r border-outline-variant overflow-y-auto custom-scrollbar flex flex-col gap-6">
+                <!-- Date Picker Bento -->
+                <div class="bg-surface rounded-3xl border border-outline-variant p-6 shadow-sm">
+                    <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Quando?</h2>
+                    <div class="flex items-center justify-between mb-4">
+                        <button
+                            class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+                            <span class="material-symbols-outlined">chevron_left</span>
+                        </button>
+                        <span class="font-label-md text-label-md text-on-surface">Outubro 2023</span>
+                        <button
+                            class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+                            <span class="material-symbols-outlined">chevron_right</span>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">D</div>
+                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">S</div>
+                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">T</div>
+                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">Q</div>
+                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">Q</div>
+                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">S</div>
+                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">S</div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1 text-center">
+                        <!-- Empty slots -->
+                        <div></div>
+                        <div></div>
+                        <!-- Days -->
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">1</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">2</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">3</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">4</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">5</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">6</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">7</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-white bg-[#1E3A5F] shadow-md transition-colors mx-auto flex items-center justify-center">8</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">9</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">10</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">11</button>
+                        <button
+                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">12</button>
+                    </div>
+                </div>
+                <!-- Filters Bento -->
+                <div class="bg-surface rounded-3xl border border-outline-variant p-6 shadow-sm">
+                    <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Preferências</h2>
+                    <div class="flex flex-wrap gap-2">
+                        <button
+                            class="px-4 py-2 rounded-full border border-[#1E3A5F] bg-[#1E3A5F]/5 text-[#1E3A5F] font-label-md text-label-md transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">wb_sunny</span>
+                            Janela
+                        </button>
+                        <button
+                            class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container font-label-md text-label-md transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">power</span>
+                            Tomada
+                        </button>
+                        <button
+                            class="px-4 py-2 rounded-full border border-outline-variant text-on-surface-variant hover:bg-surface-container font-label-md text-label-md transition-colors flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[18px]">volume_off</span>
+                            Silencioso
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Column: Desk List -->
+            <div
+                class="w-full lg:w-2/3 p-container-padding-mobile md:p-container-padding-desktop bg-surface overflow-y-auto custom-scrollbar">
+                <div class="flex justify-between items-end mb-6">
+                    <div>
+                        <h2 class="font-headline-lg text-headline-lg text-on-surface">Mesas Disponíveis</h2>
+                        <p class="font-body-md text-body-md text-on-surface-variant mt-2">8 de Outubro, 09:00 - 18:00
+                        </p>
+                    </div>
+                    <span
+                        class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-3 py-1.5 rounded-lg">12
+                        resultados</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Desk Card 1 (Available) -->
+                    <div
+                        class="bg-surface rounded-3xl border border-outline-variant shadow-sm overflow-hidden group hover:border-[#6BA368]/50 transition-colors flex flex-col">
+                        <div class="h-40 bg-surface-container-high relative">
+                            <div class="absolute inset-0 bg-cover bg-center opacity-90"
+                                data-alt="A brightly lit modern corporate office space featuring a clean wooden desk near a large window. Soft, natural daylight floods the minimalist area, highlighting the warm tones of the desk and the professional, welcoming vibe of the environment. The aesthetic is clean, corporate modern, and airy."
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA9wKOJTvBmi_-ha5fxyLZ-_iIYrA4NAi1psl67DLXwz5X_DMYVWlnLzCjDfgDJv-MkZ65euKTqNfZQcEiznDQ7ATZ1dwRZbQt24YbvoHJ6Oo-o3ChVuuX8tc-olyhO2iRA300YgwUsYgvzXvi9hL0WLefDrUopUBvnxm5XMCkJoXNa__LPI0M4oVKTS_UCAfCL-iq6FmoE3Z7WQQXXZVDLdWoWoYWh8mhUIIazNY5Hpo-7pn6ztIudI0E6Y2cR_RSnlkPd5qoFe7xL');">
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 bg-[#6BA368] text-white font-label-md text-label-md px-3 py-1.5 rounded-xl shadow-sm flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                Disponível
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-headline-md text-headline-md text-on-surface">Mesa 05</h3>
+                                <div class="flex gap-1.5 text-on-surface-variant">
+                                    <span class="material-symbols-outlined text-[20px]" title="Janela">wb_sunny</span>
+                                    <span class="material-symbols-outlined text-[20px]" title="Tomada">power</span>
+                                </div>
+                            </div>
+                            <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1">Perto da janela,
+                                com tomada e cadeira ergonômica.</p>
+                            <button
+                                class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
+                                Reservar
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Desk Card 2 (Available) -->
+                    <div
+                        class="bg-surface rounded-3xl border border-outline-variant shadow-sm overflow-hidden group hover:border-[#6BA368]/50 transition-colors flex flex-col">
+                        <div class="h-40 bg-surface-container-high relative">
+                            <div class="absolute inset-0 bg-cover bg-center opacity-90"
+                                data-alt="A clean, minimalist hot-desking setup in a modern workspace hub. The desk features simple, warm wood textures against a bright white background, illuminated by soft ambient lighting. The layout emphasizes an uncluttered, high-performance productivity aesthetic with a welcoming, stress-free atmosphere."
+                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqHruP61QnWooKjjV7fciIeksnzAWR-mHLHCwn4eiebKtfNB1Kw_kfJj29wUEtLRyns3U3Y93s0x9nngYRB2mOuJ7cgec-_rjkxHoO-NN-eusUmlIryf3QjlnCQaLX7zsLuAe83jX4fPCuqWoZcUq23Hc5AfGLL_TzLH3FRbWJX4gQ5fVl4_B-PeTyrseOOg3WfgOF8cEIe8wWb90H20fFpoQWXuwmqZMbpLNwO9J-sCnzG8Df8gvgr31DYH_fCOc7qTYAZfSApO0r');">
+                            </div>
+                            <div
+                                class="absolute top-4 right-4 bg-[#6BA368] text-white font-label-md text-label-md px-3 py-1.5 rounded-xl shadow-sm flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                                Disponível
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="font-headline-md text-headline-md text-on-surface">Mesa 12</h3>
+                                <div class="flex gap-1.5 text-on-surface-variant">
+                                    <span class="material-symbols-outlined text-[20px]"
+                                        title="Silencioso">volume_off</span>
+                                    <span class="material-symbols-outlined text-[20px]" title="Tomada">power</span>
+                                </div>
+                            </div>
+                            <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1">Área silenciosa,
+                                ideal para foco profundo.</p>
+                            <button
+                                class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
+                                Reservar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

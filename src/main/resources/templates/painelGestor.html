@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>DeskGo - Painel do Gestor</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#8aa4cf",
+                        "on-tertiary-fixed-variant": "#1b5120",
+                        "tertiary-fixed": "#b6f2af",
+                        "on-tertiary-container": "#78b174",
+                        "primary-container": "#1e3a5f",
+                        "tertiary-fixed-dim": "#9ad595",
+                        "inverse-on-surface": "#f1f0f4",
+                        "primary": "#022448",
+                        "secondary-container": "#ffc69c",
+                        "on-secondary-container": "#7a502f",
+                        "error": "#ba1a1a",
+                        "tertiary": "#002b07",
+                        "inverse-primary": "#adc8f5",
+                        "on-secondary-fixed-variant": "#643e1f",
+                        "primary-fixed": "#d5e3ff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e3e2e6",
+                        "outline": "#74777f",
+                        "surface-dim": "#dad9dd",
+                        "surface-container": "#eeedf1",
+                        "outline-variant": "#c4c6cf",
+                        "on-tertiary": "#ffffff",
+                        "background": "#faf9fc",
+                        "tertiary-container": "#0a4313",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#2f1400",
+                        "on-background": "#1a1c1e",
+                        "on-primary-fixed": "#001c3b",
+                        "on-surface-variant": "#43474e",
+                        "secondary": "#7f5534",
+                        "inverse-surface": "#2f3033",
+                        "on-tertiary-fixed": "#002204",
+                        "surface": "#faf9fc",
+                        "surface-tint": "#455f87",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-surface": "#1a1c1e",
+                        "secondary-fixed-dim": "#f3bb92",
+                        "surface-container-low": "#f4f3f7",
+                        "surface-container-high": "#e9e7eb",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "surface-variant": "#e3e2e6",
+                        "secondary-fixed": "#ffdcc4",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#faf9fc"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "3xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "1.25rem",
+                        "container-padding-desktop": "2.5rem",
+                        "gutter": "1.5rem",
+                        "section-gap": "4rem",
+                        "unit": "8px",
+                        "xs": "4px",
+                        "sm": "12px",
+                        "md": "24px",
+                        "lg": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-md": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "body-md": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "display-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "headline-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "headline-lg-mobile": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "body-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "label-sm": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "label-md": [
+                            "Plus Jakarta Sans"
+                        ]
+                    },
+                    "fontSize": {
+                        "headline-md": [
+                            "24px",
+                            {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "body-md": [
+                            "16px",
+                            {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "display-lg": [
+                            "48px",
+                            {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                            }
+                        ],
+                        "headline-lg": [
+                            "32px",
+                            {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "headline-lg-mobile": [
+                            "28px",
+                            {
+                                "lineHeight": "36px",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "body-lg": [
+                            "18px",
+                            {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "label-sm": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "label-md": [
+                            "14px",
+                            {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "600"
+                            }
+                        ]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+    </style>
+</head>
+
+<body class="flex flex-col lg:flex-row min-h-screen font-body-md text-body-md">
+    <!-- TopAppBar (Mobile Only) -->
+    <header
+        class="lg:hidden fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-padding-mobile h-20 bg-surface dark:bg-surface-container-low shadow-sm dark:shadow-none shadow-[0px_4px_20px_rgba(30,58,95,0.08)]">
+        <div class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+            DeskGo
+        </div>
+        <div class="flex items-center gap-4">
+            <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim cursor-pointer"
+                data-icon="notifications">notifications</span>
+            <img alt="Foto de perfil do usuário" class="w-10 h-10 rounded-full border border-outline-variant"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyzSZ7JTvUFFmwySLtQ0XoDtgkZm602PjRQnEig6rHy-97Lo42tL8EvRa_EcKNYflvVUCm6VDrCqOEtuGX-FgbU_NW7JS4g-vc8ZZYFAZSc-dXkQonTCoC5Afo-j5LFYCkHTnOzASH6OU5LrBUcw9C_jLicjFsECmnQF1T0gz77zclRsWs6XktrdByLOttO0YihT97nJNUX32lxYXYlghB9dR2HUtZcz3axR3Cu0kLpMX7Bx3AZOL_KonNLXYxQZ8DcafDCyKCtjTa" />
+        </div>
+    </header>
+    <!-- SideNavBar (Desktop Only) -->
+    <nav
+        class="hidden lg:flex flex-col h-screen p-md gap-sm bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant dark:border-outline w-64 fixed left-0 top-0">
+        <div class="mb-lg">
+            <img alt="DeskGo Logo" class="h-10 w-auto object-contain mb-sm"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+        </div>
+        <ul class="flex-1 space-y-xs">
+            <li>
+                <a class="flex items-center gap-sm p-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-2xl text-label-md font-label-md transition-colors duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="desk">desk</span>
+                    Reservar Mesa
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-sm p-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-2xl text-label-md font-label-md transition-colors duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="event_available">event_available</span>
+                    Minhas Reservas
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-sm p-sm bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-2xl font-bold text-label-md font-label-md transition-all scale-[0.98]"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Painel do Gestor
+                </a>
+            </li>
+        </ul>
+        <button
+            class="w-full py-sm bg-[#1E3A5F] text-white rounded-full text-label-md font-label-md font-bold hover:bg-opacity-90 transition-colors">
+            Nova Reserva
+        </button>
+    </nav>
+    <!-- Main Content -->
+    <main
+        class="flex-1 lg:ml-64 mt-20 lg:mt-0 p-container-padding-mobile lg:p-container-padding-desktop max-w-[1280px] w-full mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-lg gap-4">
+            <div>
+                <h2 class="text-display-lg font-display-lg text-[#1E3A5F] mb-xs">Gestão de Estações</h2>
+                <p class="text-body-lg font-body-lg text-on-surface-variant">Administre as mesas e recursos do
+                    escritório.</p>
+            </div>
+            <button
+                class="bg-[#1E3A5F] text-white px-gutter py-sm rounded-full text-label-md font-label-md flex items-center gap-sm hover:bg-opacity-90 transition-colors shadow-[0px_4px_20px_rgba(30,58,95,0.08)]">
+                <span class="material-symbols-outlined" data-icon="add">add</span>
+                Nova Estação
+            </button>
+        </div>
+        <!-- Desk List Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+            <!-- Card 1 -->
+            <div
+                class="bg-surface border border-outline-variant rounded-3xl p-md shadow-[0px_4px_20px_rgba(30,58,95,0.08)] hover:border-primary transition-colors group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-[#6BA368] rounded-bl-full -z-10 opacity-10"></div>
+                <div class="flex justify-between items-start mb-sm">
+                    <h3 class="text-headline-md font-headline-md text-on-surface">Estação A1</h3>
+                    <span
+                        class="bg-[#6BA368]/10 text-[#6BA368] px-sm py-xs rounded-full text-label-sm font-label-sm border border-[#6BA368]/30">Disponível</span>
+                </div>
+                <p class="text-body-md font-body-md text-on-surface-variant mb-md">Mesa ergonômica com monitor duplo 27"
+                    e cadeira Herman Miller.</p>
+                <div class="flex gap-xs mb-md flex-wrap">
+                    <span
+                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">WiFi
+                        6</span>
+                    <span
+                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">Monitor</span>
+                    <span
+                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">Janela</span>
+                </div>
+                <div class="flex justify-end gap-sm border-t border-outline-variant pt-sm mt-auto">
+                    <button
+                        class="text-secondary hover:text-on-secondary-container text-label-md font-label-md flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span> Editar
+                    </button>
+                    <button
+                        class="text-error hover:text-on-error-container text-label-md font-label-md flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span> Remover
+                    </button>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div
+                class="bg-surface border border-outline-variant rounded-3xl p-md shadow-[0px_4px_20px_rgba(30,58,95,0.08)] hover:border-primary transition-colors group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-container rounded-bl-full -z-10 opacity-10">
+                </div>
+                <div class="flex justify-between items-start mb-sm">
+                    <h3 class="text-headline-md font-headline-md text-on-surface">Estação A2</h3>
+                    <span
+                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm border border-outline-variant">Ocupada</span>
+                </div>
+                <p class="text-body-md font-body-md text-on-surface-variant mb-md">Mesa padrão na área colaborativa
+                    central.</p>
+                <div class="flex gap-xs mb-md flex-wrap">
+                    <span
+                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">WiFi
+                        6</span>
+                </div>
+                <div class="flex justify-end gap-sm border-t border-outline-variant pt-sm mt-auto">
+                    <button
+                        class="text-secondary hover:text-on-secondary-container text-label-md font-label-md flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span> Editar
+                    </button>
+                    <button
+                        class="text-error hover:text-on-error-container text-label-md font-label-md flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span> Remover
+                    </button>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div
+                class="bg-surface border border-outline-variant rounded-3xl p-md shadow-[0px_4px_20px_rgba(30,58,95,0.08)] hover:border-primary transition-colors group relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-[#E28743] rounded-bl-full -z-10 opacity-10"></div>
+                <div class="flex justify-between items-start mb-sm">
+                    <h3 class="text-headline-md font-headline-md text-on-surface">Estação B1</h3>
+                    <span
+                        class="bg-[#E28743]/10 text-[#E28743] px-sm py-xs rounded-full text-label-sm font-label-sm border border-[#E28743]/30">Manutenção</span>
+                </div>
+                <p class="text-body-md font-body-md text-on-surface-variant mb-md">Estação em sala fechada. Ar
+                    condicionado em manutenção.</p>
+                <div class="flex gap-xs mb-md flex-wrap">
+                    <span
+                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">Sala
+                        Fechada</span>
+                    <span
+                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">Quadro
+                        Branco</span>
+                </div>
+                <div class="flex justify-end gap-sm border-t border-outline-variant pt-sm mt-auto">
+                    <button
+                        class="text-secondary hover:text-on-secondary-container text-label-md font-label-md flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span> Editar
+                    </button>
+                    <button
+                        class="text-error hover:text-on-error-container text-label-md font-label-md flex items-center gap-xs">
+                        <span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span> Remover
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
