@@ -4,25 +4,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/inicial")
 public class HomeController {
 
-    @GetMapping({"/", "/home", "/inicial"})
-    public String exibirHome(Model model) {
-        model.addAttribute("mensagem", "Seja bem-vindo ao Web Project!");
+    // http://localhost:8080/inicial
+    @GetMapping
+    public String getPaginaInicial() {
         return "home";
     }
 
-    @GetMapping("/inicial/{id}")
-    public String exibirComParametro(
-            @PathVariable("id") String id,
-            @RequestParam(value = "param", required = false, defaultValue = "valor") String param,
-            Model model) {
+    // http://localhost:8080/inicial/1?param=valor
+    @GetMapping("/{id}")
+    public String getExemploParametros(@PathVariable("id") String id, @RequestParam("param") String param, Model model) {
         model.addAttribute("id", id);
         model.addAttribute("var1", param);
-        model.addAttribute("mensagem", "Página com parâmetros carregada com sucesso!");
+        System.out.println("ID: " + id);
+        System.out.println("Param: " + param);
         return "home";
     }
+
 }

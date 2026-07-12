@@ -2,18 +2,19 @@
 <html lang="pt-br"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{app.title}">DeskGo</title>
+<head th:replace="baseLayout :: head">
 </head>
 <body>
-    <h1 th:text="#{app.title}">Web Project</h1>
-    <p th:text="#{app.welcome}">Seja bem-vindo ao DeskGo!</p>
-    <p th:text="#{app.description}">Este é um projeto DeskGo para a disciplina de Programação Web.</p>
-    <p th:text="${mensagem}">Mensagem padrão</p>
-    <p th:if="${id != null}" th:text="'ID recebido: ' + ${id}"></p>
-    <p th:if="${var1 != null}" th:text="'Parâmetro recebido: ' + ${var1}"></p>
-    <p th:text="#{app.contact}">Contato: exemplo@exemplo.com</p>
+
+    <h1 th:text="#{app.title}">Placeholder Titulo</h1>
+    <p th:text="#{app.description}">Placeholder Descrição</p>
+    <hr>
+    <h2>ID: <span th:text="${id}">ID Placeholder</span></h2>
+    <p>Parametros do Request:</p>
+    <ul>
+        <li>Parametro: <span th:text="${var1}">Parametro Placeholder</span></li>
+    </ul>
+
+    <footer th:replace="~{baseLayout :: footer}"></footer>
 </body>
 </html>
