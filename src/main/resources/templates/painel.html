@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>DeskGo - Painel de Controle</title>
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#8aa4cf",
+                        "on-tertiary-fixed-variant": "#1b5120",
+                        "tertiary-fixed": "#b6f2af",
+                        "on-tertiary-container": "#78b174",
+                        "primary-container": "#1e3a5f",
+                        "tertiary-fixed-dim": "#9ad595",
+                        "inverse-on-surface": "#f1f0f4",
+                        "primary": "#022448",
+                        "secondary-container": "#ffc69c",
+                        "on-secondary-container": "#7a502f",
+                        "error": "#ba1a1a",
+                        "tertiary": "#002b07",
+                        "inverse-primary": "#adc8f5",
+                        "on-secondary-fixed-variant": "#643e1f",
+                        "primary-fixed": "#d5e3ff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e3e2e6",
+                        "outline": "#74777f",
+                        "surface-dim": "#dad9dd",
+                        "surface-container": "#eeedf1",
+                        "outline-variant": "#c4c6cf",
+                        "on-tertiary": "#ffffff",
+                        "background": "#faf9fc",
+                        "tertiary-container": "#0a4313",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#2f1400",
+                        "on-background": "#1a1c1e",
+                        "on-primary-fixed": "#001c3b",
+                        "on-surface-variant": "#43474e",
+                        "secondary": "#7f5534",
+                        "inverse-surface": "#2f3033",
+                        "on-tertiary-fixed": "#002204",
+                        "surface": "#faf9fc",
+                        "surface-tint": "#455f87",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-surface": "#1a1c1e",
+                        "secondary-fixed-dim": "#f3bb92",
+                        "surface-container-low": "#f4f3f7",
+                        "surface-container-high": "#e9e7eb",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "surface-variant": "#e3e2e6",
+                        "secondary-fixed": "#ffdcc4",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#faf9fc",
+                        "brand-primary": "#1E3A5F",
+                        "brand-success": "#6BA368",
+                        "brand-accent-1": "#E28743",
+                        "brand-accent-2": "#A47551",
+                        "brand-dark": "#333333"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "2xl": "2rem",
+                        "3xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "1.5rem",
+                        "container-padding-desktop": "3rem",
+                        "gutter": "2rem",
+                        "section-gap": "5rem",
+                        "unit": "8px",
+                        "sm": "16px",
+                        "md": "32px",
+                        "lg": "64px",
+                        "xs": "8px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "24px",
+                        "base": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-md": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "body-md": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "display-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "headline-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "headline-lg-mobile": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "body-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "label-sm": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "label-md": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "headline-sm": [
+                            "Plus Jakarta Sans"
+                        ]
+                    },
+                    "fontSize": {
+                        "headline-md": [
+                            "24px",
+                            {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "body-md": [
+                            "16px",
+                            {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "display-lg": [
+                            "48px",
+                            {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                            }
+                        ],
+                        "headline-lg": [
+                            "32px",
+                            {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "headline-lg-mobile": [
+                            "28px",
+                            {
+                                "lineHeight": "36px",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "body-lg": [
+                            "18px",
+                            {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "label-sm": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "label-md": [
+                            "14px",
+                            {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "headline-sm": [
+                            "20px",
+                            {
+                                "lineHeight": "28px",
+                                "fontWeight": "600"
+                            }
+                        ]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-brand-dark font-body-md text-body-md h-screen flex overflow-hidden">
+    <!-- SideNavBar (Desktop) -->
+    <nav
+        class="hidden lg:flex flex-col h-screen p-md gap-base bg-surface-container-low text-brand-primary border-r border-outline-variant flat no shadows docked left-0 h-full w-72 z-40 shrink-0">
+        <div class="flex items-center gap-sm mb-lg px-sm">
+            <img alt="DeskGo Logo" class="h-8 w-auto object-contain"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+        </div>
+        <div class="flex-1 flex flex-col gap-sm">
+            <a class="flex items-center gap-sm py-sm px-md rounded-2xl hover:bg-surface-container-high transition-colors duration-200 text-on-surface-variant hover:text-brand-primary"
+                href="#">
+                <span class="material-symbols-outlined">desk</span>
+                <span class="font-label-md text-label-md">Reservar Mesa</span>
+            </a>
+            <a class="flex items-center gap-sm py-sm px-md rounded-2xl hover:bg-surface-container-high transition-colors duration-200 text-on-surface-variant hover:text-brand-primary"
+                href="#">
+                <span class="material-symbols-outlined">event_available</span>
+                <span class="font-label-md text-label-md">Minhas Reservas</span>
+            </a>
+            <a class="flex items-center gap-sm py-sm px-md rounded-2xl bg-secondary-container text-on-secondary-container font-bold"
+                href="#">
+                <span class="material-symbols-outlined icon-fill">dashboard</span>
+                <span class="font-label-md text-label-md">Painel do Gestor</span>
+            </a>
+        </div>
+        <button
+            class="bg-brand-primary text-on-primary font-label-md text-label-md py-sm px-md rounded-2xl flex items-center justify-center gap-xs hover:opacity-90 transition-opacity w-full mt-auto shadow-md">
+            <span class="material-symbols-outlined text-[20px]">add</span>
+            Nova Reserva
+        </button>
+    </nav>
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto bg-background">
+        <!-- TopAppBar (Mobile & Tablet) -->
+        <header
+            class="lg:hidden fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-20 bg-surface-container-lowest text-brand-primary shadow-sm shadow-[0px_4px_20px_rgba(30,58,95,0.05)]">
+            <span class="text-headline-md font-headline-md font-bold text-brand-primary">DeskGo</span>
+            <button class="p-xs text-on-surface-variant">
+                <span class="material-symbols-outlined text-[24px]">notifications</span>
+            </button>
+        </header>
+        <!-- Canvas -->
+        <main
+            class="flex-1 p-margin-mobile md:p-margin-desktop lg:pt-lg pt-28 pb-24 max-w-[1280px] w-full mx-auto flex flex-col gap-lg">
+            <!-- Welcome Header -->
+            <section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-sm">
+                <div>
+                    <h1
+                        class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-brand-primary font-bold">
+                        Olá, Gabriel!</h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant mt-xs">Pronto para um ótimo dia de
+                        trabalho?</p>
+                </div>
+                <div class="hidden md:flex items-center gap-md">
+                    <button
+                        class="p-sm rounded-full bg-surface-container-low hover:bg-surface-container transition-colors text-on-surface-variant relative shadow-sm">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span
+                            class="absolute top-3 right-3 w-3 h-3 bg-brand-accent-1 rounded-full border-2 border-surface-container-lowest"></span>
+                    </button>
+                    <img alt="Foto de perfil do usuário"
+                        class="w-14 h-14 rounded-full object-cover border-4 border-surface-container-lowest shadow-sm"
+                        data-alt="A close-up headshot of a smiling young professional man with short dark hair, wearing a casual light blue button-down shirt. The background is a clean, neutral grey studio backdrop. High-key, soft, even lighting emphasizes a welcoming and approachable mood, fitting for a modern corporate profile avatar."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGcruKZO6H2diPVkmxL90aIscsgIhOC5-nrhFQQVcwdjQFLGrSE9kds_W_VC6BPTndr5HAqLm0Zmhph_RlAxLwtxbKDf4_x9dya3G4szYrozM_1p7yWfbwynGNywf01OGNm1mveHvKKtV_wXpDRVthf7IZamaOTD_HN1aLHyqubKIqfqOQRl-rryF6kx7HgFs4l4XoTRsnEWtNJ68SDNxFL265QGhUhk13LzyBoTIEaoMgRqyr40NEO13PZjGQxE73TUvF36YEag4E" />
+                </div>
+            </section>
+            <!-- Bento Grid Layout -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-md">
+                <!-- Upcoming Reservation (Large Card) -->
+                <div
+                    class="lg:col-span-2 bg-surface-container-lowest rounded-3xl p-md shadow-[0px_8px_30px_rgba(30,58,95,0.04)] flex flex-col md:flex-row gap-md relative overflow-hidden border border-surface-container">
+                    <div class="absolute top-0 right-0 w-48 h-48 bg-primary-fixed opacity-30 rounded-bl-full -z-0">
+                    </div>
+                    <div class="flex-1 relative z-10 flex flex-col justify-between">
+                        <div>
+                            <h2 class="font-headline-sm text-headline-sm text-brand-primary mb-xs font-bold">Sua Próxima
+                                Reserva</h2>
+                            <p class="font-body-md text-body-md text-on-surface-variant">Amanhã, 09:00 - 18:00</p>
+                        </div>
+                        <div class="mt-lg">
+                            <div class="flex items-center gap-sm mb-md">
+                                <span class="material-symbols-outlined text-brand-primary text-[28px]">desk</span>
+                                <span class="font-headline-md text-headline-md text-brand-primary font-bold">Mesa
+                                    12</span>
+                            </div>
+                            <div class="flex flex-wrap gap-sm">
+                                <span
+                                    class="bg-surface-container text-brand-dark font-label-md text-label-md py-2 px-4 rounded-full flex items-center gap-xs shadow-sm"><span
+                                        class="material-symbols-outlined text-[18px] text-brand-primary">wifi</span>
+                                    Wi-Fi Rápido</span>
+                                <span
+                                    class="bg-surface-container text-brand-dark font-label-md text-label-md py-2 px-4 rounded-full flex items-center gap-xs shadow-sm"><span
+                                        class="material-symbols-outlined text-[18px] text-brand-primary">monitor</span>
+                                    Monitor Duplo</span>
+                                <span
+                                    class="bg-surface-container text-brand-dark font-label-md text-label-md py-2 px-4 rounded-full flex items-center gap-xs shadow-sm"><span
+                                        class="material-symbols-outlined text-[18px] text-brand-primary">volume_off</span>
+                                    Zona Silenciosa</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="w-full md:w-2/5 rounded-2xl overflow-hidden relative min-h-[200px] shadow-md border-4 border-surface-container-lowest">
+                        <img alt="Imagem da Mesa 12"
+                            class="w-full h-full object-cover absolute inset-0 hover:scale-105 transition-transform duration-500"
+                            data-alt="A modern, minimalist office workspace interior featuring a clean wooden desk with a sleek external monitor, a small potted green plant, and a comfortable ergonomic mesh chair. The room is flooded with bright, natural daylight coming from a large unseen window, casting soft shadows. The overall aesthetic is professional, inviting, and uncluttered, adhering to a high-key, modern corporate style."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbI3OAneAt9ELTcqpDnN8iM_kZY-HQP1M-ciDQG52liAoUMa3Rqj8WhZNBpxsf_06Y9LZbw_LGp3_9qhDtpUCz2pTNNgtk5spVbZS3YvlUILiDZlGP3dj0i3KFzpccYodly_Oj6Sir535tEmXFpmm4b2JnQfa6rsDItycToiXlsR-jVCy0LVER8qH2pLQ3rYLXqYAqlRKujzxHL3cMR29sXuLAFqWfTj3cs96hAMcQEOcQzQe99UcV8aSs3s1_la6jYkau7MqWLWz3" />
+                    </div>
+                </div>
+                <!-- Day Highlights (Sidebar Card) -->
+                <div
+                    class="bg-surface-container-lowest rounded-3xl p-md shadow-[0px_8px_30px_rgba(30,58,95,0.04)] flex flex-col gap-md border border-surface-container">
+                    <h2 class="font-headline-sm text-headline-sm text-brand-primary font-bold">Destaques do Dia</h2>
+                    <div class="flex-1 flex flex-col justify-center gap-lg py-sm">
+                        <div>
+                            <div class="flex items-center justify-between mb-sm">
+                                <div class="flex items-center gap-sm">
+                                    <div class="w-4 h-4 rounded-full bg-brand-success shadow-sm"></div>
+                                    <span class="font-body-md text-body-md text-brand-dark font-medium">Mesas
+                                        Livres</span>
+                                </div>
+                                <span class="font-headline-md text-headline-md font-bold text-brand-success">24</span>
+                            </div>
+                            <div class="w-full bg-surface-container rounded-full h-3 shadow-inner overflow-hidden">
+                                <div class="bg-brand-success h-3 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-sm">
+                                <div class="w-4 h-4 rounded-full bg-surface-variant shadow-sm"></div>
+                                <span
+                                    class="font-body-md text-body-md text-on-surface-variant font-medium">Ocupadas</span>
+                            </div>
+                            <span class="font-headline-md text-headline-md font-bold text-on-surface-variant">32</span>
+                        </div>
+                    </div>
+                    <button
+                        class="mt-auto text-brand-primary font-label-md text-label-md flex items-center justify-center gap-xs hover:bg-primary-fixed/30 py-3 px-4 rounded-2xl transition-colors bg-surface-container-low font-bold">
+                        Ver Mapa Completo
+                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Quick Actions Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
+                <!-- Action: Nova Reserva -->
+                <a class="group bg-surface-container-lowest rounded-3xl p-md shadow-[0px_8px_30px_rgba(30,58,95,0.04)] hover:-translate-y-2 transition-all duration-300 flex flex-col gap-md border-2 border-transparent hover:border-brand-success hover:shadow-[0px_12px_40px_rgba(107,163,104,0.15)]"
+                    href="#">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-[#E8F3E7] flex items-center justify-center text-brand-success group-hover:scale-110 transition-transform duration-300">
+                        <span class="material-symbols-outlined icon-fill text-[32px]">add_circle</span>
+                    </div>
+                    <div>
+                        <h3
+                            class="font-headline-sm text-headline-sm text-brand-primary mb-sm font-bold group-hover:text-brand-success transition-colors">
+                            Nova Reserva</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Encontre o espaço
+                            ideal para hoje ou próximos dias.</p>
+                    </div>
+                </a>
+                <!-- Action: Ver Histórico -->
+                <a class="group bg-surface-container-lowest rounded-3xl p-md shadow-[0px_8px_30px_rgba(30,58,95,0.04)] hover:-translate-y-2 transition-all duration-300 flex flex-col gap-md border-2 border-transparent hover:border-brand-primary hover:shadow-[0px_12px_40px_rgba(30,58,95,0.1)]"
+                    href="#">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center text-on-surface-variant group-hover:bg-primary-fixed group-hover:text-brand-primary group-hover:scale-110 transition-all duration-300">
+                        <span class="material-symbols-outlined text-[32px]">history</span>
+                    </div>
+                    <div>
+                        <h3
+                            class="font-headline-sm text-headline-sm text-brand-primary mb-sm font-bold group-hover:text-brand-primary transition-colors">
+                            Ver Histórico</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Consulte suas
+                            reservas passadas e re-reserve facilmente.</p>
+                    </div>
+                </a>
+                <!-- Action: Mapa do Escritório -->
+                <a class="group bg-surface-container-lowest rounded-3xl p-md shadow-[0px_8px_30px_rgba(30,58,95,0.04)] hover:-translate-y-2 transition-all duration-300 flex flex-col gap-md border-2 border-transparent hover:border-brand-accent-1 hover:shadow-[0px_12px_40px_rgba(226,135,67,0.15)] relative overflow-hidden"
+                    href="#">
+                    <div class="absolute inset-0 opacity-[0.03] bg-[url('https://images.unsplash.com/photo-1542626991-cbc4e32524cc?auto=format&amp;fit=crop&amp;q=80&amp;w=800&amp;h=400')] bg-cover bg-center group-hover:opacity-[0.08] transition-opacity duration-300"
+                        data-alt="A stylized, architectural blueprint or minimalist floor plan graphic representing an office layout, rendered in faint, light blue and grey tones on a white background. It serves as a subtle, ambient texture behind UI elements, contributing to a modern, corporate aesthetic focused on spatial planning.">
+                    </div>
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-[#FDF3E9] flex items-center justify-center text-brand-accent-1 group-hover:scale-110 transition-transform duration-300 relative z-10">
+                        <span class="material-symbols-outlined text-[32px]">map</span>
+                    </div>
+                    <div class="relative z-10">
+                        <h3
+                            class="font-headline-sm text-headline-sm text-brand-primary mb-sm font-bold group-hover:text-brand-accent-1 transition-colors">
+                            Mapa do Escritório</h3>
+                        <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Visualize a planta
+                            e encontre colegas de equipe.</p>
+                    </div>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
