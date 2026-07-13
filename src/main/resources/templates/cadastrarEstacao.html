@@ -188,13 +188,6 @@
                 <span class="text-label-md font-label-md">Painel do Gestor</span>
             </a>
         </div>
-        <div class="px-4 pb-8">
-            <button
-                class="w-full py-3 px-4 bg-primary text-on-primary rounded-lg text-label-md font-label-md font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-sm shadow-[rgba(30,58,95,0.15)]">
-                <span class="material-symbols-outlined text-xl" data-icon="add">add</span>
-                Nova Reserva
-            </button>
-        </div>
     </nav>
     <!-- Main Canvas -->
     <main
@@ -215,10 +208,9 @@
                 trabalho ao inventário. Detalhe os recursos disponíveis para facilitar a reserva pelos colaboradores.
             </p>
         </div>
-        <!-- Form Container -->
         <div
             class="bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-sm shadow-[0px_4px_20px_rgba(30,58,95,0.08)] max-w-4xl border border-outline-variant/30">
-            <form class="space-y-section-gap">
+            <form th:action="@{/painel/gestor/cadastrar-estacao}" method="post" class="space-y-section-gap">
                 <!-- Section 1: Informações Básicas -->
                 <div class="space-y-6">
                     <h3

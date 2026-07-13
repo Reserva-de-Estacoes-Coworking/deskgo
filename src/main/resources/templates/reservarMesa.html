@@ -220,11 +220,7 @@
             <img alt="DeskGo" class="h-10 w-auto object-contain mb-2"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
         </div>
-        <button
-            class="w-full bg-[#1E3A5F] text-white py-3 rounded-2xl font-label-md text-label-md hover:opacity-90 transition-opacity mb-6 flex items-center justify-center gap-2 shadow-sm">
-            <span class="material-symbols-outlined text-[20px]">add</span>
-            Nova Reserva
-        </button>
+
         <div class="flex flex-col gap-2">
             <a class="flex items-center gap-3 p-3 bg-secondary-container text-on-secondary-container rounded-2xl font-label-md text-label-md font-bold scale-[0.98] transition-all"
                 href="#">
@@ -378,10 +374,13 @@
                             </div>
                             <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1">Perto da janela,
                                 com tomada e cadeira ergonômica.</p>
-                            <button
-                                class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
-                                Reservar
-                            </button>
+                            <form th:action="@{/painel/reservar-mesa}" method="post">
+                                <input type="hidden" name="mesaId" value="1" />
+                                <button type="submit"
+                                    class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
+                                    Reservar
+                                </button>
+                            </form>
                         </div>
                     </div>
                     <!-- Desk Card 2 (Available) -->
@@ -409,10 +408,13 @@
                             </div>
                             <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1">Área silenciosa,
                                 ideal para foco profundo.</p>
-                            <button
-                                class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
-                                Reservar
-                            </button>
+                            <form th:action="@{/painel/reservar-mesa}" method="post">
+                                <input type="hidden" name="mesaId" value="2" />
+                                <button type="submit"
+                                    class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
+                                    Reservar
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
