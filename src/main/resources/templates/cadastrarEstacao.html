@@ -210,7 +210,7 @@
         </div>
         <div
             class="bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-sm shadow-[0px_4px_20px_rgba(30,58,95,0.08)] max-w-4xl border border-outline-variant/30">
-            <form th:action="@{/painel/gestor/cadastrar-estacao}" method="post" class="space-y-section-gap">
+            <form th:action="@{/painel/gestor/cadastrar-estacao}" th:object="${estacao}" method="post" class="space-y-section-gap">
                 <!-- Section 1: Informações Básicas -->
                 <div class="space-y-6">
                     <h3
@@ -223,7 +223,7 @@
                         <div class="relative group">
                             <input
                                 class="floating-input w-full px-4 py-3 rounded-lg border border-outline-variant bg-transparent text-body-md font-body-md focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all peer"
-                                id="stationName" placeholder=" " required="" type="text" />
+                                th:field="*{nome}" id="stationName" placeholder=" " required type="text" />
                             <label
                                 class="floating-label absolute left-3 top-3 px-1 text-on-surface-variant text-body-md font-body-md transition-all duration-200 pointer-events-none"
                                 for="stationName">Nome / Número da Estação (ex: C1)</label>
@@ -232,10 +232,10 @@
                         <div class="relative group">
                             <input
                                 class="floating-input w-full px-4 py-3 rounded-lg border border-outline-variant bg-transparent text-body-md font-body-md focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all peer"
-                                id="stationLocation" placeholder=" " required="" type="text" />
+                                 th:field="*{descricao}" id="stationDescription" placeholder=" " required type="text" />
                             <label
                                 class="floating-label absolute left-3 top-3 px-1 text-on-surface-variant text-body-md font-body-md transition-all duration-200 pointer-events-none"
-                                for="stationLocation">Localização (Andar / Setor)</label>
+                                for="stationDescription"> Descrição</label>
                         </div>
                     </div>
                 </div>
