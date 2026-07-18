@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/inicial")
+@RequestMapping("/home")
 public class HomeController {
 
-    // http://localhost:8080/inicial
+    // http://localhost:8080/home
     @GetMapping
     public String getPaginaInicial() {
-        return "home";
+        return "home.html";
     }
 
-    // http://localhost:8080/inicial/1?param=valor
+    // http://localhost:8080/home/1?param=valor
     @GetMapping("/{id}")
     public String getExemploParametros(@PathVariable("id") String id, @RequestParam("param") String param, Model model) {
         model.addAttribute("id", id);

@@ -35,11 +35,3 @@ build/
 
 ### VS Code ###
 .vscode/
-
-### H2 Database files ###
-*.mv.db
-*.trace.db
-
-### OS temporary files ###
-.DS_Store
-Thumbs.db
