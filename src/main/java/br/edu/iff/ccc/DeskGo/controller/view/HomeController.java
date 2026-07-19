@@ -14,7 +14,7 @@ public class HomeController {
     // http://localhost:8080/home
     @GetMapping
     public String getPaginaInicial() {
-        return "home.html";
+        return "home";
     }
 
     // http://localhost:8080/home/1?param=valor
