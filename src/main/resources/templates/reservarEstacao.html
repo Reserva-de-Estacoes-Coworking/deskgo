@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>DeskGo - Reservar Mesa</title>
+    <title>DeskGo - Reservar Estação</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
         rel="stylesheet" />
@@ -225,7 +225,7 @@
             <a class="flex items-center gap-3 p-3 bg-secondary-container text-on-secondary-container rounded-2xl font-label-md text-label-md font-bold scale-[0.98] transition-all"
                 href="#">
                 <span class="material-symbols-outlined text-[20px] filled">desk</span>
-                Reservar Mesa
+                Reservar Estação
             </a>
             <a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-2xl font-label-md text-label-md transition-colors duration-200"
                 href="#">
@@ -244,7 +244,7 @@
         <!-- Desktop Header Area (Optional, for padding balance if TopAppBar is hidden on md) -->
         <div
             class="hidden md:flex items-center justify-between px-container-padding-desktop py-6 bg-surface border-b border-surface-variant">
-            <h1 class="font-headline-lg text-headline-lg text-on-surface flex items-center gap-2">Reservar Mesa <span
+            <h1 class="font-headline-lg text-headline-lg text-on-surface flex items-center gap-2">Reservar Estação <span
                     class="material-symbols-outlined text-tertiary-fixed-dim text-[28px]">local_cafe</span></h1>
             <div class="flex items-center gap-4">
                 <button class="text-on-surface-variant hover:text-[#1E3A5F] transition-colors">
@@ -341,7 +341,7 @@
                 class="w-full lg:w-2/3 p-container-padding-mobile md:p-container-padding-desktop bg-surface overflow-y-auto custom-scrollbar">
                 <div class="flex justify-between items-end mb-6">
                     <div>
-                        <h2 class="font-headline-lg text-headline-lg text-on-surface">Mesas Disponíveis</h2>
+                        <h2 class="font-headline-lg text-headline-lg text-on-surface">Estações Disponíveis</h2>
                         <p class="font-body-md text-body-md text-on-surface-variant mt-2">8 de Outubro, 09:00 - 18:00
                         </p>
                     </div>
@@ -366,7 +366,7 @@
                         </div>
                         <div class="p-6 flex-1 flex flex-col">
                             <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-headline-md text-headline-md text-on-surface">Mesa 05</h3>
+                                <h3 class="font-headline-md text-headline-md text-on-surface">Estação 05</h3>
                                 <div class="flex gap-1.5 text-on-surface-variant">
                                     <span class="material-symbols-outlined text-[20px]" title="Janela">wb_sunny</span>
                                     <span class="material-symbols-outlined text-[20px]" title="Tomada">power</span>
@@ -374,8 +374,8 @@
                             </div>
                             <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1">Perto da janela,
                                 com tomada e cadeira ergonômica.</p>
-                            <form th:action="@{/painel/reservar-mesa}" method="post">
-                                <input type="hidden" name="mesaId" value="1" />
+                            <form th:action="@{/painel/reservar-estacao}" method="post">
+                                <input type="hidden" name="estacaoId" value="1" />
                                 <button type="submit"
                                     class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
                                     Reservar
@@ -399,7 +399,7 @@
                         </div>
                         <div class="p-6 flex-1 flex flex-col">
                             <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-headline-md text-headline-md text-on-surface">Mesa 12</h3>
+                                <h3 class="font-headline-md text-headline-md text-on-surface">Estação 12</h3>
                                 <div class="flex gap-1.5 text-on-surface-variant">
                                     <span class="material-symbols-outlined text-[20px]"
                                         title="Silencioso">volume_off</span>
@@ -408,8 +408,8 @@
                             </div>
                             <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1">Área silenciosa,
                                 ideal para foco profundo.</p>
-                            <form th:action="@{/painel/reservar-mesa}" method="post">
-                                <input type="hidden" name="mesaId" value="2" />
+                            <form th:action="@{/painel/reservar-estacao}" method="post">
+                                <input type="hidden" name="estacaoId" value="2" />
                                 <button type="submit"
                                     class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
                                     Reservar

@@ -173,7 +173,7 @@
                 href="#">
                 <span class="material-symbols-outlined" data-icon="desk"
                     style="font-variation-settings: 'FILL' 0;">desk</span>
-                <span class="text-label-md font-label-md">Reservar Mesa</span>
+                <span class="text-label-md font-label-md">Reservar Estação</span>
             </a>
             <a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors duration-200"
                 href="#">
@@ -210,8 +210,7 @@
         </div>
         <div
             class="bg-surface-container-lowest rounded-2xl p-6 md:p-8 shadow-sm shadow-[0px_4px_20px_rgba(30,58,95,0.08)] max-w-4xl border border-outline-variant/30">
-            <form th:action="@{/painel/gestor/cadastrar-estacao}" method="post" class="space-y-section-gap">
-                <!-- Section 1: Informações Básicas -->
+            <form th:action="@{/estacao}" method="post" th:object="${estacao}" class="space-y-section-gap">
                 <div class="space-y-6">
                     <h3
                         class="text-headline-md font-headline-md text-primary-container border-b border-surface-variant pb-2 flex items-center gap-2">
@@ -219,27 +218,25 @@
                         Informações Básicas
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Nome / Número -->
                         <div class="relative group">
-                            <input
+                            <input th:field="*{nome}"
                                 class="floating-input w-full px-4 py-3 rounded-lg border border-outline-variant bg-transparent text-body-md font-body-md focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all peer"
-                                id="stationName" placeholder=" " required="" type="text" />
+                                id="nome" placeholder=" " required type="text" />
                             <label
                                 class="floating-label absolute left-3 top-3 px-1 text-on-surface-variant text-body-md font-body-md transition-all duration-200 pointer-events-none"
-                                for="stationName">Nome / Número da Estação (ex: C1)</label>
+                                for="nome">Nome / Número da Estação (ex: C1)</label>
                         </div>
-                        <!-- Localização -->
                         <div class="relative group">
-                            <input
+                            <input th:field="*{descricao}"
                                 class="floating-input w-full px-4 py-3 rounded-lg border border-outline-variant bg-transparent text-body-md font-body-md focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all peer"
-                                id="stationLocation" placeholder=" " required="" type="text" />
+                                id="descricao" placeholder=" " required type="text" />
                             <label
                                 class="floating-label absolute left-3 top-3 px-1 text-on-surface-variant text-body-md font-body-md transition-all duration-200 pointer-events-none"
-                                for="stationLocation">Localização (Andar / Setor)</label>
+                                for="descricao">Descrição (Andar, Setor, entre outros)</label>
                         </div>
                     </div>
                 </div>
-                <!-- Section 2: Recursos -->
+
                 <div class="space-y-6">
                     <h3
                         class="text-headline-md font-headline-md text-primary-container border-b border-surface-variant pb-2 flex items-center gap-2">
@@ -248,10 +245,12 @@
                     </h3>
                     <p class="text-label-md font-label-md text-on-surface-variant mb-4">Selecione as facilidades que
                         esta estação oferece.</p>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
                         <label
                             class="flex items-center gap-3 p-4 border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low hover:border-primary-container transition-all group">
-                            <input
+                            <input th:field="*{caracteristicas}" th:value="JANELA"
                                 class="w-5 h-5 rounded border-outline text-success focus:ring-success/50 transition-colors"
                                 type="checkbox" />
                             <div
@@ -260,9 +259,10 @@
                                 <span class="text-label-md font-label-md">Perto da Janela</span>
                             </div>
                         </label>
+
                         <label
                             class="flex items-center gap-3 p-4 border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low hover:border-primary-container transition-all group">
-                            <input
+                            <input th:field="*{caracteristicas}" th:value="TOMADA"
                                 class="w-5 h-5 rounded border-outline text-success focus:ring-success/50 transition-colors"
                                 type="checkbox" />
                             <div
@@ -271,9 +271,10 @@
                                 <span class="text-label-md font-label-md">Tomada Extra</span>
                             </div>
                         </label>
+
                         <label
                             class="flex items-center gap-3 p-4 border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low hover:border-primary-container transition-all group">
-                            <input
+                            <input th:field="*{caracteristicas}" th:value="DUPLA"
                                 class="w-5 h-5 rounded border-outline text-success focus:ring-success/50 transition-colors"
                                 type="checkbox" />
                             <div
@@ -282,9 +283,10 @@
                                 <span class="text-label-md font-label-md">Monitor Duplo</span>
                             </div>
                         </label>
+
                         <label
                             class="flex items-center gap-3 p-4 border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low hover:border-primary-container transition-all group">
-                            <input
+                            <input th:field="*{caracteristicas}" th:value="SILENCIOSO"
                                 class="w-5 h-5 rounded border-outline text-success focus:ring-success/50 transition-colors"
                                 type="checkbox" />
                             <div
@@ -293,31 +295,10 @@
                                 <span class="text-label-md font-label-md">Zona Silenciosa</span>
                             </div>
                         </label>
-                        <label
-                            class="flex items-center gap-3 p-4 border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low hover:border-primary-container transition-all group">
-                            <input
-                                class="w-5 h-5 rounded border-outline text-success focus:ring-success/50 transition-colors"
-                                type="checkbox" />
-                            <div
-                                class="flex items-center gap-2 text-on-surface-variant group-hover:text-primary-container">
-                                <span class="material-symbols-outlined text-xl" data-icon="wifi">wifi</span>
-                                <span class="text-label-md font-label-md">Wi-Fi 6</span>
-                            </div>
-                        </label>
-                        <label
-                            class="flex items-center gap-3 p-4 border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low hover:border-primary-container transition-all group">
-                            <input
-                                class="w-5 h-5 rounded border-outline text-success focus:ring-success/50 transition-colors"
-                                type="checkbox" />
-                            <div
-                                class="flex items-center gap-2 text-on-surface-variant group-hover:text-primary-container">
-                                <span class="material-symbols-outlined text-xl" data-icon="chair">chair</span>
-                                <span class="text-label-md font-label-md">Cadeira Ergonômica</span>
-                            </div>
-                        </label>
+
                     </div>
                 </div>
-                <!-- Section 3: Foto da Estação -->
+
                 <div class="space-y-6">
                     <h3
                         class="text-headline-md font-headline-md text-primary-container border-b border-surface-variant pb-2 flex items-center gap-2">
@@ -338,14 +319,13 @@
                         <input accept="image/*" class="hidden" id="file-upload" type="file" />
                     </div>
                 </div>
-                <!-- Actions -->
+
                 <div
                     class="flex flex-col-reverse md:flex-row justify-end gap-4 pt-6 mt-8 border-t border-surface-variant">
-                    <button
-                        class="px-6 py-3 rounded-lg text-label-md font-label-md font-bold text-on-surface-variant hover:bg-surface-variant transition-colors"
-                        type="button">
+                    <a th:href="@{/estacao}"
+                        class="px-6 py-3 rounded-lg text-label-md font-label-md font-bold text-on-surface-variant hover:bg-surface-variant transition-colors flex items-center justify-center cursor-pointer">
                         Cancelar
-                    </button>
+                    </a>
                     <button
                         class="px-8 py-3 rounded-lg text-label-md font-label-md font-bold text-white bg-[#1E3A5F] hover:bg-primary transition-all shadow-sm shadow-[#1E3A5F]/20 flex items-center justify-center gap-2"
                         type="submit">
