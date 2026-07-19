@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/painel")
-public class PainelViewController {
+public class UsuarioViewController {
 
     @GetMapping
     public String getPainel() {
