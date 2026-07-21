@@ -12,9 +12,4 @@ public class GestorViewController {
     public String getPainelGestor() {
         return "painelGestor";
     }
-
-    @GetMapping("/cadastrar-estacao")
-    public String getCadastrarEstacao() {
-        return "cadastrarEstacao";
-    }
 }

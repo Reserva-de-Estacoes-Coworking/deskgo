@@ -13,9 +13,9 @@ public class UsuarioViewController {
         return "painel";
     }
 
-    @GetMapping("/reservar-mesa")
-    public String getReservarMesa() {
-        return "reservarMesa";
+    @GetMapping("/reservar-estacao")
+    public String getReservarEstacao() {
+        return "reservarEstacao";
     }
 
     @GetMapping("/minhas-reservas")

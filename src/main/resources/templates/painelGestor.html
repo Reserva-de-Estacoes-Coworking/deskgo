@@ -210,7 +210,7 @@
                 <a class="flex items-center gap-sm p-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-2xl text-label-md font-label-md transition-colors duration-200"
                     href="#">
                     <span class="material-symbols-outlined" data-icon="desk">desk</span>
-                    Reservar Mesa
+                    Reservar Estação
                 </a>
             </li>
             <li>
@@ -238,103 +238,64 @@
                 <p class="text-body-lg font-body-lg text-on-surface-variant">Administre as mesas e recursos do
                     escritório.</p>
             </div>
-            <button
-                class="bg-[#1E3A5F] text-white px-gutter py-sm rounded-full text-label-md font-label-md flex items-center gap-sm hover:bg-opacity-90 transition-colors shadow-[0px_4px_20px_rgba(30,58,95,0.08)]">
+            <a th:href="@{/estacao/novo}"
+                class="bg-[#1E3A5F] text-white px-gutter py-sm rounded-full text-label-md font-label-md flex items-center gap-sm hover:bg-opacity-90 transition-colors shadow-[0px_4px_20px_rgba(30,58,95,0.08)] w-fit cursor-pointer">
                 <span class="material-symbols-outlined" data-icon="add">add</span>
                 Nova Estação
-            </button>
+            </a>
         </div>
-        <!-- Desk List Bento Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
-            <!-- Card 1 -->
-            <div
+        <div th:if="${not #lists.isEmpty(estacoes)}" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-gutter">
+
+            <div th:each="estacao : ${estacoes}"
                 class="bg-surface border border-outline-variant rounded-3xl p-md shadow-[0px_4px_20px_rgba(30,58,95,0.08)] hover:border-primary transition-colors group relative overflow-hidden">
+
                 <div class="absolute top-0 right-0 w-32 h-32 bg-[#6BA368] rounded-bl-full -z-10 opacity-10"></div>
+
                 <div class="flex justify-between items-start mb-sm">
-                    <h3 class="text-headline-md font-headline-md text-on-surface">Estação A1</h3>
+                    <h3 class="text-headline-md font-headline-md text-on-surface" th:text="${estacao.nome}">Estação A1
+                    </h3>
                     <span
-                        class="bg-[#6BA368]/10 text-[#6BA368] px-sm py-xs rounded-full text-label-sm font-label-sm border border-[#6BA368]/30">Disponível</span>
+                        class="bg-[#6BA368]/10 text-[#6BA368] px-sm py-xs rounded-full text-label-sm font-label-sm border border-[#6BA368]/30"
+                        th:text="${estacao.status}">ATIVO</span>
                 </div>
-                <p class="text-body-md font-body-md text-on-surface-variant mb-md">Mesa ergonômica com monitor duplo 27"
-                    e cadeira Herman Miller.</p>
+
+                <p class="text-body-md font-body-md text-on-surface-variant mb-md" th:text="${estacao.descricao}">
+                    Mesa ergonômica com monitor duplo...
+                </p>
+
                 <div class="flex gap-xs mb-md flex-wrap">
-                    <span
-                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">WiFi
-                        6</span>
-                    <span
-                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">Monitor</span>
-                    <span
-                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">Janela</span>
+                    <span th:each="caracteristica : ${estacao.caracteristicas}"
+                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm"
+                        th:text="${caracteristica}">
+                        JANELA
+                    </span>
+
+                    <span th:if="${#lists.isEmpty(estacao.caracteristicas)}"
+                        class="text-on-surface-variant text-label-sm italic opacity-70">
+                        Nenhum recurso extra
+                    </span>
                 </div>
+
                 <div class="flex justify-end gap-sm border-t border-outline-variant pt-sm mt-auto">
-                    <button
+                    <button type="button"
                         class="text-secondary hover:text-on-secondary-container text-label-md font-label-md flex items-center gap-xs">
                         <span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span> Editar
                     </button>
-                    <button
+                    <button type="button"
                         class="text-error hover:text-on-error-container text-label-md font-label-md flex items-center gap-xs">
                         <span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span> Remover
                     </button>
                 </div>
             </div>
-            <!-- Card 2 -->
-            <div
-                class="bg-surface border border-outline-variant rounded-3xl p-md shadow-[0px_4px_20px_rgba(30,58,95,0.08)] hover:border-primary transition-colors group relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-container rounded-bl-full -z-10 opacity-10">
-                </div>
-                <div class="flex justify-between items-start mb-sm">
-                    <h3 class="text-headline-md font-headline-md text-on-surface">Estação A2</h3>
-                    <span
-                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm border border-outline-variant">Ocupada</span>
-                </div>
-                <p class="text-body-md font-body-md text-on-surface-variant mb-md">Mesa padrão na área colaborativa
-                    central.</p>
-                <div class="flex gap-xs mb-md flex-wrap">
-                    <span
-                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">WiFi
-                        6</span>
-                </div>
-                <div class="flex justify-end gap-sm border-t border-outline-variant pt-sm mt-auto">
-                    <button
-                        class="text-secondary hover:text-on-secondary-container text-label-md font-label-md flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span> Editar
-                    </button>
-                    <button
-                        class="text-error hover:text-on-error-container text-label-md font-label-md flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span> Remover
-                    </button>
-                </div>
-            </div>
-            <!-- Card 3 -->
-            <div
-                class="bg-surface border border-outline-variant rounded-3xl p-md shadow-[0px_4px_20px_rgba(30,58,95,0.08)] hover:border-primary transition-colors group relative overflow-hidden">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-[#E28743] rounded-bl-full -z-10 opacity-10"></div>
-                <div class="flex justify-between items-start mb-sm">
-                    <h3 class="text-headline-md font-headline-md text-on-surface">Estação B1</h3>
-                    <span
-                        class="bg-[#E28743]/10 text-[#E28743] px-sm py-xs rounded-full text-label-sm font-label-sm border border-[#E28743]/30">Manutenção</span>
-                </div>
-                <p class="text-body-md font-body-md text-on-surface-variant mb-md">Estação em sala fechada. Ar
-                    condicionado em manutenção.</p>
-                <div class="flex gap-xs mb-md flex-wrap">
-                    <span
-                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">Sala
-                        Fechada</span>
-                    <span
-                        class="bg-surface-variant text-on-surface-variant px-sm py-xs rounded-full text-label-sm font-label-sm">Quadro
-                        Branco</span>
-                </div>
-                <div class="flex justify-end gap-sm border-t border-outline-variant pt-sm mt-auto">
-                    <button
-                        class="text-secondary hover:text-on-secondary-container text-label-md font-label-md flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span> Editar
-                    </button>
-                    <button
-                        class="text-error hover:text-on-error-container text-label-md font-label-md flex items-center gap-xs">
-                        <span class="material-symbols-outlined text-[18px]" data-icon="delete">delete</span> Remover
-                    </button>
-                </div>
-            </div>
+        </div>
+
+        <div th:if="${#lists.isEmpty(estacoes)}"
+            class="text-center py-12 bg-surface border border-outline-variant rounded-3xl mt-4 shadow-sm">
+            <span class="material-symbols-outlined text-5xl text-on-surface-variant mb-3 opacity-50"
+                data-icon="desk">desk</span>
+            <p class="text-headline-sm font-headline-sm text-on-surface">Nenhuma estação encontrada</p>
+            <p class="text-body-md font-body-md text-on-surface-variant mt-1">Clique em "Nova Estação" no topo da página
+                para cadastrar a primeira.</p>
         </div>
     </main>
 </body>
