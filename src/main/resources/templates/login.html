@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Login - DeskGo</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#001c3b",
+                        "surface-bright": "#faf9fc",
+                        "surface-container-low": "#f4f3f7",
+                        "inverse-surface": "#2f3033",
+                        "on-tertiary-container": "#78b174",
+                        "surface-variant": "#e3e2e6",
+                        "surface-tint": "#455f87",
+                        "inverse-primary": "#adc8f5",
+                        "outline": "#74777f",
+                        "error": "#ba1a1a",
+                        "error-container": "#ffdad6",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary": "#7f5534",
+                        "primary-container": "#1e3a5f",
+                        "secondary-container": "#ffc69c",
+                        "background": "#faf9fc",
+                        "inverse-on-surface": "#f1f0f4",
+                        "on-secondary-fixed": "#2f1400",
+                        "surface-container": "#eeedf1",
+                        "on-secondary-container": "#7a502f",
+                        "on-surface-variant": "#43474e",
+                        "on-primary-fixed-variant": "#2d486d",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d5e3ff",
+                        "on-secondary-fixed-variant": "#643e1f",
+                        "tertiary": "#002b07",
+                        "primary": "#022448",
+                        "surface": "#faf9fc",
+                        "on-tertiary-fixed": "#002204",
+                        "on-surface": "#1a1c1e",
+                        "surface-container-high": "#e9e7eb",
+                        "surface-container-highest": "#e3e2e6",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed": "#b6f2af",
+                        "outline-variant": "#c4c6cf",
+                        "primary-fixed-dim": "#adc8f5",
+                        "secondary-fixed-dim": "#f3bb92",
+                        "tertiary-container": "#0a4313",
+                        "on-background": "#1a1c1e",
+                        "secondary-fixed": "#ffdcc4",
+                        "surface-dim": "#dad9dd",
+                        "on-tertiary-fixed-variant": "#1b5120",
+                        "on-primary-container": "#8aa4cf",
+                        "tertiary-fixed-dim": "#9ad595"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding-mobile": "1.25rem",
+                        "gutter": "1.5rem",
+                        "unit": "8px",
+                        "section-gap": "4rem",
+                        "container-padding-desktop": "2.5rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Soft Ambient Shadow for Cards */
+        .shadow-ambient {
+            box-shadow: 0px 8px 30px rgba(30, 58, 95, 0.15);
+        }
+
+        /* Subtle pattern background to make it friendly */
+        .bg-pattern {
+            background-image: radial-gradient(var(--tw-colors-primary-fixed) 2px, transparent 2px);
+            background-size: 32px 32px;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-surface text-on-surface min-h-screen flex items-center justify-center font-body-md relative overflow-hidden bg-pattern">
+    <!-- Decorative organic shapes -->
+    <div
+        class="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-primary-fixed opacity-30 blur-3xl z-0">
+    </div>
+    <div
+        class="absolute bottom-[-10%] right-[-10%] w-[30vw] h-[30vw] rounded-full bg-secondary-fixed opacity-30 blur-3xl z-0">
+    </div>
+    <!-- Login Container -->
+    <main class="relative z-10 w-full max-w-md mx-auto px-container-padding-mobile md:px-0">
+        <div class="bg-surface-container-lowest rounded-xl shadow-ambient p-6 md:p-8 flex flex-col items-center">
+            <!-- Brand Logo -->
+            <div class="mb-8 w-full flex justify-center">
+                <img alt="DeskGo Logo" class="h-12 object-contain"
+                    src="https://lh3.googleusercontent.com/aida/AP1WRLtkKS3PvoqBgTVdl81s3EgN9hQWxSwgabqJsk9qP46iGQR3jewH5TvJeFenKg6rhNHkI2SOb41Uw8_woJ_iJattNZU3cZ5UCJLHsn797_aLVTmSBvCOiQZyMwoOe6UUvbVmwhweU0YBKIkaUr1E3zAjtKcKOETtEAj1YEgV7pg6emzCEkQuUCkRU99w93-C1IrtfySDFcuPH8yiDipHp80rsWwtJZcCfWwCGlBJSHDOKe7BfkIeGcKqoKsi3K26E8YViK13ducXDGM" />
+            </div>
+            <!-- Welcome Text -->
+            <div class="text-center mb-8 w-full">
+                <h1 class="font-headline-md text-headline-md text-primary mb-2">Bem-vindo de volta!</h1>
+                <p class="font-body-md text-body-md text-on-surface-variant">Acesse sua conta para gerenciar suas
+                    reservas.</p>
+            </div>
+
+            <!-- Mensagem de erro -->
+            <div th:if="${erro}"
+                class="w-full bg-error-container text-on-error-container text-body-md rounded-lg px-4 py-3 mb-4"
+                th:text="${erro}"></div>
+
+            <!-- Login Form -->
+            <form class="w-full space-y-6" th:action="@{/login}" method="post">
+                <!-- Email Field -->
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface mb-2" for="email">E-mail</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-outline">mail</span>
+                        </span>
+                        <input
+                            class="w-full pl-10 pr-4 py-3 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container focus:border-primary-container transition-colors duration-200 font-body-md text-body-md text-on-surface placeholder-on-surface-variant"
+                            id="email" name="email" placeholder="seu@email.com" required="" type="email" />
+                    </div>
+                </div>
+                <!-- Password Field -->
+                <div>
+                    <label class="block font-label-md text-label-md text-on-surface mb-2" for="senha">Senha</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <span class="material-symbols-outlined text-outline">lock</span>
+                        </span>
+                        <input
+                            class="w-full pl-10 pr-4 py-3 bg-surface-bright border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary-container focus:border-primary-container transition-colors duration-200 font-body-md text-body-md text-on-surface placeholder-on-surface-variant"
+                            id="senha" name="senha" placeholder="sua senha" required="" type="password" />
+                    </div>
+                </div>
+                <!-- Submit Button -->
+                <button
+                    class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-3 px-6 rounded-lg shadow-sm hover:opacity-90 active:scale-[0.98] transition-all duration-200 flex justify-center items-center gap-2"
+                    type="submit">
+                    <span>Entrar</span>
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">login</span>
+                </button>
+            </form>
+            <!-- Sign Up Link -->
+            <div class="mt-8 text-center w-full">
+                <p class="font-body-md text-body-md text-on-surface-variant">
+                    Ainda não tem uma conta?
+                    <a class="font-label-md text-label-md text-primary hover:underline ml-1" th:href="@{/usuario/novo}">Crie uma agora</a>
+                </p>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

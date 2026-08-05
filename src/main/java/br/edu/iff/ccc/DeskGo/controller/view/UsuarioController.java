@@ -1,16 +1,16 @@
 package br.edu.iff.ccc.DeskGo.controller.view;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.edu.iff.ccc.DeskGo.dto.UsuarioRequest;
+import br.edu.iff.ccc.DeskGo.entities.Perfil;
+import br.edu.iff.ccc.DeskGo.entities.Usuario;
 import br.edu.iff.ccc.DeskGo.services.UsuarioUseCase;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/usuario")
@@ -21,48 +21,61 @@ public class UsuarioController {
         this.usuarioUseCase = usuarioUseCase;
     }
 
+    // Cadastro público (sem login) — cria sempre um Usuario comum
     @GetMapping("/novo")
     public String novoUsuario(Model model) {
-        UsuarioRequest novoUsuario = new UsuarioRequest();
-
-        model.addAttribute("usuario", novoUsuario);
-
+        model.addAttribute("usuario", new UsuarioRequest());
         return "cadastrarUsuario";
     }
 
     @PostMapping
     public String criarUsuario(UsuarioRequest usuarioRequest) {
+        usuarioRequest.setPerfil(Perfil.USUARIO);
         this.usuarioUseCase.cadastrarUsuario(usuarioRequest);
-
-        return "redirect:/usuario";
+        return "redirect:/login";
     }
 
-    @GetMapping
-    public String listarUsuarios(Model model) {
-        model.addAttribute("usuarios", this.usuarioUseCase.listarUsuarios());
+    // A partir daqui: self-service. O "id" nunca vem da URL,
+    // sempre do usuário que está na sessão (evita editar/excluir conta alheia).
 
-        return "listarUsuarios";
+    @GetMapping("/perfil")
+    public String verPerfil(Model model, HttpSession session) {
+        Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
+        if (logado == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("usuario", logado);
+        return "perfilUsuario";
     }
 
-    @GetMapping("/{id}/editar")
-    public String editarUsuario(@PathVariable("id") UUID id, Model model) {
-        model.addAttribute("usuario", this.usuarioUseCase.buscarUsuario(id));
-        model.addAttribute("usuarioId", id);
+    @PostMapping("/perfil")
+    public String atualizarPerfil(UsuarioRequest usuarioRequest, HttpSession session) {
+        Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
+        if (logado == null) {
+            return "redirect:/login";
+        }
 
-        return "editarUsuario";
+        // Não deixa o próprio usuário se promover a Gestor pelo formulário
+        usuarioRequest.setPerfil(logado.getPerfil());
+        this.usuarioUseCase.atualizarUsuario(logado.getId(), usuarioRequest);
+
+        // Atualiza a sessão com os dados novos
+        Usuario atualizado = this.usuarioUseCase.buscarUsuario(logado.getId());
+        session.setAttribute("usuarioLogado", atualizado);
+
+        return "redirect:/usuario/perfil";
     }
 
-    @PostMapping("/{id}")
-    public String atualizarUsuario(@PathVariable("id") UUID id, UsuarioRequest usuarioRequest) {
-        this.usuarioUseCase.atualizarUsuario(id, usuarioRequest);
+    @PostMapping("/excluir")
+    public String excluirPropriaConta(HttpSession session) {
+        Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
+        if (logado == null) {
+            return "redirect:/login";
+        }
 
-        return "redirect:/usuario";
-    }
+        this.usuarioUseCase.deletarUsuario(logado.getId());
+        session.invalidate();
 
-    @PostMapping("/{id}/deletar")
-    public String deletarUsuario(@PathVariable("id") UUID id) {
-        this.usuarioUseCase.deletarUsuario(id);
-
-        return "redirect:/usuario";
+        return "redirect:/login";
     }
 }

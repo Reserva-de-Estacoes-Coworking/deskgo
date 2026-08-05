@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.edu.iff.ccc.DeskGo.entities.Perfil;
 import br.edu.iff.ccc.DeskGo.entities.Usuario;
 import br.edu.iff.ccc.DeskGo.services.UsuarioUseCase;
 import jakarta.servlet.http.HttpSession;
@@ -38,6 +39,10 @@ public class LoginController {
         }
 
         session.setAttribute("usuarioLogado", usuario);
+
+        if (usuario.getPerfil() == Perfil.GESTOR) {
+            return "redirect:/painel/gestor";
+        }
 
         return "redirect:/painel";
     }
