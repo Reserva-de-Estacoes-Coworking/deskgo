@@ -19,6 +19,11 @@ public class LoginController {
         this.usuarioUseCase = usuarioUseCase;
     }
 
+    @GetMapping("/")
+    public String raiz() {
+        return "redirect:/login";
+    }
+
     @GetMapping("/login")
     public String telaLogin() {
         return "login";

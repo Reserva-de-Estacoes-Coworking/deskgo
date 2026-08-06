@@ -29,9 +29,17 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public String criarUsuario(UsuarioRequest usuarioRequest) {
+    public String criarUsuario(UsuarioRequest usuarioRequest, Model model) {
         usuarioRequest.setPerfil(Perfil.USUARIO);
-        this.usuarioUseCase.cadastrarUsuario(usuarioRequest);
+
+        try {
+            this.usuarioUseCase.cadastrarUsuario(usuarioRequest);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("erro", e.getMessage());
+            model.addAttribute("usuario", usuarioRequest);
+            return "cadastrarUsuario";
+        }
+
         return "redirect:/login";
     }
 

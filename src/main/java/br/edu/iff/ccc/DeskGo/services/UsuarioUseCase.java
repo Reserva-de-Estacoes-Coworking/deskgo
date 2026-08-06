@@ -53,14 +53,16 @@ public class UsuarioUseCase {
 
     public void atualizarUsuario(UUID id, UsuarioRequest request) {
         Usuario usuario = this.usuarioRepositorio.buscarPorId(id);
- 
+
         if (usuario == null) {
             throw new IllegalArgumentException("Usuário não encontrado.");
         }
- 
+
         usuario.setNome(request.getNome());
         usuario.setEmail(request.getEmail());
-        usuario.setSenha(request.getSenha());
+        if (request.getSenha() != null && !request.getSenha().isBlank()) {
+            usuario.setSenha(request.getSenha());
+        }
         if (request.getPerfil() != null) {
             usuario.setPerfil(request.getPerfil());
         }
