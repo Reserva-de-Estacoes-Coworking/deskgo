@@ -6,11 +6,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.edu.iff.ccc.DeskGo.entities.Usuario;
+import br.edu.iff.ccc.DeskGo.services.EstacaoUseCase;
+import br.edu.iff.ccc.DeskGo.services.ReservaUseCase;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/painel")
 public class UsuarioViewController {
+
+    private final EstacaoUseCase estacaoUseCase;
+    private final ReservaUseCase reservaUseCase;
+
+    public UsuarioViewController(EstacaoUseCase estacaoUseCase, ReservaUseCase reservaUseCase) {
+        this.estacaoUseCase = estacaoUseCase;
+        this.reservaUseCase = reservaUseCase;
+    }
 
     @GetMapping
     public String getPainel(Model model, HttpSession session) {
@@ -29,6 +39,7 @@ public class UsuarioViewController {
             return "redirect:/login";
         }
         model.addAttribute("usuarioLogado", logado);
+        model.addAttribute("estacoes", this.estacaoUseCase.listarEstacoes());
         return "reservarEstacao";
     }
 
@@ -39,6 +50,7 @@ public class UsuarioViewController {
             return "redirect:/login";
         }
         model.addAttribute("usuarioLogado", logado);
+        model.addAttribute("reservas", this.reservaUseCase.listarPorUsuario(logado.getId()));
         return "minhasReservas";
     }
 }

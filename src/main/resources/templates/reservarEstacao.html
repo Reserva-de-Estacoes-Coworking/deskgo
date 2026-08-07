@@ -342,20 +342,24 @@
                 <div class="flex justify-between items-end mb-6">
                     <div>
                         <h2 class="font-headline-lg text-headline-lg text-on-surface">Estações Disponíveis</h2>
-                        <p class="font-body-md text-body-md text-on-surface-variant mt-2">8 de Outubro, 09:00 - 18:00
-                        </p>
+                        <p class="font-body-md text-body-md text-on-surface-variant mt-2">Escolha a data ao reservar</p>
                     </div>
                     <span
-                        class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-3 py-1.5 rounded-lg">12
-                        resultados</span>
+                        class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-3 py-1.5 rounded-lg"
+                        th:text="${estacoes.size()} + ' resultados'">12 resultados</span>
                 </div>
+
+                <!-- Mensagem de erro (ex: conflito de reserva) -->
+                <div th:if="${erro}"
+                    class="w-full bg-error-container text-on-error-container text-body-md rounded-lg px-4 py-3 mb-6"
+                    th:text="${erro}"></div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Desk Card 1 (Available) -->
-                    <div
+                    <!-- Card de estação (repete para cada estação real) -->
+                    <div th:each="estacao : ${estacoes}"
                         class="bg-surface rounded-3xl border border-outline-variant shadow-sm overflow-hidden group hover:border-[#6BA368]/50 transition-colors flex flex-col">
                         <div class="h-40 bg-surface-container-high relative">
                             <div class="absolute inset-0 bg-cover bg-center opacity-90"
-                                data-alt="A brightly lit modern corporate office space featuring a clean wooden desk near a large window. Soft, natural daylight floods the minimalist area, highlighting the warm tones of the desk and the professional, welcoming vibe of the environment. The aesthetic is clean, corporate modern, and airy."
                                 style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA9wKOJTvBmi_-ha5fxyLZ-_iIYrA4NAi1psl67DLXwz5X_DMYVWlnLzCjDfgDJv-MkZ65euKTqNfZQcEiznDQ7ATZ1dwRZbQt24YbvoHJ6Oo-o3ChVuuX8tc-olyhO2iRA300YgwUsYgvzXvi9hL0WLefDrUopUBvnxm5XMCkJoXNa__LPI0M4oVKTS_UCAfCL-iq6FmoE3Z7WQQXXZVDLdWoWoYWh8mhUIIazNY5Hpo-7pn6ztIudI0E6Y2cR_RSnlkPd5qoFe7xL');">
                             </div>
                             <div
@@ -366,50 +370,20 @@
                         </div>
                         <div class="p-6 flex-1 flex flex-col">
                             <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-headline-md text-headline-md text-on-surface">Estação 05</h3>
-                                <div class="flex gap-1.5 text-on-surface-variant">
-                                    <span class="material-symbols-outlined text-[20px]" title="Janela">wb_sunny</span>
-                                    <span class="material-symbols-outlined text-[20px]" title="Tomada">power</span>
-                                </div>
+                                <h3 class="font-headline-md text-headline-md text-on-surface" th:text="${estacao.nome}">
+                                    Estação 05</h3>
                             </div>
-                            <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1">Perto da janela,
-                                com tomada e cadeira ergonômica.</p>
-                            <form th:action="@{/painel/reservar-estacao}" method="post">
-                                <input type="hidden" name="estacaoId" value="1" />
-                                <button type="submit"
-                                    class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
-                                    Reservar
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- Desk Card 2 (Available) -->
-                    <div
-                        class="bg-surface rounded-3xl border border-outline-variant shadow-sm overflow-hidden group hover:border-[#6BA368]/50 transition-colors flex flex-col">
-                        <div class="h-40 bg-surface-container-high relative">
-                            <div class="absolute inset-0 bg-cover bg-center opacity-90"
-                                data-alt="A clean, minimalist hot-desking setup in a modern workspace hub. The desk features simple, warm wood textures against a bright white background, illuminated by soft ambient lighting. The layout emphasizes an uncluttered, high-performance productivity aesthetic with a welcoming, stress-free atmosphere."
-                                style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAqHruP61QnWooKjjV7fciIeksnzAWR-mHLHCwn4eiebKtfNB1Kw_kfJj29wUEtLRyns3U3Y93s0x9nngYRB2mOuJ7cgec-_rjkxHoO-NN-eusUmlIryf3QjlnCQaLX7zsLuAe83jX4fPCuqWoZcUq23Hc5AfGLL_TzLH3FRbWJX4gQ5fVl4_B-PeTyrseOOg3WfgOF8cEIe8wWb90H20fFpoQWXuwmqZMbpLNwO9J-sCnzG8Df8gvgr31DYH_fCOc7qTYAZfSApO0r');">
-                            </div>
-                            <div
-                                class="absolute top-4 right-4 bg-[#6BA368] text-white font-label-md text-label-md px-3 py-1.5 rounded-xl shadow-sm flex items-center gap-1.5">
-                                <span class="material-symbols-outlined text-[16px]">check_circle</span>
-                                Disponível
-                            </div>
-                        </div>
-                        <div class="p-6 flex-1 flex flex-col">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-headline-md text-headline-md text-on-surface">Estação 12</h3>
-                                <div class="flex gap-1.5 text-on-surface-variant">
-                                    <span class="material-symbols-outlined text-[20px]"
-                                        title="Silencioso">volume_off</span>
-                                    <span class="material-symbols-outlined text-[20px]" title="Tomada">power</span>
-                                </div>
-                            </div>
-                            <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1">Área silenciosa,
-                                ideal para foco profundo.</p>
-                            <form th:action="@{/painel/reservar-estacao}" method="post">
-                                <input type="hidden" name="estacaoId" value="2" />
+                            <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1"
+                                th:text="${estacao.descricao}">
+                                Descrição da estação.
+                            </p>
+                            <form th:action="@{/painel/reservar-estacao}" method="post" class="flex flex-col gap-3">
+                                <input type="hidden" name="estacaoId" th:value="${estacao.id}" />
+                                <label class="font-label-sm text-label-sm text-on-surface-variant"
+                                    th:for="'data-' + ${estacao.id}">Data da reserva</label>
+                                <input type="date" name="data" th:id="'data-' + ${estacao.id}"
+                                    class="px-3 py-2 rounded-lg border border-outline-variant text-body-md font-body-md"
+                                    required />
                                 <button type="submit"
                                     class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
                                     Reservar

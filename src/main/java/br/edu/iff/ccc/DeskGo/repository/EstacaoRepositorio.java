@@ -13,7 +13,7 @@ public class EstacaoRepositorio {
     private List<Estacao> estacoes;
 
     public EstacaoRepositorio() {
-        this.estacoes = new ArrayList<>(); 
+        this.estacoes = new ArrayList<>();
     }
 
     public void salvar(Estacao estacao) {
@@ -26,6 +26,11 @@ public class EstacaoRepositorio {
     }
 
     public Estacao buscarPorId(UUID id) {
-       return null; 
+        for (Estacao estacao : this.estacoes) {
+            if (estacao.getId().equals(id)) {
+                return estacao;
+            }
+        }
+        return null;
     }
 }
