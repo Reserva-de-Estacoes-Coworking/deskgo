@@ -4,8 +4,9 @@ Este diagrama representa a estrutura de dados principal do sistema DeskGo.
 
 ```mermaid
 classDiagram
+    note for Usuario "consultarHistorico() é implementado via\nReservaUseCase (separação entre entidade e regra de negócio)."
     class Usuario {
-        +Long id
+        +UUID id
         +String nome
         +String email
         +String senha
@@ -20,7 +21,7 @@ classDiagram
     }
 
     class Estacao {
-        +Long id
+        +UUID id
         +String nome
         +String descricao
         +StatusEstacao status
@@ -43,7 +44,7 @@ classDiagram
     }
 
     class Reserva {
-        +Long id
+        +UUID id
         +LocalDate data
         +Usuario usuario
         +Estacao estacao
@@ -56,3 +57,5 @@ classDiagram
     Estacao --> Caracteristica
     Estacao --> StatusEstacao
 ```
+
+> **Nota Arquitetural:** No diagrama, a classe `Usuario` apresenta o método `consultarHistorico()`. Na implementação real do sistema, essa funcionalidade existe, mas está encapsulada na classe `ReservaUseCase` (através do método `listarPorUsuario()`). Essa decisão reflete uma separação de responsabilidades (Clean Architecture), mantendo a entidade `Usuario` mais limpa e focada em estado, delegando regras de negócio complexas e listagens ao caso de uso.

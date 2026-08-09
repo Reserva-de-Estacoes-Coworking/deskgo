@@ -80,6 +80,18 @@ O sistema deve restringir funcionalidades administrativas apenas para usuários 
 
 ---
 
+## RN13 - Identificação do Usuário
+
+O sistema deve possuir um mecanismo de identificação permitindo o login por e-mail e senha.
+
+---
+
+## RN14 - Cadastro e Gerenciamento da Própria Conta
+
+O sistema deve permitir que qualquer visitante crie uma conta pública de perfil "Usuário". O sistema não deve permitir a auto-atribuição do perfil "Gestor" no cadastro público por questões de segurança (ver RN12). Uma vez autenticado, o usuário deve ser capaz de visualizar, editar e excluir a própria conta.
+
+---
+
 # Regra de Negócio Principal
 
 O sistema deve garantir que não existam duas reservas para a mesma estação na mesma data.
@@ -89,6 +101,7 @@ O sistema deve garantir que não existam duas reservas para a mesma estação na
 # 👥 Perfis do Sistema
 
 ## Usuário
+- Cadastrar e gerenciar a própria conta (visualizar, editar, excluir)
 - Visualizar estações
 - Consultar disponibilidade
 - Realizar reservas
