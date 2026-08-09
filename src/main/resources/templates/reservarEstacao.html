@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
@@ -223,17 +223,17 @@
 
         <div class="flex flex-col gap-2">
             <a class="flex items-center gap-3 p-3 bg-secondary-container text-on-secondary-container rounded-2xl font-label-md text-label-md font-bold scale-[0.98] transition-all"
-                href="#">
+                th:href="@{/painel/reservar-estacao}">
                 <span class="material-symbols-outlined text-[20px] filled">desk</span>
                 Reservar Estação
             </a>
             <a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-2xl font-label-md text-label-md transition-colors duration-200"
-                href="#">
+                th:href="@{/painel/minhas-reservas}">
                 <span class="material-symbols-outlined text-[20px]">event_available</span>
                 Minhas Reservas
             </a>
             <a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-2xl font-label-md text-label-md transition-colors duration-200"
-                href="#">
+                th:href="@{/painel/gestor}">
                 <span class="material-symbols-outlined text-[20px]">dashboard</span>
                 Painel do Gestor
             </a>
@@ -321,34 +321,42 @@
                     th:text="${erro}"></div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Card de estação (repete para cada estação real) -->
-                    <div th:each="estacao : ${estacoes}"
-                        class="bg-surface rounded-3xl border border-outline-variant shadow-sm overflow-hidden group hover:border-[#6BA368]/50 transition-colors flex flex-col">
+                    <!-- Card de estação (repete para cada estação) -->
+                    <div th:each="dto : ${estacoes}"
+                        th:classappend="${dto.disponivel} ? 'hover:border-[#6BA368]/50' : 'opacity-60 cursor-not-allowed'"
+                        class="bg-surface rounded-3xl border border-outline-variant shadow-sm overflow-hidden group transition-colors flex flex-col">
                         <div class="h-40 bg-surface-container-high relative">
                             <div class="absolute inset-0 bg-cover bg-center opacity-90"
                                 style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA9wKOJTvBmi_-ha5fxyLZ-_iIYrA4NAi1psl67DLXwz5X_DMYVWlnLzCjDfgDJv-MkZ65euKTqNfZQcEiznDQ7ATZ1dwRZbQt24YbvoHJ6Oo-o3ChVuuX8tc-olyhO2iRA300YgwUsYgvzXvi9hL0WLefDrUopUBvnxm5XMCkJoXNa__LPI0M4oVKTS_UCAfCL-iq6FmoE3Z7WQQXXZVDLdWoWoYWh8mhUIIazNY5Hpo-7pn6ztIudI0E6Y2cR_RSnlkPd5qoFe7xL');">
                             </div>
-                            <div
+                            <!-- Tag Disponível -->
+                            <div th:if="${dto.disponivel}"
                                 class="absolute top-4 right-4 bg-[#6BA368] text-white font-label-md text-label-md px-3 py-1.5 rounded-xl shadow-sm flex items-center gap-1.5">
                                 <span class="material-symbols-outlined text-[16px]">check_circle</span>
                                 Disponível
                             </div>
+                            <!-- Tag Indisponível -->
+                            <div th:unless="${dto.disponivel}"
+                                class="absolute top-4 right-4 bg-error text-white font-label-md text-label-md px-3 py-1.5 rounded-xl shadow-sm flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px]">cancel</span>
+                                Indisponível
+                            </div>
                         </div>
                         <div class="p-6 flex-1 flex flex-col">
                             <div class="flex justify-between items-start mb-3">
-                                <h3 class="font-headline-md text-headline-md text-on-surface" th:text="${estacao.nome}">
+                                <h3 class="font-headline-md text-headline-md text-on-surface" th:text="${dto.estacao.nome}">
                                     Estação 05</h3>
                             </div>
                             <p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-1"
-                                th:text="${estacao.descricao}">
+                                th:text="${dto.estacao.descricao}">
                                 Descrição da estação.
                             </p>
                             <form th:action="@{/painel/reservar-estacao}" method="post" class="flex flex-col gap-3">
-                                <input type="hidden" name="estacaoId" th:value="${estacao.id}" />
+                                <input type="hidden" name="estacaoId" th:value="${dto.estacao.id}" />
                                 <input type="hidden" name="data" th:value="${dataSelecionada}" />
-                                <button type="submit" th:disabled="${dataSelecionada == null}"
+                                <button type="submit" th:disabled="${dataSelecionada == null or !dto.disponivel}"
                                     class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
-                                    Reservar
+                                    <span th:text="${dto.disponivel} ? 'Reservar' : 'Indisponível'">Reservar</span>
                                 </button>
                             </form>
                         </div>
@@ -360,3 +368,4 @@
 </body>
 
 </html>
+

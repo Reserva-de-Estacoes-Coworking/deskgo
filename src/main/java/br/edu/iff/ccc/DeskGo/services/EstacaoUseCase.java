@@ -29,16 +29,30 @@ public class EstacaoUseCase {
         return this.estacaoRepositorio.listarTodos();
     }
 
-    public void atualizarEstacao() {
-        // Lógica para atualizar uma estação (Stub)
+    public void atualizarEstacao(UUID id, EstacaoRequest request) {
+        Estacao estacao = this.estacaoRepositorio.buscarPorId(id);
+        if (estacao == null) {
+            throw new IllegalArgumentException("Estação não encontrada.");
+        }
+        
+        estacao.setNome(request.getNome());
+        estacao.setDescricao(request.getDescricao());
+        if (request.getStatus() != null) {
+            estacao.setStatus(request.getStatus());
+        }
+        if (request.getCaracteristicas() != null) {
+            estacao.setCaracteristicas(request.getCaracteristicas());
+        }
+        
+        this.estacaoRepositorio.atualizar(estacao);
     }
 
-    public void deletarEstacao() {
-        // Lógica para deletar uma estação (Stub)
+    public void deletarEstacao(UUID id) {
+        this.estacaoRepositorio.deletar(id);
     }
 
-    public void buscarEstacao() {
-        // Lógica para buscar uma estação (Stub)
+    public Estacao buscarEstacao(UUID id) {
+        return this.estacaoRepositorio.buscarPorId(id);
     }
 
     public void validarEstacao() {

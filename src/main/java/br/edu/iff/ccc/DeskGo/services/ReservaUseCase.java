@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import br.edu.iff.ccc.DeskGo.dto.EstacaoDisponibilidadeDTO;
 import br.edu.iff.ccc.DeskGo.dto.ReservaRequest;
 import br.edu.iff.ccc.DeskGo.entities.Estacao;
 import br.edu.iff.ccc.DeskGo.entities.Reserva;
@@ -48,18 +49,16 @@ public class ReservaUseCase {
         this.reservaRepositorio.salvar(novaReserva);
     }
 
-    public List<Estacao> listarEstacoesDisponiveisNaData(LocalDate data) {
+    public List<EstacaoDisponibilidadeDTO> listarEstacoesDisponiveisNaData(LocalDate data) {
         List<Estacao> todasEstacoes = this.estacaoRepositorio.listarTodos();
-        List<Estacao> disponiveis = new java.util.ArrayList<>();
+        List<EstacaoDisponibilidadeDTO> estacoesComDisponibilidade = new java.util.ArrayList<>();
 
         for (Estacao estacao : todasEstacoes) {
             boolean ocupada = this.reservaRepositorio.existeReservaParaEstacaoNaData(estacao.getId(), data);
-            if (!ocupada) {
-                disponiveis.add(estacao);
-            }
+            estacoesComDisponibilidade.add(new EstacaoDisponibilidadeDTO(estacao, !ocupada));
         }
 
-        return disponiveis;
+        return estacoesComDisponibilidade;
     }
 
     public List<Reserva> listarPorUsuario(UUID usuarioId) {
@@ -79,6 +78,33 @@ public class ReservaUseCase {
         }
 
         this.reservaRepositorio.deletar(reservaId);
+    }
+
+    public void atualizarDataReserva(UUID reservaId, LocalDate novaData, Usuario usuarioLogado) {
+        Reserva reserva = this.reservaRepositorio.buscarPorId(reservaId);
+
+        if (reserva == null) {
+            throw new IllegalArgumentException("Reserva não encontrada.");
+        }
+
+        if (!reserva.getUsuario().getId().equals(usuarioLogado.getId())) {
+            throw new IllegalArgumentException("Você não tem permissão para alterar esta reserva.");
+        }
+
+        if (novaData == null || novaData.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("A nova data não pode ser no passado.");
+        }
+
+        if (novaData.equals(reserva.getData())) {
+            return;
+        }
+
+        boolean conflito = this.reservaRepositorio.existeReservaParaEstacaoNaData(reserva.getEstacao().getId(), novaData);
+        if (conflito) {
+            throw new IllegalArgumentException("Esta estação já está reservada para a nova data selecionada.");
+        }
+
+        reserva.setData(novaData);
     }
 
 }

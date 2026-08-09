@@ -92,6 +92,18 @@ O sistema deve permitir que qualquer visitante crie uma conta pública de perfil
 
 ---
 
+## RN15 - Edição de Reservas
+
+O sistema deve permitir que usuários alterem a data de uma reserva já existente, desde que a nova data não gere conflito de disponibilidade na estação (ver RN07).
+
+---
+
+## RN16 - Listagem Geral de Usuários
+
+O sistema deve permitir que gestores visualizem a listagem de todos os usuários cadastrados no sistema, facilitando a auditoria.
+
+---
+
 # Regra de Negócio Principal
 
 O sistema deve garantir que não existam duas reservas para a mesma estação na mesma data.
@@ -105,6 +117,7 @@ O sistema deve garantir que não existam duas reservas para a mesma estação na
 - Visualizar estações
 - Consultar disponibilidade
 - Realizar reservas
+- Editar reservas (alterar data)
 - Cancelar reservas
 - Consultar histórico
 
@@ -113,3 +126,4 @@ O sistema deve garantir que não existam duas reservas para a mesma estação na
 - Editar estações
 - Remover estações
 - Gerenciar características das mesas
+- Visualizar listagem geral de usuários

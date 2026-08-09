@@ -7,6 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDate;
 
 import br.edu.iff.ccc.DeskGo.dto.ReservaRequest;
 import br.edu.iff.ccc.DeskGo.entities.Usuario;
@@ -59,5 +62,26 @@ public class ReservaController {
 
         return "redirect:/painel/minhas-reservas";
     }
-    
+
+    @PostMapping("/editar-reserva/{id}")
+    public String editarReserva(
+            @PathVariable("id") UUID id,
+            @RequestParam("novaData") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate novaData,
+            Model model,
+            HttpSession session) {
+        
+        Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
+        if (logado == null) {
+            return "redirect:/login";
+        }
+
+        try {
+            this.reservaUseCase.atualizarDataReserva(id, novaData, logado);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("erro", e.getMessage());
+            // Voltando para a listagem para mostrar o erro na view de minhas reservas, caso aplicável
+        }
+
+        return "redirect:/painel/minhas-reservas";
+    }
 }

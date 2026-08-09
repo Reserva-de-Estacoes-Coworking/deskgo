@@ -48,6 +48,7 @@ classDiagram
         +LocalDate data
         +Usuario usuario
         +Estacao estacao
+        +editarData(novaData)
         +cancelar()
     }
 
@@ -58,4 +59,4 @@ classDiagram
     Estacao --> StatusEstacao
 ```
 
-> **Nota Arquitetural:** No diagrama, a classe `Usuario` apresenta o método `consultarHistorico()`. Na implementação real do sistema, essa funcionalidade existe, mas está encapsulada na classe `ReservaUseCase` (através do método `listarPorUsuario()`). Essa decisão reflete uma separação de responsabilidades (Clean Architecture), mantendo a entidade `Usuario` mais limpa e focada em estado, delegando regras de negócio complexas e listagens ao caso de uso.
+> **Nota Arquitetural:** No diagrama, a classe `Usuario` apresenta o método `consultarHistorico()`, e a `Reserva` apresenta `editarData(novaData)`. Na implementação real do sistema (MVC + UseCases), essas funcionalidades existem encapsuladas no `ReservaUseCase`. Essa decisão reflete uma separação de responsabilidades (Clean Architecture), mantendo as entidades mais limpas e delegando regras de negócio complexas aos Casos de Uso (como as verificações de conflito de datas na edição de reservas).

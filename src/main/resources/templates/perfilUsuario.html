@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="pt-BR">
 
@@ -213,21 +213,21 @@
         <ul class="flex-1 flex flex-col gap-2">
             <li>
                 <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg hover:bg-surface-container-high dark:hover:bg-surface-container transition-colors duration-200"
-                    href="#">
+                    th:href="@{/painel/reservar-estacao}">
                     <span class="material-symbols-outlined" data-icon="desk">desk</span>
                     <span class="text-label-md font-label-md">Reservar Mesa</span>
                 </a>
             </li>
             <li>
                 <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg hover:bg-surface-container-high dark:hover:bg-surface-container transition-colors duration-200"
-                    href="#">
+                    th:href="@{/painel/minhas-reservas}">
                     <span class="material-symbols-outlined" data-icon="event_available">event_available</span>
                     <span class="text-label-md font-label-md">Minhas Reservas</span>
                 </a>
             </li>
             <li>
                 <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg hover:bg-surface-container-high dark:hover:bg-surface-container transition-colors duration-200"
-                    href="#">
+                    th:href="@{/painel/gestor}">
                     <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
                     <span class="text-label-md font-label-md">Painel do Gestor</span>
                 </a>
@@ -237,7 +237,7 @@
             </li>
             <li>
                 <a class="flex items-center gap-3 px-4 py-3 bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg font-bold scale-[0.98] transition-all"
-                    href="#">
+                    th:href="@{/usuario/perfil}">
                     <span class="material-symbols-outlined" data-icon="person" data-weight="fill"
                         style="font-variation-settings: 'FILL' 1;">person</span>
                     <span class="text-label-md font-label-md">Meu Perfil</span>
@@ -350,3 +350,4 @@
 </body>
 
 </html>
+

@@ -56,7 +56,11 @@ public class UsuarioViewController {
         if (data != null) {
             model.addAttribute("estacoes", this.reservaUseCase.listarEstacoesDisponiveisNaData(data));
         } else {
-            model.addAttribute("estacoes", this.estacaoUseCase.listarEstacoes());
+            java.util.List<br.edu.iff.ccc.DeskGo.dto.EstacaoDisponibilidadeDTO> dtos = new java.util.ArrayList<>();
+            for (br.edu.iff.ccc.DeskGo.entities.Estacao e : this.estacaoUseCase.listarEstacoes()) {
+                dtos.add(new br.edu.iff.ccc.DeskGo.dto.EstacaoDisponibilidadeDTO(e, true));
+            }
+            model.addAttribute("estacoes", dtos);
         }
 
         return "reservarEstacao";

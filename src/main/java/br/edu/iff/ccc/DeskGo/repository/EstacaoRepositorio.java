@@ -33,4 +33,17 @@ public class EstacaoRepositorio {
         }
         return null;
     }
+
+    public void atualizar(Estacao estacaoAtualizada) {
+        for (int i = 0; i < this.estacoes.size(); i++) {
+            if (this.estacoes.get(i).getId().equals(estacaoAtualizada.getId())) {
+                this.estacoes.set(i, estacaoAtualizada);
+                return;
+            }
+        }
+    }
+
+    public void deletar(UUID id) {
+        this.estacoes.removeIf(estacao -> estacao.getId().equals(id));
+    }
 }
