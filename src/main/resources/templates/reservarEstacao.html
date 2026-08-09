@@ -260,59 +260,20 @@
             <!-- Left Column: Date Picker & Filters -->
             <div
                 class="w-full lg:w-1/3 p-container-padding-mobile md:p-container-padding-desktop bg-surface-bright border-b lg:border-b-0 lg:border-r border-outline-variant overflow-y-auto custom-scrollbar flex flex-col gap-6">
-                <!-- Date Picker Bento -->
+                <!-- Seletor de Data (funcional) -->
                 <div class="bg-surface rounded-3xl border border-outline-variant p-6 shadow-sm">
                     <h2 class="font-headline-md text-headline-md text-on-surface mb-4">Quando?</h2>
-                    <div class="flex items-center justify-between mb-4">
-                        <button
-                            class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
-                            <span class="material-symbols-outlined">chevron_left</span>
+                    <form th:action="@{/painel/reservar-estacao}" method="get" class="flex flex-col gap-3">
+                        <label class="font-label-sm text-label-sm text-on-surface-variant" for="data-filtro">Escolha a
+                            data</label>
+                        <input type="date" id="data-filtro" name="data" th:value="${dataSelecionada}"
+                            class="px-3 py-2 rounded-lg border border-outline-variant text-body-md font-body-md"
+                            required />
+                        <button type="submit"
+                            class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
+                            Ver disponibilidade
                         </button>
-                        <span class="font-label-md text-label-md text-on-surface">Outubro 2023</span>
-                        <button
-                            class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
-                            <span class="material-symbols-outlined">chevron_right</span>
-                        </button>
-                    </div>
-                    <div class="grid grid-cols-7 gap-1 text-center mb-2">
-                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">D</div>
-                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">S</div>
-                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">T</div>
-                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">Q</div>
-                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">Q</div>
-                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">S</div>
-                        <div class="font-label-sm text-label-sm text-on-surface-variant py-1">S</div>
-                    </div>
-                    <div class="grid grid-cols-7 gap-1 text-center">
-                        <!-- Empty slots -->
-                        <div></div>
-                        <div></div>
-                        <!-- Days -->
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">1</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">2</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">3</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">4</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">5</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">6</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">7</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-white bg-[#1E3A5F] shadow-md transition-colors mx-auto flex items-center justify-center">8</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">9</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">10</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">11</button>
-                        <button
-                            class="w-8 h-8 rounded-full font-body-md text-body-md text-on-surface hover:bg-surface-container transition-colors mx-auto flex items-center justify-center">12</button>
-                    </div>
+                    </form>
                 </div>
                 <!-- Filters Bento -->
                 <div class="bg-surface rounded-3xl border border-outline-variant p-6 shadow-sm">
@@ -342,7 +303,12 @@
                 <div class="flex justify-between items-end mb-6">
                     <div>
                         <h2 class="font-headline-lg text-headline-lg text-on-surface">Estações Disponíveis</h2>
-                        <p class="font-body-md text-body-md text-on-surface-variant mt-2">Escolha a data ao reservar</p>
+                        <p class="font-body-md text-body-md text-on-surface-variant mt-2">
+                            <span th:if="${dataSelecionada == null}">Selecione uma data ao lado para ver a
+                                disponibilidade</span>
+                            <span th:if="${dataSelecionada != null}"
+                                th:text="'Disponibilidade para ' + ${#temporals.format(dataSelecionada, 'dd/MM/yyyy')}"></span>
+                        </p>
                     </div>
                     <span
                         class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container px-3 py-1.5 rounded-lg"
@@ -379,13 +345,9 @@
                             </p>
                             <form th:action="@{/painel/reservar-estacao}" method="post" class="flex flex-col gap-3">
                                 <input type="hidden" name="estacaoId" th:value="${estacao.id}" />
-                                <label class="font-label-sm text-label-sm text-on-surface-variant"
-                                    th:for="'data-' + ${estacao.id}">Data da reserva</label>
-                                <input type="date" name="data" th:id="'data-' + ${estacao.id}"
-                                    class="px-3 py-2 rounded-lg border border-outline-variant text-body-md font-body-md"
-                                    required />
-                                <button type="submit"
-                                    class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm">
+                                <input type="hidden" name="data" th:value="${dataSelecionada}" />
+                                <button type="submit" th:disabled="${dataSelecionada == null}"
+                                    class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
                                     Reservar
                                 </button>
                             </form>

@@ -1,14 +1,21 @@
 package br.edu.iff.ccc.DeskGo.controller.view;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.edu.iff.ccc.DeskGo.entities.Usuario;
 import br.edu.iff.ccc.DeskGo.services.EstacaoUseCase;
 import br.edu.iff.ccc.DeskGo.services.ReservaUseCase;
 import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/painel")
@@ -33,13 +40,25 @@ public class UsuarioViewController {
     }
 
     @GetMapping("/reservar-estacao")
-    public String getReservarEstacao(Model model, HttpSession session) {
+    public String getReservarEstacao(
+            @RequestParam(value = "data", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate data,
+            Model model,
+            HttpSession session) {
+
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null) {
             return "redirect:/login";
         }
+
         model.addAttribute("usuarioLogado", logado);
-        model.addAttribute("estacoes", this.estacaoUseCase.listarEstacoes());
+        model.addAttribute("dataSelecionada", data);
+
+        if (data != null) {
+            model.addAttribute("estacoes", this.reservaUseCase.listarEstacoesDisponiveisNaData(data));
+        } else {
+            model.addAttribute("estacoes", this.estacaoUseCase.listarEstacoes());
+        }
+
         return "reservarEstacao";
     }
 
