@@ -7,15 +7,19 @@ import org.springframework.stereotype.Service;
 
 import br.edu.iff.ccc.DeskGo.dto.EstacaoRequest;
 import br.edu.iff.ccc.DeskGo.entities.Estacao;
+import br.edu.iff.ccc.DeskGo.entities.Reserva;
 import br.edu.iff.ccc.DeskGo.repository.EstacaoRepositorio;
+import br.edu.iff.ccc.DeskGo.repository.ReservaRepositorio;
 import br.edu.iff.ccc.DeskGo.entities.StatusEstacao;
 
 @Service
 public class EstacaoUseCase {
     private final EstacaoRepositorio estacaoRepositorio;
+    private final ReservaRepositorio reservaRepositorio;
     
-    public EstacaoUseCase(EstacaoRepositorio estacaoRepositorio) {
+    public EstacaoUseCase(EstacaoRepositorio estacaoRepositorio, ReservaRepositorio reservaRepositorio) {
         this.estacaoRepositorio = estacaoRepositorio;
+        this.reservaRepositorio = reservaRepositorio;
     }
 
     public void criarEstacao(EstacaoRequest request) {
@@ -48,6 +52,13 @@ public class EstacaoUseCase {
     }
 
     public void deletarEstacao(UUID id) {
+        // Verifica se há reservas atreladas
+        List<Reserva> reservas = this.reservaRepositorio.listarTodos();
+        for (Reserva r : reservas) {
+            if (r.getEstacao().getId().equals(id)) {
+                throw new IllegalArgumentException("Não é possível remover uma estação que possui reservas.");
+            }
+        }
         this.estacaoRepositorio.deletar(id);
     }
 

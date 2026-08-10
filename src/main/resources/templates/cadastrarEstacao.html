@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
@@ -161,12 +161,10 @@
     <nav
         class="hidden md:flex flex-col h-screen p-md gap-base docked left-0 w-64 bg-surface-container-low border-r border-outline-variant fixed z-40">
         <div class="px-6 py-8 flex flex-col items-center">
-            <div
-                class="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center mb-4 text-on-primary-container">
-                <span class="material-symbols-outlined text-3xl" data-icon="domain">domain</span>
-            </div>
-            <h1 class="text-headline-md font-headline-md font-bold text-primary">DeskGo</h1>
-            <p class="text-label-md font-label-md text-on-surface-variant">Workspace Hub</p>
+            <a th:href="@{/painel}">
+                <img alt="DeskGo Logo" class="h-12 w-auto object-contain mb-4"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+            </a>
         </div>
         <div class="flex-1 px-4 py-2 space-y-2">
             <a class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors duration-200"
@@ -182,10 +180,17 @@
                 <span class="text-label-md font-label-md">Minhas Reservas</span>
             </a>
             <a class="flex items-center gap-4 px-4 py-3 bg-secondary-container text-on-secondary-container rounded-lg font-bold scale-[0.98] transition-all"
+                th:if="${usuarioLogado != null and usuarioLogado.perfil.name() == 'GESTOR'}"
                 th:href="@{/painel/gestor}">
                 <span class="material-symbols-outlined" data-icon="dashboard"
                     style="font-variation-settings: 'FILL' 1;">dashboard</span>
                 <span class="text-label-md font-label-md">Painel do Gestor</span>
+            </a>
+        </div>
+        <div class="mt-auto pt-4 border-t border-outline-variant px-4">
+            <a th:href="@{/logout}" class="flex items-center gap-4 px-4 py-3 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors duration-200">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+                <span class="text-label-md font-label-md">Sair</span>
             </a>
         </div>
     </nav>
@@ -195,7 +200,7 @@
         <!-- Breadcrumb / Header -->
         <div class="mb-8">
             <div class="flex items-center gap-2 text-on-surface-variant text-label-md font-label-md mb-2">
-                <span class="hover:text-primary cursor-pointer transition-colors">Painel do Gestor</span>
+                <a th:href="@{/painel/gestor}" class="hover:text-primary cursor-pointer transition-colors">Painel do Gestor</a>
                 <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
                 <span class="text-primary font-bold">Cadastrar Estação</span>
             </div>
@@ -299,26 +304,7 @@
                     </div>
                 </div>
 
-                <div class="space-y-6">
-                    <h3
-                        class="text-headline-md font-headline-md text-primary-container border-b border-surface-variant pb-2 flex items-center gap-2">
-                        <span class="material-symbols-outlined" data-icon="image">image</span>
-                        Foto da Estação
-                    </h3>
-                    <div class="border-2 border-dashed border-outline-variant rounded-2xl p-8 flex flex-col items-center justify-center text-center hover:border-primary-container hover:bg-surface-container-low transition-all cursor-pointer group"
-                        onclick="document.getElementById('file-upload').click()">
-                        <div
-                            class="w-16 h-16 bg-surface-variant rounded-full flex items-center justify-center mb-4 group-hover:bg-primary-fixed-dim transition-colors">
-                            <span class="material-symbols-outlined text-primary-container text-3xl"
-                                data-icon="upload_file">upload_file</span>
-                        </div>
-                        <p class="text-body-md font-body-md text-on-surface mb-1"><span
-                                class="font-bold text-primary-container">Clique para fazer upload</span> ou arraste a
-                            imagem aqui</p>
-                        <p class="text-label-sm font-label-sm text-on-surface-variant">PNG, JPG ou WEBP (Máx. 5MB)</p>
-                        <input accept="image/*" class="hidden" id="file-upload" type="file" />
-                    </div>
-                </div>
+
 
                 <div
                     class="flex flex-col-reverse md:flex-row justify-end gap-4 pt-6 mt-8 border-t border-surface-variant">

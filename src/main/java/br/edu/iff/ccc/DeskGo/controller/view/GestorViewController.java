@@ -16,9 +16,11 @@ import br.edu.iff.ccc.DeskGo.services.UsuarioUseCase;
 public class GestorViewController {
 
     private final UsuarioUseCase usuarioUseCase;
+    private final br.edu.iff.ccc.DeskGo.services.EstacaoUseCase estacaoUseCase;
 
-    public GestorViewController(UsuarioUseCase usuarioUseCase) {
+    public GestorViewController(UsuarioUseCase usuarioUseCase, br.edu.iff.ccc.DeskGo.services.EstacaoUseCase estacaoUseCase) {
         this.usuarioUseCase = usuarioUseCase;
+        this.estacaoUseCase = estacaoUseCase;
     }
 
     @GetMapping
@@ -34,6 +36,7 @@ public class GestorViewController {
         }
 
         model.addAttribute("usuarioLogado", logado);
+        model.addAttribute("estacoes", this.estacaoUseCase.listarEstacoes());
         return "painelGestor";
     }
 

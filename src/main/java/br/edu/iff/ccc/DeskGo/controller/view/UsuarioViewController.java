@@ -1,6 +1,9 @@
 package br.edu.iff.ccc.DeskGo.controller.view;
 
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -9,13 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import br.edu.iff.ccc.DeskGo.entities.Reserva;
 import br.edu.iff.ccc.DeskGo.entities.Usuario;
 import br.edu.iff.ccc.DeskGo.services.EstacaoUseCase;
 import br.edu.iff.ccc.DeskGo.services.ReservaUseCase;
 import jakarta.servlet.http.HttpSession;
-import java.time.LocalDate;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/painel")
@@ -36,6 +37,18 @@ public class UsuarioViewController {
             return "redirect:/login";
         }
         model.addAttribute("usuarioLogado", logado);
+        
+        List<Reserva> reservas = this.reservaUseCase.listarPorUsuario(logado.getId());
+        
+        LocalDate hoje = LocalDate.now();
+        Reserva proximaReserva = reservas.stream()
+            .filter(r -> !r.getData().isBefore(hoje))
+            .min(Comparator.comparing(Reserva::getData))
+            .orElse(null);
+            
+        model.addAttribute("proximaReserva", proximaReserva);
+        model.addAttribute("totalReservas", reservas.size());
+        
         return "painel";
     }
 

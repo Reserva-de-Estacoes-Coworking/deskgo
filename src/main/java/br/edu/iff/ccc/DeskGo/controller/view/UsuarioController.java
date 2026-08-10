@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.edu.iff.ccc.DeskGo.dto.UsuarioRequest;
 import br.edu.iff.ccc.DeskGo.entities.Perfil;
@@ -57,7 +58,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/perfil")
-    public String atualizarPerfil(UsuarioRequest usuarioRequest, HttpSession session) {
+    public String atualizarPerfil(UsuarioRequest usuarioRequest, HttpSession session, RedirectAttributes redirectAttributes) {
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null) {
             return "redirect:/login";
@@ -65,7 +66,13 @@ public class UsuarioController {
 
         // Não deixa o próprio usuário se promover a Gestor pelo formulário
         usuarioRequest.setPerfil(logado.getPerfil());
-        this.usuarioUseCase.atualizarUsuario(logado.getId(), usuarioRequest);
+
+        try {
+            this.usuarioUseCase.atualizarUsuario(logado.getId(), usuarioRequest);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("erro", e.getMessage());
+            return "redirect:/usuario/perfil";
+        }
 
         // Atualiza a sessão com os dados novos
         Usuario atualizado = this.usuarioUseCase.buscarUsuario(logado.getId());

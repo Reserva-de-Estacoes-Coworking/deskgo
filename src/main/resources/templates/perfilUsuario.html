@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="pt-BR">
 
@@ -198,16 +198,10 @@
         class="hidden lg:flex flex-col h-screen p-md gap-base bg-surface-container-low dark:bg-surface-container-lowest docked left-0 h-full w-64 border-r border-outline-variant dark:border-outline flex-shrink-0 relative z-10">
         <!-- Header -->
         <div class="flex items-center gap-3 px-4 py-2 mb-4">
-            <div
-                class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-bold">
-                <span class="material-symbols-outlined" data-icon="work" data-weight="fill"
-                    style="font-variation-settings: 'FILL' 1;">work</span>
-            </div>
-            <div>
-                <h1 class="text-headline-sm font-headline-sm font-bold text-primary dark:text-primary-fixed-dim">DeskGo
-                </h1>
-                <p class="text-label-sm font-label-sm text-on-surface-variant opacity-80">Workspace Hub</p>
-            </div>
+            <a th:href="@{/painel}">
+                <img alt="DeskGo Logo" class="h-10 w-auto object-contain"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+            </a>
         </div>
         <!-- Navigation Links -->
         <ul class="flex-1 flex flex-col gap-2">
@@ -225,7 +219,7 @@
                     <span class="text-label-md font-label-md">Minhas Reservas</span>
                 </a>
             </li>
-            <li>
+            <li th:if="${usuario.perfil != null and usuario.perfil.name() == 'GESTOR'}">
                 <a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg hover:bg-surface-container-high dark:hover:bg-surface-container transition-colors duration-200"
                     th:href="@{/painel/gestor}">
                     <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
@@ -246,11 +240,11 @@
         </ul>
         <!-- CTA -->
         <div class="mt-auto">
-            <button
+            <a th:href="@{/logout}"
                 class="w-full py-3 px-4 bg-tertiary-container text-on-tertiary rounded-lg font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
-                <span class="material-symbols-outlined" data-icon="add">add</span>
-                Nova Reserva
-            </button>
+                <span class="material-symbols-outlined" data-icon="logout">logout</span>
+                Sair da Conta
+            </a>
         </div>
     </nav>
     <!-- Main Content -->
@@ -261,8 +255,9 @@
             <button class="material-symbols-outlined text-primary">menu</button>
             <div class="font-headline-md font-bold text-primary">DeskGo</div>
             <div
-                class="w-10 h-10 rounded-full overflow-hidden bg-primary-container text-on-primary-container flex items-center justify-center font-bold">
-                JS
+                class="w-10 h-10 rounded-full overflow-hidden bg-primary-container text-on-primary-container flex items-center justify-center font-bold uppercase"
+                th:text="${#strings.substring(usuario.nome, 0, 1)}">
+                J
             </div>
         </div>
         <div

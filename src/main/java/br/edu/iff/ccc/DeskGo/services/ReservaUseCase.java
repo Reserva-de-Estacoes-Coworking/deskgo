@@ -10,6 +10,7 @@ import br.edu.iff.ccc.DeskGo.dto.EstacaoDisponibilidadeDTO;
 import br.edu.iff.ccc.DeskGo.dto.ReservaRequest;
 import br.edu.iff.ccc.DeskGo.entities.Estacao;
 import br.edu.iff.ccc.DeskGo.entities.Reserva;
+import br.edu.iff.ccc.DeskGo.entities.StatusEstacao;
 import br.edu.iff.ccc.DeskGo.entities.Usuario;
 import br.edu.iff.ccc.DeskGo.repository.EstacaoRepositorio;
 import br.edu.iff.ccc.DeskGo.repository.ReservaRepositorio;
@@ -31,6 +32,11 @@ public class ReservaUseCase {
             throw new IllegalArgumentException("Estação não encontrada.");
         }
 
+        // Verifica status da estação
+        if (estacao.getStatus() != StatusEstacao.ATIVO) {
+            throw new IllegalArgumentException("Esta estação não está disponível para reservas (inativa ou em manutenção).");
+        }
+
         // 2) Não pode reservar para uma data que já passou
         if (request.getData() == null || request.getData().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("A data da reserva não pode ser no passado.");
@@ -44,6 +50,14 @@ public class ReservaUseCase {
             throw new IllegalArgumentException("Esta estação já está reservada para a data selecionada.");
         }
 
+        // 4) Um usuário não pode reservar mais de uma estação por dia
+        List<Reserva> reservasDoUsuario = this.reservaRepositorio.listarPorUsuario(usuarioLogado.getId());
+        for (Reserva r : reservasDoUsuario) {
+            if (r.getData().equals(request.getData())) {
+                throw new IllegalArgumentException("Você já possui uma reserva para esta data.");
+            }
+        }
+
         UUID id = UUID.randomUUID();
         Reserva novaReserva = new Reserva(id, request.getData(), usuarioLogado, estacao);
         this.reservaRepositorio.salvar(novaReserva);
@@ -54,6 +68,10 @@ public class ReservaUseCase {
         List<EstacaoDisponibilidadeDTO> estacoesComDisponibilidade = new java.util.ArrayList<>();
 
         for (Estacao estacao : todasEstacoes) {
+            if (estacao.getStatus() != StatusEstacao.ATIVO) {
+                estacoesComDisponibilidade.add(new EstacaoDisponibilidadeDTO(estacao, false));
+                continue;
+            }
             boolean ocupada = this.reservaRepositorio.existeReservaParaEstacaoNaData(estacao.getId(), data);
             estacoesComDisponibilidade.add(new EstacaoDisponibilidadeDTO(estacao, !ocupada));
         }
@@ -102,6 +120,13 @@ public class ReservaUseCase {
         boolean conflito = this.reservaRepositorio.existeReservaParaEstacaoNaData(reserva.getEstacao().getId(), novaData);
         if (conflito) {
             throw new IllegalArgumentException("Esta estação já está reservada para a nova data selecionada.");
+        }
+
+        List<Reserva> reservasDoUsuario = this.reservaRepositorio.listarPorUsuario(usuarioLogado.getId());
+        for (Reserva r : reservasDoUsuario) {
+            if (!r.getId().equals(reservaId) && r.getData().equals(novaData)) {
+                throw new IllegalArgumentException("Você já possui uma reserva para esta data.");
+            }
         }
 
         reserva.setData(novaData);

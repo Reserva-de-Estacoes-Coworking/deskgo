@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
@@ -217,8 +217,10 @@
     <nav
         class="hidden md:flex flex-col h-screen p-container-padding-desktop gap-4 bg-surface-container-low border-r border-outline-variant w-72 shrink-0">
         <div class="mb-8">
-            <img alt="DeskGo" class="h-10 w-auto object-contain mb-2"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+            <a th:href="@{/painel}">
+                <img alt="DeskGo" class="h-10 w-auto object-contain mb-2"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+            </a>
         </div>
 
         <div class="flex flex-col gap-2">
@@ -233,9 +235,16 @@
                 Minhas Reservas
             </a>
             <a class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-2xl font-label-md text-label-md transition-colors duration-200"
+                th:if="${usuarioLogado != null and usuarioLogado.perfil.name() == 'GESTOR'}"
                 th:href="@{/painel/gestor}">
                 <span class="material-symbols-outlined text-[20px]">dashboard</span>
                 Painel do Gestor
+            </a>
+        </div>
+        <div class="mt-auto pt-4 border-t border-outline-variant">
+            <a th:href="@{/logout}" class="flex items-center gap-3 p-3 text-on-surface-variant hover:bg-surface-variant rounded-2xl font-label-md text-label-md transition-colors duration-200">
+                <span class="material-symbols-outlined text-[20px]">logout</span>
+                Sair
             </a>
         </div>
     </nav>
@@ -250,10 +259,12 @@
                 <button class="text-on-surface-variant hover:text-[#1E3A5F] transition-colors">
                     <span class="material-symbols-outlined text-[24px]">notifications</span>
                 </button>
-                <div
-                    class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface flex items-center justify-center overflow-hidden">
-                    <span class="material-symbols-outlined text-on-surface-variant">person</span>
-                </div>
+                <a th:href="@{/usuario/perfil}">
+                    <div
+                        class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface flex items-center justify-center overflow-hidden">
+                        <span class="material-symbols-outlined text-on-surface-variant">person</span>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="flex-1 flex flex-col lg:flex-row overflow-hidden">

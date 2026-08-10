@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
@@ -202,8 +202,10 @@
     <nav
         class="hidden lg:flex flex-col h-screen p-md gap-sm bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant dark:border-outline w-64 fixed left-0 top-0">
         <div class="mb-lg">
-            <img alt="DeskGo Logo" class="h-10 w-auto object-contain mb-sm"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+            <a th:href="@{/painel}">
+                <img alt="DeskGo Logo" class="h-10 w-auto object-contain mb-sm"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+            </a>
         </div>
         <ul class="flex-1 space-y-xs">
             <li>
@@ -220,7 +222,7 @@
                     Minhas Reservas
                 </a>
             </li>
-            <li>
+            <li th:if="${usuarioLogado != null and usuarioLogado.perfil.name() == 'GESTOR'}">
                 <a class="flex items-center gap-sm p-sm bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-2xl font-bold text-label-md font-label-md transition-all scale-[0.98]"
                     th:href="@{/painel/gestor}">
                     <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
@@ -228,6 +230,12 @@
                 </a>
             </li>
         </ul>
+        <div class="mt-auto pt-4 border-t border-outline-variant">
+            <a th:href="@{/logout}" class="flex items-center gap-sm p-sm text-on-surface-variant hover:bg-surface-variant rounded-2xl text-label-md font-label-md transition-colors duration-200">
+                <span class="material-symbols-outlined">logout</span>
+                Sair
+            </a>
+        </div>
     </nav>
     <!-- Main Content -->
     <main

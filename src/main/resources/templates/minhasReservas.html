@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="pt-BR" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
@@ -185,8 +185,10 @@
     <nav
         class="hidden lg:flex flex-col h-screen p-gutter gap-unit bg-surface-container-low border-r border-outline-variant docked left-0 h-full w-64 fixed z-40">
         <div class="flex items-center gap-unit mb-gutter">
-            <img alt="DeskGo Logo" class="h-10 w-auto object-contain"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+            <a th:href="@{/painel}">
+                <img alt="DeskGo Logo" class="h-10 w-auto object-contain"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+            </a>
         </div>
         <div class="flex flex-col gap-1 flex-1">
             <a class="text-on-surface-variant hover:bg-surface-variant rounded-lg p-2 flex items-center gap-3 transition-colors duration-200"
@@ -202,9 +204,16 @@
                 <span class="font-label-md text-label-md">Minhas Reservas</span>
             </a>
             <a class="text-on-surface-variant hover:bg-surface-variant rounded-lg p-2 flex items-center gap-3 transition-colors duration-200"
+                th:if="${usuarioLogado != null and usuarioLogado.perfil.name() == 'GESTOR'}"
                 th:href="@{/painel/gestor}">
                 <span class="material-symbols-outlined">dashboard</span>
                 <span class="font-label-md text-label-md">Painel do Gestor</span>
+            </a>
+        </div>
+        <div class="mt-auto pt-4 border-t border-outline-variant">
+            <a th:href="@{/logout}" class="text-on-surface-variant hover:bg-surface-variant rounded-lg p-2 flex items-center gap-3 transition-colors duration-200">
+                <span class="material-symbols-outlined">logout</span>
+                <span class="font-label-md text-label-md">Sair</span>
             </a>
         </div>
     </nav>
@@ -227,14 +236,7 @@
             <p class="font-body-lg text-body-lg text-on-surface-variant">Gerencie seus espaços de trabalho agendados.
             </p>
         </div>
-        <!-- Filters & Search (Conceptual) -->
-        <div class="flex flex-wrap gap-2 mb-gutter">
-            <button class="bg-primary text-on-primary font-label-sm text-label-sm px-4 py-2 rounded-full">Todas</button>
-            <button
-                class="bg-surface-variant text-on-surface-variant font-label-sm text-label-sm px-4 py-2 rounded-full hover:bg-outline-variant transition-colors">Próximas</button>
-            <button
-                class="bg-surface-variant text-on-surface-variant font-label-sm text-label-sm px-4 py-2 rounded-full hover:bg-outline-variant transition-colors">Concluídas</button>
-        </div>
+
         <!-- Bento/List View -->
         <!-- Bento/List View -->
         <div class="grid grid-cols-1 gap-gutter">
@@ -256,9 +258,8 @@
                         <div class="flex items-center gap-3 mb-1">
                             <h3 class="font-headline-md text-headline-md text-on-surface"
                                 th:text="${reserva.estacao.nome}">Estação A-12</h3>
-                            <span
-                                class="font-label-sm text-label-sm px-2 py-1 rounded-full whitespace-nowrap text-white"
-                                style="background-color: #6BA368;">Confirmada</span>
+                            <span th:if="${reserva.data.isBefore(T(java.time.LocalDate).now())}" class="font-label-sm text-label-sm px-2 py-1 rounded-full whitespace-nowrap text-white" style="background-color: #74777f;">Concluída</span>
+                            <span th:if="${!reserva.data.isBefore(T(java.time.LocalDate).now())}" class="font-label-sm text-label-sm px-2 py-1 rounded-full whitespace-nowrap text-white" style="background-color: #6BA368;">Confirmada</span>
                         </div>
                         <p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-2">
                             <span class="material-symbols-outlined text-[16px]">event</span>

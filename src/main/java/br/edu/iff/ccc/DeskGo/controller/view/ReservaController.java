@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
@@ -48,7 +49,7 @@ public class ReservaController {
     }
 
     @PostMapping("/cancelar-reserva/{id}")
-    public String cancelarReserva(@PathVariable("id") UUID id, Model model, HttpSession session) {
+    public String cancelarReserva(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes, HttpSession session) {
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null) {
             return "redirect:/login";
@@ -57,7 +58,7 @@ public class ReservaController {
         try {
             this.reservaUseCase.cancelarReserva(id, logado);
         } catch (IllegalArgumentException e) {
-            model.addAttribute("erro", e.getMessage());
+            redirectAttributes.addFlashAttribute("erro", e.getMessage());
         }
 
         return "redirect:/painel/minhas-reservas";
@@ -67,7 +68,7 @@ public class ReservaController {
     public String editarReserva(
             @PathVariable("id") UUID id,
             @RequestParam("novaData") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate novaData,
-            Model model,
+            RedirectAttributes redirectAttributes,
             HttpSession session) {
         
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
@@ -78,7 +79,7 @@ public class ReservaController {
         try {
             this.reservaUseCase.atualizarDataReserva(id, novaData, logado);
         } catch (IllegalArgumentException e) {
-            model.addAttribute("erro", e.getMessage());
+            redirectAttributes.addFlashAttribute("erro", e.getMessage());
             // Voltando para a listagem para mostrar o erro na view de minhas reservas, caso aplicável
         }
 
