@@ -4,8 +4,9 @@ Este diagrama representa a estrutura de dados principal do sistema DeskGo.
 
 ```mermaid
 classDiagram
+    note for Usuario "consultarHistorico() é implementado via\nReservaUseCase (separação entre entidade e regra de negócio)."
     class Usuario {
-        +Long id
+        +UUID id
         +String nome
         +String email
         +String senha
@@ -20,7 +21,7 @@ classDiagram
     }
 
     class Estacao {
-        +Long id
+        +UUID id
         +String nome
         +String descricao
         +StatusEstacao status
@@ -43,10 +44,11 @@ classDiagram
     }
 
     class Reserva {
-        +Long id
+        +UUID id
         +LocalDate data
         +Usuario usuario
         +Estacao estacao
+        +editarData(novaData)
         +cancelar()
     }
 
@@ -56,3 +58,5 @@ classDiagram
     Estacao --> Caracteristica
     Estacao --> StatusEstacao
 ```
+
+> **Nota Arquitetural:** No diagrama, a classe `Usuario` apresenta o método `consultarHistorico()`, e a `Reserva` apresenta `editarData(novaData)`. Na implementação real do sistema (MVC + UseCases), essas funcionalidades existem encapsuladas no `ReservaUseCase`. Essa decisão reflete uma separação de responsabilidades (Clean Architecture), mantendo as entidades mais limpas e delegando regras de negócio complexas aos Casos de Uso (como as verificações de conflito de datas na edição de reservas).

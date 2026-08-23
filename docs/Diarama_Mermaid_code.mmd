@@ -1,6 +1,7 @@
 classDiagram
+    note for Usuario "consultarHistorico() é implementado via\nReservaUseCase (separação entre entidade e regra de negócio)."
     class Usuario {
-        +Long id
+        +UUID id
         +String nome
         +String email
         +String senha
@@ -15,7 +16,7 @@ classDiagram
     }
 
     class Estacao {
-        +Long id
+        +UUID id
         +String nome
         +String descricao
         +StatusEstacao status
@@ -38,7 +39,7 @@ classDiagram
     }
 
     class Reserva {
-        +Long id
+        +UUID id
         +LocalDate data
         +Usuario usuario
         +Estacao estacao

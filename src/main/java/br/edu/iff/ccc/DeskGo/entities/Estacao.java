@@ -3,9 +3,6 @@ package br.edu.iff.ccc.DeskGo.entities;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Estação de Trabalho
- */
 public class Estacao {
     private UUID id;
     private String nome;

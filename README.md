@@ -151,12 +151,12 @@ D -->|❌ Não| F[⚠️ Reserva Bloqueada]
 |---|---|
 | ☕ Java | Linguagem principal |
 | 🍃 Spring Boot | Backend |
-| 🗄️ MySQL | Banco de dados |
+| 🗄️ H2 / Memória | Banco de dados (MVP P1)* |
 | 🌐 HTML | Estrutura |
-| 🎨 CSS | Estilização |
+| 🎨 CSS | Estilização (TailwindCSS) |
 | ⚡ JavaScript | Interatividade |
 
-</div>
+> *Nota da Release v1.0.0 (P1): Para a primeira entrega, o banco de dados opera estritamente com mocks em memória (`ArrayList` nos Repositórios) conforme as especificações exigidas do MVP.
 
 ---
 
@@ -206,12 +206,15 @@ cd deskgo
 
 # 📌 Requisitos Funcionais
 
-- [x] Cadastro de mesas
+- [x] Cadastro de mesas (Create)
+- [x] Edição e Exclusão de Estações (Update/Delete)
 - [x] Descrição das estações
-- [x] Calendário de disponibilidade
-- [x] Reserva por data
-- [x] Cancelamento de reservas
-- [x] Validação contra conflito
+- [x] Calendário de disponibilidade com bloqueio
+- [x] Reserva por data (Create)
+- [x] Alteração de data de reserva (Update)
+- [x] Cancelamento de reservas (Delete)
+- [x] Listagem geral de usuários (Read)
+- [x] Validação contra conflito de ocupação
 
 ---
 
