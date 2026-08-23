@@ -1,6 +1,7 @@
 package br.edu.iff.ccc.DeskGo.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -23,26 +24,26 @@ public class UsuarioUseCase {
     }
 
     public void cadastrarUsuario(UsuarioRequest request) {
-        if (this.usuarioRepositorio.buscarPorEmail(request.getEmail()) != null) {
+        if (this.usuarioRepositorio.findByEmail(request.getEmail()) != null) {
             throw new IllegalArgumentException("Já existe um usuário cadastrado com este e-mail.");
         }
 
-        UUID id = UUID.randomUUID();
         Perfil perfilInicial = (request.getPerfil() != null) ? request.getPerfil() : Perfil.USUARIO;
-        Usuario novoUsuario = new Usuario(id, request.getNome(), request.getEmail(), request.getSenha(), perfilInicial);
-        this.usuarioRepositorio.salvar(novoUsuario);
+        Usuario novoUsuario = new Usuario(request.getNome(), request.getEmail(), request.getSenha(), perfilInicial);
+        this.usuarioRepositorio.save(novoUsuario);
     }
 
     public List<Usuario> listarUsuarios() {
-        return this.usuarioRepositorio.listarTodos();
+        return this.usuarioRepositorio.findAll();
     }
 
     public Usuario buscarUsuario(UUID id) {
-        return this.usuarioRepositorio.buscarPorId(id);
+        Optional<Usuario> usuario = this.usuarioRepositorio.findById(id);
+        return usuario.orElse(null);
     }
 
     public Usuario autenticar(String email, String senha) {
-        Usuario usuario = this.usuarioRepositorio.buscarPorEmail(email);
+        Usuario usuario = this.usuarioRepositorio.findByEmail(email);
 
         if (usuario == null) {
             return null;
@@ -56,13 +57,13 @@ public class UsuarioUseCase {
     }
 
     public void atualizarUsuario(UUID id, UsuarioRequest request) {
-        Usuario usuario = this.usuarioRepositorio.buscarPorId(id);
+        Usuario usuario = this.usuarioRepositorio.findById(id).orElse(null);
 
         if (usuario == null) {
             throw new IllegalArgumentException("Usuário não encontrado.");
         }
 
-        Usuario existente = this.usuarioRepositorio.buscarPorEmail(request.getEmail());
+        Usuario existente = this.usuarioRepositorio.findByEmail(request.getEmail());
         if (existente != null && !existente.getId().equals(id)) {
             throw new IllegalArgumentException("Este e-mail já está em uso por outro usuário.");
         }
@@ -75,6 +76,8 @@ public class UsuarioUseCase {
         if (request.getPerfil() != null) {
             usuario.setPerfil(request.getPerfil());
         }
+
+        this.usuarioRepositorio.save(usuario);
     }
 
     public void deletarUsuario(UUID id) {
@@ -82,6 +85,6 @@ public class UsuarioUseCase {
         for (Reserva r : reservas) {
             this.reservaRepositorio.deletar(r.getId());
         }
-        this.usuarioRepositorio.deletar(id);
+        this.usuarioRepositorio.deleteById(id);
     }
 }
