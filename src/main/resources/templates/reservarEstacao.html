@@ -331,6 +331,15 @@
                     class="w-full bg-error-container text-on-error-container text-body-md rounded-lg px-4 py-3 mb-6"
                     th:text="${erro}"></div>
 
+                <!-- Erros de validação (Bean Validation) -->
+                <div th:if="${reservaRequest != null}" th:object="${reservaRequest}">
+                    <div th:if="${#fields.hasAnyErrors()}" class="w-full bg-error-container text-on-error-container text-body-md rounded-lg px-4 py-3 mb-6">
+                        <ul>
+                            <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Card de estação (repete para cada estação) -->
                     <div th:each="dto : ${estacoes}"

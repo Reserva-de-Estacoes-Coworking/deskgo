@@ -12,6 +12,8 @@ import br.edu.iff.ccc.DeskGo.entities.Perfil;
 import br.edu.iff.ccc.DeskGo.entities.Usuario;
 import br.edu.iff.ccc.DeskGo.services.UsuarioUseCase;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 @Controller
 @RequestMapping("/usuario")
@@ -30,16 +32,15 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public String criarUsuario(UsuarioRequest usuarioRequest, Model model) {
+    public String criarUsuario(@Valid UsuarioRequest usuarioRequest, BindingResult result, Model model) {
         usuarioRequest.setPerfil(Perfil.USUARIO);
 
-        try {
-            this.usuarioUseCase.cadastrarUsuario(usuarioRequest);
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("erro", e.getMessage());
+        if (result.hasErrors()) {
             model.addAttribute("usuario", usuarioRequest);
             return "cadastrarUsuario";
         }
+
+        this.usuarioUseCase.cadastrarUsuario(usuarioRequest);
 
         return "redirect:/login";
     }
@@ -58,21 +59,21 @@ public class UsuarioController {
     }
 
     @PostMapping("/perfil")
-    public String atualizarPerfil(UsuarioRequest usuarioRequest, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String atualizarPerfil(@Valid UsuarioRequest usuarioRequest, BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) {
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null) {
             return "redirect:/login";
         }
 
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("erro", "Verifique os campos obrigatórios.");
+            return "redirect:/usuario/perfil";
+        }
+
         // Não deixa o próprio usuário se promover a Gestor pelo formulário
         usuarioRequest.setPerfil(logado.getPerfil());
 
-        try {
-            this.usuarioUseCase.atualizarUsuario(logado.getId(), usuarioRequest);
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("erro", e.getMessage());
-            return "redirect:/usuario/perfil";
-        }
+        this.usuarioUseCase.atualizarUsuario(logado.getId(), usuarioRequest);
 
         // Atualiza a sessão com os dados novos
         Usuario atualizado = this.usuarioUseCase.buscarUsuario(logado.getId());

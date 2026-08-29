@@ -195,7 +195,7 @@
         </div>
         <!-- Form Section -->
         <div th:if="${erro}" class="w-full bg-error-container text-on-error-container text-body-md rounded-lg px-4 py-3 mb-4" th:text="${erro}"></div>
-        <form class="flex flex-col gap-5" th:action="@{/usuario}" method="post">
+        <form class="flex flex-col gap-5" th:action="@{/usuario}" method="post" th:object="${usuario}">
             <!-- Full Name -->
             <div class="flex flex-col gap-1.5">
                 <label class="font-label-md text-label-md text-on-surface" for="nome">Nome Completo</label>
@@ -204,8 +204,9 @@
                         style="font-variation-settings: 'FILL' 0;">person</span>
                     <input
                         class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface text-on-surface font-body-md text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container focus:outline-none transition-all duration-200"
-                        id="nome" name="nome" placeholder="Digite seu nome" type="text" required />
+                        id="nome" th:field="*{nome}" placeholder="Digite seu nome" type="text" />
                 </div>
+                <p class="text-error text-label-sm mt-1" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
             </div>
             <!-- Email -->
             <div class="flex flex-col gap-1.5">
@@ -215,8 +216,9 @@
                         style="font-variation-settings: 'FILL' 0;">mail</span>
                     <input
                         class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface text-on-surface font-body-md text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container focus:outline-none transition-all duration-200"
-                        id="email" name="email" placeholder="seu@email.com" type="email" required />
+                        id="email" th:field="*{email}" placeholder="seu@email.com" type="text" />
                 </div>
+                <p class="text-error text-label-sm mt-1" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
             </div>
             <!-- Password -->
             <div class="flex flex-col gap-1.5">
@@ -226,8 +228,9 @@
                         style="font-variation-settings: 'FILL' 0;">lock</span>
                     <input
                         class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface text-on-surface font-body-md text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container focus:outline-none transition-all duration-200"
-                        id="senha" name="senha" placeholder="Crie uma senha segura" type="password" required />
+                        id="senha" th:field="*{senha}" placeholder="Crie uma senha segura" type="password" />
                 </div>
+                <p class="text-error text-label-sm mt-1" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></p>
             </div>
             <!-- Submit Button -->
             <button

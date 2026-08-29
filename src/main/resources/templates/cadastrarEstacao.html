@@ -226,18 +226,20 @@
                         <div class="relative group">
                             <input th:field="*{nome}"
                                 class="floating-input w-full px-4 py-3 rounded-lg border border-outline-variant bg-transparent text-body-md font-body-md focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all peer"
-                                id="nome" placeholder=" " required type="text" />
+                                id="nome" placeholder=" " type="text" />
                             <label
                                 class="floating-label absolute left-3 top-3 px-1 text-on-surface-variant text-body-md font-body-md transition-all duration-200 pointer-events-none"
                                 for="nome">Nome / Número da Estação (ex: C1)</label>
+                            <p class="text-error text-label-sm mt-1" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
                         </div>
                         <div class="relative group">
                             <input th:field="*{descricao}"
                                 class="floating-input w-full px-4 py-3 rounded-lg border border-outline-variant bg-transparent text-body-md font-body-md focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all peer"
-                                id="descricao" placeholder=" " required type="text" />
+                                id="descricao" placeholder=" " type="text" />
                             <label
                                 class="floating-label absolute left-3 top-3 px-1 text-on-surface-variant text-body-md font-body-md transition-all duration-200 pointer-events-none"
                                 for="descricao">Descrição (Andar, Setor, entre outros)</label>
+                            <p class="text-error text-label-sm mt-1" th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></p>
                         </div>
                     </div>
                 </div>
