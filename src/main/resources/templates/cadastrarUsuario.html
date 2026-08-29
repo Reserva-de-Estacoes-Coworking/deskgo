@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>DeskGo - Crie sua conta</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#78b174",
+                        "surface-tint": "#455f87",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001c3b",
+                        "on-error-container": "#93000a",
+                        "outline-variant": "#c4c6cf",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e3e2e6",
+                        "on-secondary-fixed-variant": "#643e1f",
+                        "tertiary-fixed": "#b6f2af",
+                        "primary-container": "#1e3a5f",
+                        "primary-fixed-dim": "#adc8f5",
+                        "on-background": "#1a1c1e",
+                        "secondary-fixed": "#ffdcc4",
+                        "secondary-container": "#ffc69c",
+                        "surface-container-high": "#e9e7eb",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#d5e3ff",
+                        "surface-container-highest": "#e3e2e6",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#1a1c1e",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#f3bb92",
+                        "on-secondary-container": "#7a502f",
+                        "surface": "#faf9fc",
+                        "on-tertiary-fixed-variant": "#1b5120",
+                        "surface-container-low": "#f4f3f7",
+                        "background": "#faf9fc",
+                        "tertiary-container": "#0a4313",
+                        "tertiary": "#002b07",
+                        "inverse-surface": "#2f3033",
+                        "tertiary-fixed-dim": "#9ad595",
+                        "secondary": "#7f5534",
+                        "surface-bright": "#faf9fc",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#2f1400",
+                        "surface-dim": "#dad9dd",
+                        "on-tertiary-fixed": "#002204",
+                        "surface-container": "#eeedf1",
+                        "on-surface-variant": "#43474e",
+                        "outline": "#74777f",
+                        "inverse-on-surface": "#f1f0f4",
+                        "inverse-primary": "#adc8f5",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#8aa4cf",
+                        "primary": "#022448",
+                        "on-primary-fixed-variant": "#2d486d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "unit": "8px",
+                        "section-gap": "4rem",
+                        "container-padding-desktop": "2.5rem",
+                        "container-padding-mobile": "1.25rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "body-md": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "headline-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "label-sm": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "label-md": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "headline-md": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "display-lg": [
+                            "Plus Jakarta Sans"
+                        ],
+                        "body-lg": [
+                            "Plus Jakarta Sans"
+                        ]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": [
+                            "28px",
+                            {
+                                "lineHeight": "36px",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "body-md": [
+                            "16px",
+                            {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                            }
+                        ],
+                        "headline-lg": [
+                            "32px",
+                            {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "label-sm": [
+                            "12px",
+                            {
+                                "lineHeight": "16px",
+                                "fontWeight": "700"
+                            }
+                        ],
+                        "label-md": [
+                            "14px",
+                            {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "headline-md": [
+                            "24px",
+                            {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                            }
+                        ],
+                        "display-lg": [
+                            "48px",
+                            {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "800"
+                            }
+                        ],
+                        "body-lg": [
+                            "18px",
+                            {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body
+    class="bg-surface-container-low min-h-screen flex items-center justify-center p-container-padding-mobile md:p-container-padding-desktop antialiased relative overflow-hidden text-on-surface">
+    <!-- Subtle background pattern for modern friendly feel -->
+    <div
+        class="absolute inset-0 pointer-events-none opacity-[0.03] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary-container via-transparent to-transparent bg-[length:24px_24px]">
+    </div>
+    <!-- Main Card Container -->
+    <main
+        class="bg-surface rounded-xl shadow-[0px_12px_40px_rgba(30,58,95,0.08)] p-8 md:p-10 w-full max-w-[460px] relative z-10 border border-surface-container-highest/50">
+        <!-- Header Section -->
+        <div class="text-center mb-8">
+            <div class="flex justify-center items-center gap-2 mb-4">
+                <img alt="DeskGo Logo" class="h-12 object-contain"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBpdDSKyqkuMqViAfzVW-1MOlB9pY6sYJ94ny6aSqTrDrhhRF938n7fac5FgaZaxNheKTPZDRR8Q4ykOZR_3Y27q-Cj8k1uIgBDoFoJ4zfXwkV4YxogAyKLm6lP1iVx2p02evhrMDJNLXY38VsrBLVeqBPGbu8MrGadAcgiBrVdt95V13Hxav_SOWksjL8zDTu01He1R5kHbXlzTu3N3jXF4f75OmsXZmioufUcSHczJfTCS7F6n0WjQfH8MYHNewyD4-hI3YbLkVt" />
+            </div>
+            <h1 class="font-headline-md text-headline-md text-on-surface mb-2">Crie sua conta</h1>
+            <p class="font-body-md text-body-md text-on-surface-variant">Junte-se à nossa comunidade de coworking</p>
+        </div>
+        <!-- Form Section -->
+        <div th:if="${erro}" class="w-full bg-error-container text-on-error-container text-body-md rounded-lg px-4 py-3 mb-4" th:text="${erro}"></div>
+        <form class="flex flex-col gap-5" th:action="@{/usuario}" method="post" th:object="${usuario}">
+            <!-- Full Name -->
+            <div class="flex flex-col gap-1.5">
+                <label class="font-label-md text-label-md text-on-surface" for="nome">Nome Completo</label>
+                <div class="relative flex items-center">
+                    <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/60"
+                        style="font-variation-settings: 'FILL' 0;">person</span>
+                    <input
+                        class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface text-on-surface font-body-md text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container focus:outline-none transition-all duration-200"
+                        id="nome" th:field="*{nome}" placeholder="Digite seu nome" type="text" />
+                </div>
+                <p class="text-error text-label-sm mt-1" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></p>
+            </div>
+            <!-- Email -->
+            <div class="flex flex-col gap-1.5">
+                <label class="font-label-md text-label-md text-on-surface" for="email">E-mail</label>
+                <div class="relative flex items-center">
+                    <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/60"
+                        style="font-variation-settings: 'FILL' 0;">mail</span>
+                    <input
+                        class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface text-on-surface font-body-md text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container focus:outline-none transition-all duration-200"
+                        id="email" th:field="*{email}" placeholder="seu@email.com" type="text" />
+                </div>
+                <p class="text-error text-label-sm mt-1" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            </div>
+            <!-- Password -->
+            <div class="flex flex-col gap-1.5">
+                <label class="font-label-md text-label-md text-on-surface" for="senha">Senha</label>
+                <div class="relative flex items-center">
+                    <span class="material-symbols-outlined absolute left-3 text-on-surface-variant/60"
+                        style="font-variation-settings: 'FILL' 0;">lock</span>
+                    <input
+                        class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-surface text-on-surface font-body-md text-body-md focus:border-primary-container focus:ring-1 focus:ring-primary-container focus:outline-none transition-all duration-200"
+                        id="senha" th:field="*{senha}" placeholder="Crie uma senha segura" type="password" />
+                </div>
+                <p class="text-error text-label-sm mt-1" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></p>
+            </div>
+            <!-- Submit Button -->
+            <button
+                class="mt-4 w-full bg-primary-container text-on-primary-container font-label-md text-label-md py-3.5 px-6 rounded-lg hover:bg-opacity-95 hover:shadow-[0px_4px_12px_rgba(30,58,95,0.2)] transition-all duration-200 active:scale-[0.98] flex items-center justify-center gap-2 group"
+                type="submit">
+                Criar conta
+                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform duration-200"
+                    style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+            </button>
+        </form>
+        <!-- Footer Link -->
+        <div class="mt-8 pt-6 border-t border-surface-container-highest text-center">
+            <span class="font-body-md text-body-md text-on-surface-variant">Já tem uma conta?</span>
+            <a class="ml-1 font-label-md text-label-md text-primary-container hover:text-primary transition-colors duration-200 hover:underline underline-offset-4"
+                th:href="@{/login}">Entrar</a>
+        </div>
+    </main>
+</body>
+
+</html>
+

@@ -1,0 +1,97 @@
+package br.edu.iff.ccc.DeskGo.controller.view;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import br.edu.iff.ccc.DeskGo.dto.UsuarioRequest;
+import br.edu.iff.ccc.DeskGo.entities.Perfil;
+import br.edu.iff.ccc.DeskGo.entities.Usuario;
+import br.edu.iff.ccc.DeskGo.services.UsuarioUseCase;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
+
+@Controller
+@RequestMapping("/usuario")
+public class UsuarioController {
+    private final UsuarioUseCase usuarioUseCase;
+
+    public UsuarioController(UsuarioUseCase usuarioUseCase) {
+        this.usuarioUseCase = usuarioUseCase;
+    }
+
+    // Cadastro público (sem login) — cria sempre um Usuario comum
+    @GetMapping("/novo")
+    public String novoUsuario(Model model) {
+        model.addAttribute("usuario", new UsuarioRequest());
+        return "cadastrarUsuario";
+    }
+
+    @PostMapping
+    public String criarUsuario(@Valid UsuarioRequest usuarioRequest, BindingResult result, Model model) {
+        usuarioRequest.setPerfil(Perfil.USUARIO);
+
+        if (result.hasErrors()) {
+            model.addAttribute("usuario", usuarioRequest);
+            return "cadastrarUsuario";
+        }
+
+        this.usuarioUseCase.cadastrarUsuario(usuarioRequest);
+
+        return "redirect:/login";
+    }
+
+    // A partir daqui: self-service. O "id" nunca vem da URL,
+    // sempre do usuário que está na sessão (evita editar/excluir conta alheia).
+
+    @GetMapping("/perfil")
+    public String verPerfil(Model model, HttpSession session) {
+        Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
+        if (logado == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("usuario", logado);
+        return "perfilUsuario";
+    }
+
+    @PostMapping("/perfil")
+    public String atualizarPerfil(@Valid UsuarioRequest usuarioRequest, BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) {
+        Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
+        if (logado == null) {
+            return "redirect:/login";
+        }
+
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("erro", "Verifique os campos obrigatórios.");
+            return "redirect:/usuario/perfil";
+        }
+
+        // Não deixa o próprio usuário se promover a Gestor pelo formulário
+        usuarioRequest.setPerfil(logado.getPerfil());
+
+        this.usuarioUseCase.atualizarUsuario(logado.getId(), usuarioRequest);
+
+        // Atualiza a sessão com os dados novos
+        Usuario atualizado = this.usuarioUseCase.buscarUsuario(logado.getId());
+        session.setAttribute("usuarioLogado", atualizado);
+
+        return "redirect:/usuario/perfil";
+    }
+
+    @PostMapping("/excluir")
+    public String excluirPropriaConta(HttpSession session) {
+        Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
+        if (logado == null) {
+            return "redirect:/login";
+        }
+
+        this.usuarioUseCase.deletarUsuario(logado.getId());
+        session.invalidate();
+
+        return "redirect:/login";
+    }
+}

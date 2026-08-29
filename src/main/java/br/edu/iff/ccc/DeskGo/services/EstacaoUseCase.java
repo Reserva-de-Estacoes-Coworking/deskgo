@@ -7,15 +7,22 @@ import org.springframework.stereotype.Service;
 
 import br.edu.iff.ccc.DeskGo.dto.EstacaoRequest;
 import br.edu.iff.ccc.DeskGo.entities.Estacao;
+import br.edu.iff.ccc.DeskGo.entities.Reserva;
 import br.edu.iff.ccc.DeskGo.repository.EstacaoRepositorio;
+import br.edu.iff.ccc.DeskGo.repository.ReservaRepositorio;
 import br.edu.iff.ccc.DeskGo.entities.StatusEstacao;
+
+import br.edu.iff.ccc.DeskGo.exceptions.RecursoNaoEncontradoException;
+import br.edu.iff.ccc.DeskGo.exceptions.RegraDeNegocioException;
 
 @Service
 public class EstacaoUseCase {
     private final EstacaoRepositorio estacaoRepositorio;
+    private final ReservaRepositorio reservaRepositorio;
     
-    public EstacaoUseCase(EstacaoRepositorio estacaoRepositorio) {
+    public EstacaoUseCase(EstacaoRepositorio estacaoRepositorio, ReservaRepositorio reservaRepositorio) {
         this.estacaoRepositorio = estacaoRepositorio;
+        this.reservaRepositorio = reservaRepositorio;
     }
 
     public void criarEstacao(EstacaoRequest request) {
@@ -29,16 +36,41 @@ public class EstacaoUseCase {
         return this.estacaoRepositorio.listarTodos();
     }
 
-    public void atualizarEstacao() {
-        // Lógica para atualizar uma estação (Stub)
+    public void atualizarEstacao(UUID id, EstacaoRequest request) {
+        Estacao estacao = this.estacaoRepositorio.buscarPorId(id);
+        if (estacao == null) {
+            throw new RecursoNaoEncontradoException("Estação não encontrada.");
+        }
+        
+        estacao.setNome(request.getNome());
+        estacao.setDescricao(request.getDescricao());
+        if (request.getStatus() != null) {
+            estacao.setStatus(request.getStatus());
+        }
+        if (request.getCaracteristicas() != null) {
+            estacao.setCaracteristicas(request.getCaracteristicas());
+        }
+        
+        this.estacaoRepositorio.atualizar(estacao);
     }
 
-    public void deletarEstacao() {
-        // Lógica para deletar uma estação (Stub)
+    public void deletarEstacao(UUID id) {
+        // Verifica se há reservas atreladas
+        List<Reserva> reservas = this.reservaRepositorio.listarTodos();
+        for (Reserva r : reservas) {
+            if (r.getEstacao().getId().equals(id)) {
+                throw new RegraDeNegocioException("Não é possível remover uma estação que possui reservas.");
+            }
+        }
+        this.estacaoRepositorio.deletar(id);
     }
 
-    public void buscarEstacao() {
-        // Lógica para buscar uma estação (Stub)
+    public Estacao buscarEstacao(UUID id) {
+        Estacao estacao = this.estacaoRepositorio.buscarPorId(id);
+        if (estacao == null) {
+            throw new RecursoNaoEncontradoException("Estação não encontrada.");
+        }
+        return estacao;
     }
 
     public void validarEstacao() {
