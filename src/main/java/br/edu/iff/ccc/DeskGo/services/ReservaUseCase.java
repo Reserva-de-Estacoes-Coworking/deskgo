@@ -27,7 +27,7 @@ public class ReservaUseCase {
 
     public void criarReserva(ReservaRequest request, Usuario usuarioLogado) {
         // 1) A estacao precisa existir de verdade
-        Estacao estacao = this.estacaoRepositorio.buscarPorId(request.getEstacaoId());
+        Estacao estacao = this.estacaoRepositorio.findById(request.getEstacaoId()).orElse(null);
         if (estacao == null) {
             throw new IllegalArgumentException("Estação não encontrada.");
         }
@@ -44,27 +44,29 @@ public class ReservaUseCase {
 
         // 3) RN07 - Regra de negócio principal: não pode haver duas reservas
         // para a mesma estação na mesma data
-        boolean conflito = this.reservaRepositorio.existeReservaParaEstacaoNaData(
+        boolean conflito = this.reservaRepositorio.existsByEstacaoIdAndData(
                 request.getEstacaoId(), request.getData());
         if (conflito) {
             throw new IllegalArgumentException("Esta estação já está reservada para a data selecionada.");
         }
 
         // 4) Um usuário não pode reservar mais de uma estação por dia
-        List<Reserva> reservasDoUsuario = this.reservaRepositorio.listarPorUsuario(usuarioLogado.getId());
+        List<Reserva> reservasDoUsuario = this.reservaRepositorio.findByUsuarioId(usuarioLogado.getId());
         for (Reserva r : reservasDoUsuario) {
             if (r.getData().equals(request.getData())) {
                 throw new IllegalArgumentException("Você já possui uma reserva para esta data.");
             }
         }
 
-        UUID id = UUID.randomUUID();
-        Reserva novaReserva = new Reserva(id, request.getData(), usuarioLogado, estacao);
-        this.reservaRepositorio.salvar(novaReserva);
+        Reserva novaReserva = new Reserva();
+        novaReserva.setData(request.getData());
+        novaReserva.setUsuario(usuarioLogado);
+        novaReserva.setEstacao(estacao);
+        this.reservaRepositorio.save(novaReserva);
     }
 
     public List<EstacaoDisponibilidadeDTO> listarEstacoesDisponiveisNaData(LocalDate data) {
-        List<Estacao> todasEstacoes = this.estacaoRepositorio.listarTodos();
+        List<Estacao> todasEstacoes = this.estacaoRepositorio.findAll();
         List<EstacaoDisponibilidadeDTO> estacoesComDisponibilidade = new java.util.ArrayList<>();
 
         for (Estacao estacao : todasEstacoes) {
@@ -72,7 +74,7 @@ public class ReservaUseCase {
                 estacoesComDisponibilidade.add(new EstacaoDisponibilidadeDTO(estacao, false));
                 continue;
             }
-            boolean ocupada = this.reservaRepositorio.existeReservaParaEstacaoNaData(estacao.getId(), data);
+            boolean ocupada = this.reservaRepositorio.existsByEstacaoIdAndData(estacao.getId(), data);
             estacoesComDisponibilidade.add(new EstacaoDisponibilidadeDTO(estacao, !ocupada));
         }
 
@@ -80,11 +82,11 @@ public class ReservaUseCase {
     }
 
     public List<Reserva> listarPorUsuario(UUID usuarioId) {
-        return this.reservaRepositorio.listarPorUsuario(usuarioId);
+        return this.reservaRepositorio.findByUsuarioId(usuarioId);
     }
 
     public void cancelarReserva(UUID reservaId, Usuario usuarioLogado) {
-        Reserva reserva = this.reservaRepositorio.buscarPorId(reservaId);
+        Reserva reserva = this.reservaRepositorio.findById(reservaId).orElse(null);
 
         if (reserva == null) {
             throw new IllegalArgumentException("Reserva não encontrada.");
@@ -95,11 +97,11 @@ public class ReservaUseCase {
             throw new IllegalArgumentException("Você não tem permissão para cancelar esta reserva.");
         }
 
-        this.reservaRepositorio.deletar(reservaId);
+        this.reservaRepositorio.deleteById(reservaId);
     }
 
     public void atualizarDataReserva(UUID reservaId, LocalDate novaData, Usuario usuarioLogado) {
-        Reserva reserva = this.reservaRepositorio.buscarPorId(reservaId);
+        Reserva reserva = this.reservaRepositorio.findById(reservaId).orElse(null);
 
         if (reserva == null) {
             throw new IllegalArgumentException("Reserva não encontrada.");
@@ -117,12 +119,12 @@ public class ReservaUseCase {
             return;
         }
 
-        boolean conflito = this.reservaRepositorio.existeReservaParaEstacaoNaData(reserva.getEstacao().getId(), novaData);
+        boolean conflito = this.reservaRepositorio.existsByEstacaoIdAndData(reserva.getEstacao().getId(), novaData);
         if (conflito) {
             throw new IllegalArgumentException("Esta estação já está reservada para a nova data selecionada.");
         }
 
-        List<Reserva> reservasDoUsuario = this.reservaRepositorio.listarPorUsuario(usuarioLogado.getId());
+        List<Reserva> reservasDoUsuario = this.reservaRepositorio.findByUsuarioId(usuarioLogado.getId());
         for (Reserva r : reservasDoUsuario) {
             if (!r.getId().equals(reservaId) && r.getData().equals(novaData)) {
                 throw new IllegalArgumentException("Você já possui uma reserva para esta data.");
@@ -130,6 +132,7 @@ public class ReservaUseCase {
         }
 
         reserva.setData(novaData);
+        this.reservaRepositorio.save(reserva); // Persist updated entity
     }
 
 }

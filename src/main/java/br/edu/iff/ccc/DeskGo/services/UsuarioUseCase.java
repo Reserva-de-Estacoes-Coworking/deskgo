@@ -81,9 +81,9 @@ public class UsuarioUseCase {
     }
 
     public void deletarUsuario(UUID id) {
-        List<Reserva> reservas = this.reservaRepositorio.listarPorUsuario(id);
+        List<Reserva> reservas = this.reservaRepositorio.findByUsuarioId(id);
         for (Reserva r : reservas) {
-            this.reservaRepositorio.deletar(r.getId());
+            this.reservaRepositorio.deleteById(r.getId());
         }
         this.usuarioRepositorio.deleteById(id);
     }
