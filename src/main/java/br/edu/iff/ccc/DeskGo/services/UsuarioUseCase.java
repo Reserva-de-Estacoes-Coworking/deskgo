@@ -13,6 +13,9 @@ import br.edu.iff.ccc.DeskGo.entities.Usuario;
 import br.edu.iff.ccc.DeskGo.repository.ReservaRepositorio;
 import br.edu.iff.ccc.DeskGo.repository.UsuarioRepositorio;
 
+import br.edu.iff.ccc.DeskGo.exceptions.EntidadeDuplicadaException;
+import br.edu.iff.ccc.DeskGo.exceptions.RecursoNaoEncontradoException;
+
 @Service
 public class UsuarioUseCase {
     private final UsuarioRepositorio usuarioRepositorio;
@@ -25,7 +28,7 @@ public class UsuarioUseCase {
 
     public void cadastrarUsuario(UsuarioRequest request) {
         if (this.usuarioRepositorio.findByEmail(request.getEmail()) != null) {
-            throw new IllegalArgumentException("Já existe um usuário cadastrado com este e-mail.");
+            throw new EntidadeDuplicadaException("Já existe um usuário cadastrado com este e-mail.");
         }
 
         Perfil perfilInicial = (request.getPerfil() != null) ? request.getPerfil() : Perfil.USUARIO;
@@ -39,7 +42,10 @@ public class UsuarioUseCase {
 
     public Usuario buscarUsuario(UUID id) {
         Optional<Usuario> usuario = this.usuarioRepositorio.findById(id);
-        return usuario.orElse(null);
+        if (usuario.isEmpty()) {
+            throw new RecursoNaoEncontradoException("Usuário não encontrado.");
+        }
+        return usuario.get();
     }
 
     public Usuario autenticar(String email, String senha) {
@@ -60,12 +66,12 @@ public class UsuarioUseCase {
         Usuario usuario = this.usuarioRepositorio.findById(id).orElse(null);
 
         if (usuario == null) {
-            throw new IllegalArgumentException("Usuário não encontrado.");
+            throw new RecursoNaoEncontradoException("Usuário não encontrado.");
         }
 
         Usuario existente = this.usuarioRepositorio.findByEmail(request.getEmail());
         if (existente != null && !existente.getId().equals(id)) {
-            throw new IllegalArgumentException("Este e-mail já está em uso por outro usuário.");
+            throw new EntidadeDuplicadaException("Este e-mail já está em uso por outro usuário.");
         }
 
         usuario.setNome(request.getNome());

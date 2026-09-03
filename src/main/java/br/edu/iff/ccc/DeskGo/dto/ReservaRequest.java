@@ -2,9 +2,15 @@ package br.edu.iff.ccc.DeskGo.dto;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 
 public class ReservaRequest {
+    @NotNull(message = "A estação é obrigatória")
     private UUID estacaoId;
+
+    @NotNull(message = "A data da reserva é obrigatória")
+    @FutureOrPresent(message = "A data da reserva deve ser no presente ou no futuro")
     private LocalDate data;
  
     public ReservaRequest() {

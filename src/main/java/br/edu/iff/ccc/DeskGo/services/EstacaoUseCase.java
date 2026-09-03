@@ -12,6 +12,9 @@ import br.edu.iff.ccc.DeskGo.repository.EstacaoRepositorio;
 import br.edu.iff.ccc.DeskGo.repository.ReservaRepositorio;
 import br.edu.iff.ccc.DeskGo.entities.StatusEstacao;
 
+import br.edu.iff.ccc.DeskGo.exceptions.RecursoNaoEncontradoException;
+import br.edu.iff.ccc.DeskGo.exceptions.RegraDeNegocioException;
+
 @Service
 public class EstacaoUseCase {
     private final EstacaoRepositorio estacaoRepositorio;
@@ -39,7 +42,7 @@ public class EstacaoUseCase {
     public void atualizarEstacao(UUID id, EstacaoRequest request) {
         Estacao estacao = this.estacaoRepositorio.findById(id).orElse(null);
         if (estacao == null) {
-            throw new IllegalArgumentException("Estação não encontrada.");
+            throw new RecursoNaoEncontradoException("Estação não encontrada.");
         }
         
         estacao.setNome(request.getNome());
@@ -59,14 +62,15 @@ public class EstacaoUseCase {
         List<Reserva> reservas = this.reservaRepositorio.findAll();
         for (Reserva r : reservas) {
             if (r.getEstacao().getId().equals(id)) {
-                throw new IllegalArgumentException("Não é possível remover uma estação que possui reservas.");
+                throw new RegraDeNegocioException("Não é possível remover uma estação que possui reservas.");
             }
         }
         this.estacaoRepositorio.deleteById(id);
     }
 
     public Estacao buscarEstacao(UUID id) {
-        return this.estacaoRepositorio.findById(id).orElse(null);
+
+        return this.estacaoRepositorio.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Estação não encontrada."));
     }
 
     public void validarEstacao() {
