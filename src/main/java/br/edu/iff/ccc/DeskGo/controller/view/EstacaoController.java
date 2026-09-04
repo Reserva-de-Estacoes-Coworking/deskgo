@@ -43,13 +43,23 @@ public class EstacaoController {
     }
 
     @PostMapping
-    public String criarEstacao(EstacaoRequest estacaoRequest, HttpSession session,
-            RedirectAttributes redirectAttributes) {
+    public String criarEstacao(
+            @org.springframework.web.bind.annotation.ModelAttribute("estacao") @Valid EstacaoRequest estacaoRequest,
+            BindingResult result,
+            HttpSession session,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null)
             return "redirect:/login";
         if (logado.getPerfil() != Perfil.GESTOR)
             return "redirect:/painel";
+
+        if (result.hasErrors()) {
+            model.addAttribute("usuarioLogado", logado);
+            return "cadastrarEstacao";
+        }
 
         this.estacaoUseCase.criarEstacao(estacaoRequest);
         redirectAttributes.addFlashAttribute("sucesso", "Estação criada com sucesso!");
@@ -92,15 +102,28 @@ public class EstacaoController {
 
     @PostMapping("/editar/{id}")
     public String salvarEdicaoEstacao(@org.springframework.web.bind.annotation.PathVariable("id") UUID id,
-            EstacaoRequest estacaoRequest, HttpSession session, RedirectAttributes redirectAttributes) {
+            @org.springframework.web.bind.annotation.ModelAttribute("estacao") @Valid EstacaoRequest estacaoRequest,
+            BindingResult result,
+            HttpSession session,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null)
             return "redirect:/login";
         if (logado.getPerfil() != Perfil.GESTOR)
             return "redirect:/painel";
 
+        if (result.hasErrors()) {
+            model.addAttribute("isEdit", true);
+            model.addAttribute("estacaoId", id);
+            model.addAttribute("usuarioLogado", logado);
+            return "cadastrarEstacao";
+        }
+
         this.estacaoUseCase.atualizarEstacao(id, estacaoRequest);
         redirectAttributes.addFlashAttribute("sucesso", "Estação atualizada com sucesso!");
+
         return "redirect:/painel/gestor";
     }
 

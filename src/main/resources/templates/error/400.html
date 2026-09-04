@@ -1,38 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Erro 400 - Requisição Inválida</title>
-    <link rel="stylesheet" th:href="@{/css/estilo.css}">
-    <style>
-        .error-container {
-            text-align: center;
-            margin-top: 100px;
-        }
-        .error-container h1 {
-            font-size: 3em;
-            color: #d9534f;
-        }
-        .error-container p {
-            font-size: 1.2em;
-        }
-        .btn-voltar {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #5bc0de;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-    </style>
 </head>
 <body>
-    <div class="error-container">
-        <h1>Erro 400</h1>
-        <p th:text="${mensagem}">Ocorreu um erro de validação ou regra de negócio.</p>
-        <a href="javascript:history.back()" class="btn-voltar">Voltar</a>
-    </div>
+    <h2>Atenção!</h2>
+    <p th:text="${mensagem}">Ocorreu um erro de validação.</p>
+    
+    <button onclick="history.back()">Voltar e tentar novamente</button>
 </body>
 </html>

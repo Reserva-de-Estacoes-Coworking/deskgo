@@ -15,11 +15,9 @@ public class UsuarioRequest {
     @Email(message = "O formato do e-mail é inválido")
     private String email;
 
-    @NotBlank(message = "A senha é obrigatória")
-    @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
+    @jakarta.validation.constraints.Pattern(regexp = "^$|.{5,}", message = "A senha deve ter no mínimo 5 caracteres")
     private String senha;
 
-    @NotNull(message = "O perfil é obrigatório")
     private Perfil perfil;
 
     public UsuarioRequest(String nome, String email, String senha, Perfil perfil) {
