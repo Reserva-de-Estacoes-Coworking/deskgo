@@ -21,10 +21,14 @@ public class DadosIniciais {
             // Conta administrativa padrão do sistema.
             // Não existe auto-cadastro de Gestor (por segurança/RN12),
             // então o sistema já nasce com uma conta de Gestor disponível.
-            usuarioUseCase.cadastrarUsuario(
-                new UsuarioRequest("Administrador DeskGo", "gestor@deskgo.com", "admin123", Perfil.GESTOR)
-            );
-            System.out.println("Conta de Gestor padrão criada: gestor@deskgo.com (senha: admin123)");
+            try {
+                usuarioUseCase.cadastrarUsuario(
+                    new UsuarioRequest("Administrador DeskGo", "gestor@deskgo.com", "admin123", Perfil.GESTOR)
+                );
+                System.out.println("Conta de Gestor padrão criada: gestor@deskgo.com (senha: admin123)");
+            } catch (Exception e) {
+                System.out.println("Conta de gestor já existe.");
+            }
         };
     }
 
@@ -32,19 +36,23 @@ public class DadosIniciais {
     @org.springframework.context.annotation.Bean
     public CommandLineRunner criarEstacoesDeExemplo(EstacaoUseCase estacaoUseCase) {
         return args -> {
-            estacaoUseCase.criarEstacao(new EstacaoRequest(
-                "Estação 05",
-                "Perto da janela, com tomada e cadeira ergonômica.",
-                null,
-                List.of(Caracteristica.JANELA, Caracteristica.TOMADA)
-            ));
-            estacaoUseCase.criarEstacao(new EstacaoRequest(
-                "Estação 12",
-                "Área silenciosa, ideal para foco profundo.",
-                null,
-                List.of(Caracteristica.SILENCIOSO, Caracteristica.TOMADA)
-            ));
-            System.out.println("Estações de exemplo criadas: Estação 05, Estação 12");
+            try {
+                estacaoUseCase.criarEstacao(new EstacaoRequest(
+                    "Estação 05",
+                    "Perto da janela, com tomada e cadeira ergonômica.",
+                    null,
+                    List.of(Caracteristica.JANELA, Caracteristica.TOMADA)
+                ));
+                estacaoUseCase.criarEstacao(new EstacaoRequest(
+                    "Estação 12",
+                    "Área silenciosa, ideal para foco profundo.",
+                    null,
+                    List.of(Caracteristica.SILENCIOSO, Caracteristica.TOMADA)
+                ));
+                System.out.println("Estações de exemplo criadas: Estação 05, Estação 12");
+            } catch (Exception e) {
+                System.out.println("Estações de exemplo já existem.");
+            }
         };
     }
 }
