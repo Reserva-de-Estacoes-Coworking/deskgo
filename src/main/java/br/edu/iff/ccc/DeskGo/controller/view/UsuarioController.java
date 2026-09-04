@@ -32,13 +32,8 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public String criarUsuario(@Valid UsuarioRequest usuarioRequest, BindingResult result, Model model) {
+    public String criarUsuario(UsuarioRequest usuarioRequest, Model model) {
         usuarioRequest.setPerfil(Perfil.USUARIO);
-
-        if (result.hasErrors()) {
-            model.addAttribute("usuario", usuarioRequest);
-            return "cadastrarUsuario";
-        }
 
         this.usuarioUseCase.cadastrarUsuario(usuarioRequest);
 
@@ -59,15 +54,10 @@ public class UsuarioController {
     }
 
     @PostMapping("/perfil")
-    public String atualizarPerfil(@Valid UsuarioRequest usuarioRequest, BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String atualizarPerfil(UsuarioRequest usuarioRequest, HttpSession session) {
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null) {
             return "redirect:/login";
-        }
-
-        if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("erro", "Verifique os campos obrigatórios.");
-            return "redirect:/usuario/perfil";
         }
 
         // Não deixa o próprio usuário se promover a Gestor pelo formulário

@@ -54,14 +54,6 @@ public class ReservaUseCase {
             throw new EntidadeDuplicadaException("Esta estação já está reservada para a data selecionada.");
         }
 
-        // 4) Um usuário não pode reservar mais de uma estação por dia
-        List<Reserva> reservasDoUsuario = this.reservaRepositorio.findByUsuarioId(usuarioLogado.getId());
-        for (Reserva r : reservasDoUsuario) {
-            if (r.getData().equals(request.getData())) {
-                throw new EntidadeDuplicadaException("Você já possui uma reserva para esta data.");
-            }
-        }
-
         Reserva novaReserva = new Reserva();
         novaReserva.setData(request.getData());
         novaReserva.setUsuario(usuarioLogado);
@@ -126,13 +118,6 @@ public class ReservaUseCase {
         boolean conflito = this.reservaRepositorio.existsByEstacaoIdAndData(reserva.getEstacao().getId(), novaData);
         if (conflito) {
             throw new EntidadeDuplicadaException("Esta estação já está reservada para a nova data selecionada.");
-        }
-
-        List<Reserva> reservasDoUsuario = this.reservaRepositorio.findByUsuarioId(usuarioLogado.getId());
-        for (Reserva r : reservasDoUsuario) {
-            if (!r.getId().equals(reservaId) && r.getData().equals(novaData)) {
-                throw new EntidadeDuplicadaException("Você já possui uma reserva para esta data.");
-            }
         }
 
         reserva.setData(novaData);

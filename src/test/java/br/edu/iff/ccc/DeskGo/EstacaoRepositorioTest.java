@@ -60,8 +60,8 @@ public class EstacaoRepositorioTest {
         estacao2.setNome("Mesa Unica"); // Mesmo nome
         estacao2.setStatus(StatusEstacao.ATIVO);
 
-        assertThrows(Exception.class, () -> {
-            estacaoRepositorio.saveAndFlush(estacao2); // Flush para forçar a query e dar erro
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            estacaoRepositorio.saveAndFlush(estacao2);
         });
     }
 }
