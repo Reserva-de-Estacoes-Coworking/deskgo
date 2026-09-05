@@ -15,6 +15,7 @@ import br.edu.iff.ccc.DeskGo.repository.UsuarioRepositorio;
 
 import br.edu.iff.ccc.DeskGo.exceptions.EntidadeDuplicadaException;
 import br.edu.iff.ccc.DeskGo.exceptions.RecursoNaoEncontradoException;
+import br.edu.iff.ccc.DeskGo.exceptions.RegraDeNegocioException;
 
 @Service
 public class UsuarioUseCase {
@@ -51,12 +52,8 @@ public class UsuarioUseCase {
     public Usuario autenticar(String email, String senha) {
         Usuario usuario = this.usuarioRepositorio.findByEmail(email);
 
-        if (usuario == null) {
-            return null;
-        }
-
-        if (!usuario.getSenha().equals(senha)) {
-            return null;
+        if (usuario == null || !usuario.getSenha().equals(senha)) {
+            throw new RegraDeNegocioException("E-mail ou senha inválidos.");
         }
 
         return usuario;
@@ -87,9 +84,12 @@ public class UsuarioUseCase {
     }
 
     public void deletarUsuario(UUID id) {
-        List<Reserva> reservas = this.reservaRepositorio.listarPorUsuario(id);
+        // Aproveita o método que criamos acima para já dar erro 404 se não existir
+        this.buscarUsuario(id);
+
+        List<Reserva> reservas = this.reservaRepositorio.findByUsuarioId(id);
         for (Reserva r : reservas) {
-            this.reservaRepositorio.deletar(r.getId());
+            this.reservaRepositorio.deleteById(r.getId());
         }
         this.usuarioRepositorio.deleteById(id);
     }

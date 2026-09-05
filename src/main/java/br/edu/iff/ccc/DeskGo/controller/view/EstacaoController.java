@@ -29,34 +29,43 @@ public class EstacaoController {
     @GetMapping("/novo")
     public String novaEstacao(Model model, HttpSession session) {
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
-        if (logado == null) return "redirect:/login";
-        if (logado.getPerfil() != Perfil.GESTOR) return "redirect:/painel";
+        if (logado == null)
+            return "redirect:/login";
+        if (logado.getPerfil() != Perfil.GESTOR)
+            return "redirect:/painel";
 
         EstacaoRequest novaEstacao = new EstacaoRequest();
-        
-        model.addAttribute("estacao", novaEstacao); 
+
+        model.addAttribute("estacao", novaEstacao);
         model.addAttribute("usuarioLogado", logado);
-        
-        return "cadastrarEstacao"; 
+
+        return "cadastrarEstacao";
     }
-    
+
     @PostMapping
-    public String criarEstacao(@Valid EstacaoRequest estacaoRequest, BindingResult result, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String criarEstacao(
+            @org.springframework.web.bind.annotation.ModelAttribute("estacao") @Valid EstacaoRequest estacaoRequest,
+            BindingResult result,
+            HttpSession session,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
-        if (logado == null) return "redirect:/login";
-        if (logado.getPerfil() != Perfil.GESTOR) return "redirect:/painel";
+        if (logado == null)
+            return "redirect:/login";
+        if (logado.getPerfil() != Perfil.GESTOR)
+            return "redirect:/painel";
 
         if (result.hasErrors()) {
-            model.addAttribute("estacao", estacaoRequest);
             model.addAttribute("usuarioLogado", logado);
             return "cadastrarEstacao";
         }
 
         this.estacaoUseCase.criarEstacao(estacaoRequest);
         redirectAttributes.addFlashAttribute("sucesso", "Estação criada com sucesso!");
-        
-        return "redirect:/painel/gestor"; 
-    }   
+
+        return "redirect:/painel/gestor";
+    }
 
     @GetMapping
     public String listarEstacoes() {
@@ -64,38 +73,48 @@ public class EstacaoController {
     }
 
     @GetMapping("/editar/{id}")
-    public String editarEstacao(@org.springframework.web.bind.annotation.PathVariable("id") UUID id, Model model, HttpSession session) {
+    public String editarEstacao(@org.springframework.web.bind.annotation.PathVariable("id") UUID id, Model model,
+            HttpSession session) {
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
-        if (logado == null) return "redirect:/login";
-        if (logado.getPerfil() != Perfil.GESTOR) return "redirect:/painel";
+        if (logado == null)
+            return "redirect:/login";
+        if (logado.getPerfil() != Perfil.GESTOR)
+            return "redirect:/painel";
 
         Estacao estacao = this.estacaoUseCase.buscarEstacao(id);
         if (estacao == null) {
             return "redirect:/painel/gestor";
         }
-        
+
         EstacaoRequest request = new EstacaoRequest();
         request.setNome(estacao.getNome());
         request.setDescricao(estacao.getDescricao());
         request.setStatus(estacao.getStatus());
         request.setCaracteristicas(estacao.getCaracteristicas());
-        
+
         model.addAttribute("estacao", request);
         model.addAttribute("isEdit", true);
         model.addAttribute("estacaoId", id);
         model.addAttribute("usuarioLogado", logado);
-        
+
         return "cadastrarEstacao";
     }
 
     @PostMapping("/editar/{id}")
-    public String salvarEdicaoEstacao(@org.springframework.web.bind.annotation.PathVariable("id") UUID id, @Valid EstacaoRequest estacaoRequest, BindingResult result, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String salvarEdicaoEstacao(@org.springframework.web.bind.annotation.PathVariable("id") UUID id,
+            @org.springframework.web.bind.annotation.ModelAttribute("estacao") @Valid EstacaoRequest estacaoRequest,
+            BindingResult result,
+            HttpSession session,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
-        if (logado == null) return "redirect:/login";
-        if (logado.getPerfil() != Perfil.GESTOR) return "redirect:/painel";
+        if (logado == null)
+            return "redirect:/login";
+        if (logado.getPerfil() != Perfil.GESTOR)
+            return "redirect:/painel";
 
         if (result.hasErrors()) {
-            model.addAttribute("estacao", estacaoRequest);
             model.addAttribute("isEdit", true);
             model.addAttribute("estacaoId", id);
             model.addAttribute("usuarioLogado", logado);
@@ -104,14 +123,18 @@ public class EstacaoController {
 
         this.estacaoUseCase.atualizarEstacao(id, estacaoRequest);
         redirectAttributes.addFlashAttribute("sucesso", "Estação atualizada com sucesso!");
+
         return "redirect:/painel/gestor";
     }
 
     @PostMapping("/deletar/{id}")
-    public String deletarEstacao(@org.springframework.web.bind.annotation.PathVariable("id") UUID id, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String deletarEstacao(@org.springframework.web.bind.annotation.PathVariable("id") UUID id,
+            HttpSession session, RedirectAttributes redirectAttributes) {
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
-        if (logado == null) return "redirect:/login";
-        if (logado.getPerfil() != Perfil.GESTOR) return "redirect:/painel";
+        if (logado == null)
+            return "redirect:/login";
+        if (logado.getPerfil() != Perfil.GESTOR)
+            return "redirect:/painel";
 
         this.estacaoUseCase.deletarEstacao(id);
         redirectAttributes.addFlashAttribute("sucesso", "Estação removida com sucesso!");

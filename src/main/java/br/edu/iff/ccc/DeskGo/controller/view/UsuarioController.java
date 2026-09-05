@@ -14,6 +14,7 @@ import br.edu.iff.ccc.DeskGo.services.UsuarioUseCase;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 @RequestMapping("/usuario")
@@ -32,21 +33,17 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public String criarUsuario(@Valid UsuarioRequest usuarioRequest, BindingResult result, Model model) {
-        usuarioRequest.setPerfil(Perfil.USUARIO);
-
+    public String criarUsuario(@Valid @ModelAttribute("usuario") UsuarioRequest usuarioRequest, BindingResult result, Model model) {
+        
         if (result.hasErrors()) {
-            model.addAttribute("usuario", usuarioRequest);
             return "cadastrarUsuario";
         }
 
+        usuarioRequest.setPerfil(Perfil.USUARIO);
         this.usuarioUseCase.cadastrarUsuario(usuarioRequest);
 
         return "redirect:/login";
     }
-
-    // A partir daqui: self-service. O "id" nunca vem da URL,
-    // sempre do usuário que está na sessão (evita editar/excluir conta alheia).
 
     @GetMapping("/perfil")
     public String verPerfil(Model model, HttpSession session) {
@@ -59,23 +56,20 @@ public class UsuarioController {
     }
 
     @PostMapping("/perfil")
-    public String atualizarPerfil(@Valid UsuarioRequest usuarioRequest, BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String atualizarPerfil(@Valid @ModelAttribute("usuario") UsuarioRequest usuarioRequest, BindingResult result, HttpSession session) {
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null) {
             return "redirect:/login";
         }
 
         if (result.hasErrors()) {
-            redirectAttributes.addFlashAttribute("erro", "Verifique os campos obrigatórios.");
-            return "redirect:/usuario/perfil";
+            return "perfilUsuario";
         }
 
-        // Não deixa o próprio usuário se promover a Gestor pelo formulário
         usuarioRequest.setPerfil(logado.getPerfil());
-
+        
         this.usuarioUseCase.atualizarUsuario(logado.getId(), usuarioRequest);
 
-        // Atualiza a sessão com os dados novos
         Usuario atualizado = this.usuarioUseCase.buscarUsuario(logado.getId());
         session.setAttribute("usuarioLogado", atualizado);
 
