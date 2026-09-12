@@ -23,10 +23,12 @@ import br.edu.iff.ccc.DeskGo.exceptions.RegraDeNegocioException;
 public class ReservaUseCase {
     private final ReservaRepositorio reservaRepositorio;
     private final EstacaoRepositorio estacaoRepositorio;
+    private final br.edu.iff.ccc.DeskGo.repository.UsuarioRepositorio usuarioRepositorio;
 
-    public ReservaUseCase(ReservaRepositorio reservaRepositorio, EstacaoRepositorio estacaoRepositorio) {
+    public ReservaUseCase(ReservaRepositorio reservaRepositorio, EstacaoRepositorio estacaoRepositorio, br.edu.iff.ccc.DeskGo.repository.UsuarioRepositorio usuarioRepositorio) {
         this.reservaRepositorio = reservaRepositorio;
         this.estacaoRepositorio = estacaoRepositorio;
+        this.usuarioRepositorio = usuarioRepositorio;
     }
 
     public void criarReserva(ReservaRequest request, Usuario usuarioLogado) {
@@ -123,5 +125,64 @@ public class ReservaUseCase {
         reserva.setData(novaData);
         this.reservaRepositorio.save(reserva); // Persist updated entity
     }
+    public Reserva criarReserva(UUID estacaoId, LocalDate data, UUID usuarioId) {
+        Estacao estacao = this.estacaoRepositorio.findById(estacaoId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Estação não encontrada."));
 
+        if (estacao.getStatus() != StatusEstacao.ATIVO) {
+            throw new RegraDeNegocioException("Esta estação não está disponível para reservas (inativa ou em manutenção).");
+        }
+
+        if (data == null || data.isBefore(LocalDate.now())) {
+            throw new RegraDeNegocioException("A data da reserva não pode ser no passado.");
+        }
+
+        boolean conflito = this.reservaRepositorio.existsByEstacaoIdAndData(estacaoId, data);
+        if (conflito) {
+            throw new EntidadeDuplicadaException("Esta estação já está reservada para a data selecionada.");
+        }
+
+        Usuario usuario = this.usuarioRepositorio.findById(usuarioId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado."));
+
+        Reserva novaReserva = new Reserva();
+        novaReserva.setData(data);
+        novaReserva.setUsuario(usuario);
+        novaReserva.setEstacao(estacao);
+        return this.reservaRepositorio.save(novaReserva);
+    }
+
+    public Reserva buscarReserva(UUID reservaId) {
+        return this.reservaRepositorio.findById(reservaId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Reserva não encontrada."));
+    }
+
+    public List<Reserva> listarTodas() {
+        return this.reservaRepositorio.findAll();
+    }
+
+    public void cancelarReserva(UUID reservaId) {
+        Reserva reserva = buscarReserva(reservaId);
+        this.reservaRepositorio.deleteById(reservaId);
+    }
+
+    public void atualizarDataReserva(UUID reservaId, LocalDate novaData) {
+        Reserva reserva = buscarReserva(reservaId);
+
+        if (novaData == null || novaData.isBefore(LocalDate.now())) {
+            throw new RegraDeNegocioException("A nova data não pode ser no passado.");
+        }
+
+        if (novaData.equals(reserva.getData())) {
+            return;
+        }
+
+        boolean conflito = this.reservaRepositorio.existsByEstacaoIdAndData(reserva.getEstacao().getId(), novaData);
+        if (conflito) {
+            throw new EntidadeDuplicadaException("Esta estação já está reservada para a nova data selecionada.");
+        }
+
+        reserva.setData(novaData);
+        this.reservaRepositorio.save(reserva);
+    }
 }

@@ -27,14 +27,14 @@ public class UsuarioUseCase {
         this.reservaRepositorio = reservaRepositorio;
     }
 
-    public void cadastrarUsuario(UsuarioRequest request) {
+    public Usuario cadastrarUsuario(UsuarioRequest request) {
         if (this.usuarioRepositorio.findByEmail(request.getEmail()) != null) {
             throw new EntidadeDuplicadaException("Já existe um usuário cadastrado com este e-mail.");
         }
 
         Perfil perfilInicial = (request.getPerfil() != null) ? request.getPerfil() : Perfil.USUARIO;
         Usuario novoUsuario = new Usuario(request.getNome(), request.getEmail(), request.getSenha(), perfilInicial);
-        this.usuarioRepositorio.save(novoUsuario);
+        return this.usuarioRepositorio.save(novoUsuario);
     }
 
     public List<Usuario> listarUsuarios() {
