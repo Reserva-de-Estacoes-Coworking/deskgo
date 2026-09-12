@@ -49,3 +49,14 @@ Este documento registra o progresso passo a passo da implementaÃ§Ã£o dos requisi
   - EstacaoRestControllerTest: Validando 201, 200, e campos obrigatórios de validação em branco (400).
   - ReservaRestControllerTest: Validando criação (201), tentativa de data no passado (400) e conflito de reservas (409) gerando o erro apropriado de EntidadeDuplicadaException.
 
+
+### Etapa 8: Consolidação no Git e Criação da Branch Obrigatória P2-entrega-final
+- O trabalho feito na branch TR07-ApiRest foi commitado.
+- Foi feito o merge da branch TR07-ApiRest na main.
+- A partir da branch main consolidada, foi criada e feito checkout da branch final obrigatória P2-entrega-final.
+
+
+### Etapa 9: Verificação e Validação de Ponta a Ponta
+- Todo o código foi compilado e os testes automatizados existentes (11 testes no total cobrindo os repositórios UsuarioRepositorio, EstacaoRepositorio e ReservaRepositorio) foram executados com sucesso (Build Success) usando ./mvnw.cmd clean test.
+- A API está pronta para uso e pode ser acessada em http://localhost:8080/api/v1/... e documentada via http://localhost:8080/swagger-ui.html.
+- O código final consolidado encontra-se empurrado na branch P2-entrega-final, representando o término dos Requisitos Obrigatórios da Avaliação (P2).
