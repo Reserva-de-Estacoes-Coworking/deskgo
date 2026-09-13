@@ -253,10 +253,8 @@
         <div
             class="lg:hidden sticky top-0 bg-surface dark:bg-surface-container-low text-primary dark:text-primary-fixed-dim shadow-sm dark:shadow-none shadow-[0px_4px_20px_rgba(30,58,95,0.08)] z-50 flex justify-between items-center px-container-padding-mobile h-20 w-full border-b border-outline-variant">
             <button class="material-symbols-outlined text-primary">menu</button>
-            <div class="font-headline-md font-bold text-primary">DeskGo</div>
-            <div
-                class="w-10 h-10 rounded-full overflow-hidden bg-primary-container text-on-primary-container flex items-center justify-center font-bold uppercase"
-                th:text="${#strings.substring(usuario.nome, 0, 1)}">
+            <div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container text-on-primary-container flex items-center justify-center font-bold uppercase"
+                th:text="${#strings.isEmpty(usuario.nome) ? 'U' : #strings.substring(usuario.nome, 0, 1)}">
                 J
             </div>
         </div>
@@ -287,32 +285,53 @@
                         </div>
                         <!-- Form Inputs -->
                         <form class="flex-1 flex flex-col gap-6" th:action="@{/usuario/perfil}" method="post"
-                            id="form-perfil">
+                            id="form-perfil" th:object="${usuario}">
+
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                                <!-- Campo Nome -->
                                 <div class="flex flex-col gap-2">
                                     <label class="text-label-sm font-label-sm text-on-surface-variant">Nome
                                         Completo</label>
+                                    <!-- Trocamos name e th:value por th:field -->
                                     <input
                                         class="px-4 py-3 rounded-lg border border-outline-variant bg-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container w-full"
-                                        type="text" name="nome" th:value="${usuario.nome}" required />
+                                        type="text" th:field="*{nome}" />
+                                    <!-- Span de Erro -->
+                                    <span class="text-error text-label-sm" th:if="${#fields.hasErrors('nome')}"
+                                        th:errors="*{nome}"></span>
                                 </div>
+
+                                <!-- Campo E-mail -->
                                 <div class="flex flex-col gap-2">
                                     <label class="text-label-sm font-label-sm text-on-surface-variant">E-mail</label>
                                     <input
                                         class="px-4 py-3 rounded-lg border border-outline-variant bg-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container w-full"
-                                        type="email" name="email" th:value="${usuario.email}" required />
+                                        type="email" th:field="*{email}" />
+                                    <!-- Span de Erro -->
+                                    <span class="text-error text-label-sm" th:if="${#fields.hasErrors('email')}"
+                                        th:errors="*{email}"></span>
                                 </div>
+
                             </div>
+
                             <div class="h-px bg-outline-variant w-full"></div>
+
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                                <!-- Campo Senha -->
                                 <div class="flex flex-col gap-2">
                                     <label class="text-label-sm font-label-sm text-on-surface-variant">Nova
                                         Senha</label>
                                     <input
                                         class="px-4 py-3 rounded-lg border border-outline-variant bg-surface focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container w-full"
-                                        name="senha" placeholder="Deixe em branco para manter a atual"
+                                        th:field="*{senha}" placeholder="Deixe em branco para manter a atual"
                                         type="password" />
+                                    <!-- Span de Erro -->
+                                    <span class="text-error text-label-sm" th:if="${#fields.hasErrors('senha')}"
+                                        th:errors="*{senha}"></span>
                                 </div>
+
                             </div>
                         </form>
                     </div>
@@ -345,4 +364,3 @@
 </body>
 
 </html>
-

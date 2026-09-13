@@ -28,6 +28,13 @@ public class GlobalExceptionHandler {
         return mav;
     }
     
+    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
+    public ModelAndView handleTypeMismatch(Exception ex) {
+        ModelAndView mav = new ModelAndView("error/400");
+        mav.addObject("mensagem", "Parâmetro inválido na URL.");
+        return mav;
+    }
+
     @ExceptionHandler(Exception.class)
     public ModelAndView handleGenericException(Exception ex) {
         ModelAndView mav = new ModelAndView("error/500");

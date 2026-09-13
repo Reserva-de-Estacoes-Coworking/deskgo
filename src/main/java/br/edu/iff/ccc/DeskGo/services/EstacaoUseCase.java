@@ -19,7 +19,7 @@ import br.edu.iff.ccc.DeskGo.exceptions.RegraDeNegocioException;
 public class EstacaoUseCase {
     private final EstacaoRepositorio estacaoRepositorio;
     private final ReservaRepositorio reservaRepositorio;
-    
+
     public EstacaoUseCase(EstacaoRepositorio estacaoRepositorio, ReservaRepositorio reservaRepositorio) {
         this.estacaoRepositorio = estacaoRepositorio;
         this.reservaRepositorio = reservaRepositorio;
@@ -33,7 +33,7 @@ public class EstacaoUseCase {
         novaEstacao.setStatus(statusInicial);
         novaEstacao.setCaracteristicas(request.getCaracteristicas());
         this.estacaoRepositorio.save(novaEstacao);
-    } 
+    }
 
     public List<Estacao> listarEstacoes() {
         return this.estacaoRepositorio.findAll();
@@ -44,7 +44,7 @@ public class EstacaoUseCase {
         if (estacao == null) {
             throw new RecursoNaoEncontradoException("Estação não encontrada.");
         }
-        
+
         estacao.setNome(request.getNome());
         estacao.setDescricao(request.getDescricao());
         if (request.getStatus() != null) {
@@ -53,12 +53,13 @@ public class EstacaoUseCase {
         if (request.getCaracteristicas() != null) {
             estacao.setCaracteristicas(request.getCaracteristicas());
         }
-        
+
         this.estacaoRepositorio.save(estacao);
     }
 
     public void deletarEstacao(UUID id) {
-        // Verifica se há reservas atreladas
+        this.buscarEstacao(id);
+
         List<Reserva> reservas = this.reservaRepositorio.findAll();
         for (Reserva r : reservas) {
             if (r.getEstacao().getId().equals(id)) {
@@ -70,7 +71,8 @@ public class EstacaoUseCase {
 
     public Estacao buscarEstacao(UUID id) {
 
-        return this.estacaoRepositorio.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Estação não encontrada."));
+        return this.estacaoRepositorio.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Estação não encontrada."));
     }
 
     public void validarEstacao() {
