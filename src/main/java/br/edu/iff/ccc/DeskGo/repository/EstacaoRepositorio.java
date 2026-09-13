@@ -4,10 +4,13 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
 import br.edu.iff.ccc.DeskGo.entities.Estacao;
 
 @Repository
 public interface EstacaoRepositorio extends JpaRepository<Estacao, UUID> {
+
+    Optional<Estacao> findByNome(String nome);
 
 }

@@ -24,7 +24,7 @@ public class UsuarioRequest {
     @jakarta.validation.constraints.Pattern(regexp = "^$|.{5,}", message = "A senha deve ter no mínimo 5 caracteres")
     private String senha;
 
-    @Schema(description = "Perfil de acesso do Usuário", example = "COMUM")
+    @Schema(description = "Perfil de acesso do Usuário", example = "USUARIO")
     private Perfil perfil;
 
     public UsuarioRequest(String nome, String email, String senha, Perfil perfil) {

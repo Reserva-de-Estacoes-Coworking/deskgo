@@ -11,9 +11,11 @@ import br.edu.iff.ccc.DeskGo.entities.Reserva;
 import br.edu.iff.ccc.DeskGo.repository.EstacaoRepositorio;
 import br.edu.iff.ccc.DeskGo.repository.ReservaRepositorio;
 import br.edu.iff.ccc.DeskGo.entities.StatusEstacao;
-
+import br.edu.iff.ccc.DeskGo.exceptions.EntidadeDuplicadaException;
 import br.edu.iff.ccc.DeskGo.exceptions.RecursoNaoEncontradoException;
 import br.edu.iff.ccc.DeskGo.exceptions.RegraDeNegocioException;
+import br.edu.iff.ccc.DeskGo.exceptions.EntidadeDuplicadaException;
+import java.util.Optional;
 
 @Service
 public class EstacaoUseCase {
@@ -26,6 +28,11 @@ public class EstacaoUseCase {
     }
 
     public Estacao criarEstacao(EstacaoRequest request) {
+
+        if (this.estacaoRepositorio.findByNome(request.getNome()).isPresent()) {
+            throw new EntidadeDuplicadaException("Já existe uma estação com esse nome.");
+        }
+
         StatusEstacao statusInicial = (request.getStatus() != null) ? request.getStatus() : StatusEstacao.ATIVO;
         Estacao novaEstacao = new Estacao();
         novaEstacao.setNome(request.getNome());
@@ -40,21 +47,26 @@ public class EstacaoUseCase {
     }
 
     public void atualizarEstacao(UUID id, EstacaoRequest request) {
-        Estacao estacao = this.estacaoRepositorio.findById(id).orElse(null);
-        if (estacao == null) {
-            throw new RecursoNaoEncontradoException("Estação não encontrada.");
-        }
+         Estacao estacao = this.estacaoRepositorio.findById(id).orElse(null);
+    if (estacao == null) {
+        throw new RecursoNaoEncontradoException("Estação não encontrada.");
+    }
 
-        estacao.setNome(request.getNome());
-        estacao.setDescricao(request.getDescricao());
-        if (request.getStatus() != null) {
-            estacao.setStatus(request.getStatus());
-        }
-        if (request.getCaracteristicas() != null) {
-            estacao.setCaracteristicas(request.getCaracteristicas());
-        }
+    Optional<Estacao> estacaoComMesmoNome = this.estacaoRepositorio.findByNome(request.getNome());
+    if (estacaoComMesmoNome.isPresent() && !estacaoComMesmoNome.get().getId().equals(id)) {
+        throw new EntidadeDuplicadaException("Já existe uma estação com esse nome.");
+    }
 
-        this.estacaoRepositorio.save(estacao);
+    estacao.setNome(request.getNome());
+    estacao.setDescricao(request.getDescricao());
+    if (request.getStatus() != null) {
+        estacao.setStatus(request.getStatus());
+    }
+    if (request.getCaracteristicas() != null) {
+        estacao.setCaracteristicas(request.getCaracteristicas());
+    }
+
+    this.estacaoRepositorio.save(estacao);
     }
 
     public void deletarEstacao(UUID id) {
