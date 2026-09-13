@@ -25,14 +25,14 @@ public class EstacaoUseCase {
         this.reservaRepositorio = reservaRepositorio;
     }
 
-    public void criarEstacao(EstacaoRequest request) {
+    public Estacao criarEstacao(EstacaoRequest request) {
         StatusEstacao statusInicial = (request.getStatus() != null) ? request.getStatus() : StatusEstacao.ATIVO;
         Estacao novaEstacao = new Estacao();
         novaEstacao.setNome(request.getNome());
         novaEstacao.setDescricao(request.getDescricao());
         novaEstacao.setStatus(statusInicial);
         novaEstacao.setCaracteristicas(request.getCaracteristicas());
-        this.estacaoRepositorio.save(novaEstacao);
+        return this.estacaoRepositorio.save(novaEstacao);
     }
 
     public List<Estacao> listarEstacoes() {

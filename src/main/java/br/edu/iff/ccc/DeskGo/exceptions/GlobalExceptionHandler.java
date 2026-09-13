@@ -1,44 +1,121 @@
 package br.edu.iff.ccc.DeskGo.exceptions;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
-public class GlobalExceptionHandler {
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.http.HttpHeaders;
+
+import java.net.URI;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RecursoNaoEncontradoException.class)
-    public ModelAndView handleRecursoNaoEncontrado(RecursoNaoEncontradoException ex) {
-        ModelAndView mav = new ModelAndView("error/404");
-        mav.addObject("mensagem", ex.getMessage());
-        return mav;
+    public ProblemDetail handleRecursoNaoEncontrado(RecursoNaoEncontradoException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        problemDetail.setType(URI.create("/api/v1/erros/recurso-nao-encontrado"));
+        problemDetail.setTitle("Recurso Não Encontrado");
+        problemDetail.setInstance(URI.create(request.getDescription(false).replace("uri=", "")));
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
     }
 
     @ExceptionHandler(RegraDeNegocioException.class)
-    public ModelAndView handleRegraDeNegocio(RegraDeNegocioException ex) {
-        ModelAndView mav = new ModelAndView("error/400");
-        mav.addObject("mensagem", ex.getMessage());
-        return mav;
+    public ProblemDetail handleRegraDeNegocio(RegraDeNegocioException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problemDetail.setType(URI.create("/api/v1/erros/regra-de-negocio"));
+        problemDetail.setTitle("Violação de Regra de Negócio");
+        problemDetail.setInstance(URI.create(request.getDescription(false).replace("uri=", "")));
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
     }
 
     @ExceptionHandler(EntidadeDuplicadaException.class)
-    public ModelAndView handleEntidadeDuplicada(EntidadeDuplicadaException ex) {
-        ModelAndView mav = new ModelAndView("error/400");
-        mav.addObject("mensagem", ex.getMessage());
-        return mav;
+    public ProblemDetail handleEntidadeDuplicada(EntidadeDuplicadaException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setType(URI.create("/api/v1/erros/entidade-duplicada"));
+        problemDetail.setTitle("Entidade Duplicada");
+        problemDetail.setInstance(URI.create(request.getDescription(false).replace("uri=", "")));
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
     }
-    
-    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
-    public ModelAndView handleTypeMismatch(Exception ex) {
-        ModelAndView mav = new ModelAndView("error/400");
-        mav.addObject("mensagem", "Parâmetro inválido na URL.");
-        return mav;
+
+    // Captura os erros de Bean Validation (@Valid nos DTOs) e preenche os campos
+    // inválidos
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ProblemDetail handleValidationExceptions(MethodArgumentNotValidException ex, WebRequest request) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                "A requisição possui campos inválidos. Verifique os detalhes fornecidos.");
+
+        problemDetail.setType(URI.create("/api/v1/erros/dados-invalidos"));
+        problemDetail.setTitle("Dados Inválidos");
+        problemDetail.setInstance(URI.create(request.getDescription(false).replace("uri=", "")));
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        Map<String, String> errosDeCampo = new HashMap<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errosDeCampo.put(error.getField(), error.getDefaultMessage());
+        }
+        problemDetail.setProperty("invalid_params", errosDeCampo);
+
+        return problemDetail;
     }
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleGenericException(Exception ex) {
-        ModelAndView mav = new ModelAndView("error/500");
-        mav.addObject("mensagem", "Ocorreu um erro interno no servidor.");
-        return mav;
+    public ProblemDetail handleGenericException(Exception ex, WebRequest request) {
+        String uri = request.getDescription(false).replace("uri=", "");
+
+        if (uri.startsWith("/v3/api-docs") || uri.startsWith("/swagger-ui")) {
+            if (ex instanceof RuntimeException) {
+                throw (RuntimeException) ex;
+            }
+            throw new RuntimeException(ex);
+        }
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.INTERNAL_SERVER_ERROR,
+                "Ocorreu um erro interno no servidor.");
+        problemDetail.setType(URI.create("/api/v1/erros/erro-interno"));
+        problemDetail.setTitle("Erro Interno");
+        problemDetail.setInstance(URI.create(uri));
+        problemDetail.setProperty("timestamp", Instant.now());
+        return problemDetail;
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
+
+        String uri = request.getDescription(false).replace("uri=", "");
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
+                "Erro de validação nos campos da requisição.");
+        problemDetail.setTitle("Requisição Inválida");
+        problemDetail.setType(URI.create("/api/v1/erros/validacao"));
+        problemDetail.setInstance(URI.create(uri));
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        Map<String, String> invalidParams = new HashMap<>();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            invalidParams.put(error.getField(), error.getDefaultMessage());
+        }
+
+        problemDetail.setProperty("invalid_params", invalidParams);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
     }
 }
