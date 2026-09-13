@@ -51,28 +51,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return problemDetail;
     }
 
-    // Captura os erros de Bean Validation (@Valid nos DTOs) e preenche os campos
-    // inválidos
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail handleValidationExceptions(MethodArgumentNotValidException ex, WebRequest request) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.BAD_REQUEST,
-                "A requisição possui campos inválidos. Verifique os detalhes fornecidos.");
-
-        problemDetail.setType(URI.create("/api/v1/erros/dados-invalidos"));
-        problemDetail.setTitle("Dados Inválidos");
-        problemDetail.setInstance(URI.create(request.getDescription(false).replace("uri=", "")));
-        problemDetail.setProperty("timestamp", Instant.now());
-
-        Map<String, String> errosDeCampo = new HashMap<>();
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errosDeCampo.put(error.getField(), error.getDefaultMessage());
-        }
-        problemDetail.setProperty("invalid_params", errosDeCampo);
-
-        return problemDetail;
-    }
-
     @ExceptionHandler(Exception.class)
     public ProblemDetail handleGenericException(Exception ex, WebRequest request) {
         String uri = request.getDescription(false).replace("uri=", "");
