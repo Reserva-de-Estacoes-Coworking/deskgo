@@ -224,6 +224,7 @@
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="relative group">
+                            <input type="hidden" th:field="*{status}" />
                             <input th:field="*{nome}"
                                 class="floating-input w-full px-4 py-3 rounded-lg border border-outline-variant bg-transparent text-body-md font-body-md focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all peer"
                                 id="nome" placeholder=" " type="text" />

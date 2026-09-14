@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.edu.iff.ccc.DeskGo.dto.EstacaoRequest;
 import br.edu.iff.ccc.DeskGo.entities.Estacao;
 import br.edu.iff.ccc.DeskGo.entities.Perfil;
+import br.edu.iff.ccc.DeskGo.entities.StatusEstacao;
 import br.edu.iff.ccc.DeskGo.entities.Usuario;
 import br.edu.iff.ccc.DeskGo.services.EstacaoUseCase;
 import jakarta.servlet.http.HttpSession;
@@ -35,6 +36,7 @@ public class EstacaoController {
             return "redirect:/painel";
 
         EstacaoRequest novaEstacao = new EstacaoRequest();
+        novaEstacao.setStatus(StatusEstacao.ATIVO);
 
         model.addAttribute("estacao", novaEstacao);
         model.addAttribute("usuarioLogado", logado);

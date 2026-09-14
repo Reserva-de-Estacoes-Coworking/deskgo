@@ -19,6 +19,10 @@ import br.edu.iff.ccc.DeskGo.services.ReservaUseCase;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
+import java.util.ArrayList;
+import java.util.List;
+import br.edu.iff.ccc.DeskGo.dto.EstacaoDisponibilidadeDTO;
+import br.edu.iff.ccc.DeskGo.entities.Estacao;
 
 @Controller
 @RequestMapping("/painel")
@@ -32,7 +36,8 @@ public class ReservaController {
     }
 
     @PostMapping("/reservar-estacao")
-    public String criarReserva(@Valid ReservaRequest reservaRequest, BindingResult result, Model model, HttpSession session) {
+    public String criarReserva(@Valid ReservaRequest reservaRequest, BindingResult result, Model model,
+            HttpSession session) {
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null) {
             return "redirect:/login";
@@ -40,7 +45,19 @@ public class ReservaController {
 
         if (result.hasErrors()) {
             model.addAttribute("usuarioLogado", logado);
-            model.addAttribute("estacoes", this.estacaoUseCase.listarEstacoes());
+            model.addAttribute("dataSelecionada", reservaRequest.getData());
+
+            if (reservaRequest.getData() != null) {
+                model.addAttribute("estacoes",
+                        this.reservaUseCase.listarEstacoesDisponiveisNaData(reservaRequest.getData()));
+            } else {
+                List<EstacaoDisponibilidadeDTO> dtos = new ArrayList<>();
+                for (Estacao e : this.estacaoUseCase.listarEstacoes()) {
+                    dtos.add(new EstacaoDisponibilidadeDTO(e, true));
+                }
+                model.addAttribute("estacoes", dtos);
+            }
+
             return "reservarEstacao";
         }
 
@@ -50,7 +67,8 @@ public class ReservaController {
     }
 
     @PostMapping("/cancelar-reserva/{id}")
-    public String cancelarReserva(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String cancelarReserva(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes,
+            HttpSession session) {
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null) {
             return "redirect:/login";
@@ -67,7 +85,7 @@ public class ReservaController {
             @RequestParam("novaData") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate novaData,
             RedirectAttributes redirectAttributes,
             HttpSession session) {
-        
+
         Usuario logado = (Usuario) session.getAttribute("usuarioLogado");
         if (logado == null) {
             return "redirect:/login";

@@ -374,6 +374,7 @@
                             <form th:action="@{/painel/reservar-estacao}" method="post" class="flex flex-col gap-3">
                                 <input type="hidden" name="estacaoId" th:value="${dto.estacao.id}" />
                                 <input type="hidden" name="data" th:value="${dataSelecionada}" />
+                                <input type="hidden" name="usuarioId" th:value="${usuarioLogado.id}" />
                                 <button type="submit" th:disabled="${dataSelecionada == null or !dto.disponivel}"
                                     class="w-full bg-[#1E3A5F] text-white py-2.5 rounded-xl font-label-md text-label-md hover:bg-[#2d486d] transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
                                     <span th:text="${dto.disponivel} ? 'Reservar' : 'Indisponível'">Reservar</span>

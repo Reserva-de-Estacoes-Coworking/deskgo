@@ -10,6 +10,7 @@ import br.edu.iff.ccc.DeskGo.entities.Perfil;
 import br.edu.iff.ccc.DeskGo.entities.Usuario;
 import br.edu.iff.ccc.DeskGo.services.UsuarioUseCase;
 import jakarta.servlet.http.HttpSession;
+import br.edu.iff.ccc.DeskGo.exceptions.RegraDeNegocioException;
 
 @Controller
 public class LoginController {
@@ -36,20 +37,19 @@ public class LoginController {
             Model model,
             HttpSession session) {
 
-        Usuario usuario = this.usuarioUseCase.autenticar(email, senha);
+        try {
+            Usuario usuario = this.usuarioUseCase.autenticar(email, senha);
+            session.setAttribute("usuarioLogado", usuario);
 
-        if (usuario == null) {
-            model.addAttribute("erro", "E-mail ou senha inválidos.");
+            if (usuario.getPerfil() == Perfil.GESTOR) {
+                return "redirect:/painel/gestor";
+            }
+
+            return "redirect:/painel";
+        } catch (RegraDeNegocioException e) {
+            model.addAttribute("erro", e.getMessage());
             return "login";
         }
-
-        session.setAttribute("usuarioLogado", usuario);
-
-        if (usuario.getPerfil() == Perfil.GESTOR) {
-            return "redirect:/painel/gestor";
-        }
-
-        return "redirect:/painel";
     }
 
     @GetMapping("/logout")

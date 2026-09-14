@@ -18,7 +18,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "br.edu.iff.ccc.DeskGo.controller.apirest")
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RecursoNaoEncontradoException.class)
